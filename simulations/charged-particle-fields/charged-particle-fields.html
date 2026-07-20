@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Charged Particle in Electric and Magnetic Fields</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0a1a1c;--panel:#10282c;--border:#1e444b;--text:#dbeef0;--muted:#8cb3ba;--bright:#f0fbfc;--vel:#f59e0b;--bfield:#60a5fa;--efield:#a78bfa;--force:#f43f5e;--correct:#34d399;--incorrect:#f87171;--accent:#14b8a6;--accentBg:#0b3a36;--accentTxt:#5eead4}
+  body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:22px 18px;min-height:100vh}
+  .container{max-width:1150px;margin:0 auto}
+  .chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.05em;padding:3px 10px;border-radius:6px;background:var(--accentBg);color:var(--accentTxt);margin-bottom:8px}
+  h2{font-size:22px;font-weight:700;color:var(--bright);margin-bottom:4px}
+  .subtitle{font-size:13.5px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+  .subtitle strong,.subtitle em{color:var(--text)}
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+  .tab.active{border-color:var(--accent);background:var(--accentBg);color:var(--accentTxt);font-weight:700}
+  .tab:hover{border-color:#2e5f68}
+  .main{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;align-items:start}
+  @media(max-width:900px){.main{grid-template-columns:1fr}}
+  .view-toggle{display:flex;gap:6px;margin-bottom:10px}
+  .vt-btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s}
+  .vt-btn.active{border-color:#8b5cf6;background:#2e1065;color:#c4b5fd;font-weight:700}
+  .controls{background:var(--panel);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:6px}
+  .btn-group{display:flex;flex-wrap:wrap;gap:4px}
+  .dir-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+  .dir-btn.active{border-color:var(--accent);background:var(--accentBg);color:var(--accentTxt);font-weight:700}
+  .dir-btn:hover{border-color:#2e5f68}
+  .quiz-info{font-size:14px;margin-bottom:6px}
+  .quiz-prompt{font-size:14px;font-weight:600;margin-bottom:10px}
+  .quiz-opts{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .opt-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);cursor:pointer;font-size:13px;font-weight:500;min-width:110px;text-align:center;transition:all .15s}
+  .opt-btn.selected{border-color:var(--accent);background:var(--accentBg);color:var(--accentTxt);font-weight:700}
+  .opt-btn.correct{border-color:var(--correct);background:#064e3b;color:var(--correct);font-weight:700}
+  .opt-btn.wrong{border-color:var(--incorrect);background:#7f1d1d;color:var(--incorrect);font-weight:700}
+  .opt-btn.locked{cursor:default}
+  .check-btn{padding:8px 24px;border-radius:8px;border:none;background:var(--accent);color:#022c26;font-weight:700;font-size:14px;cursor:pointer}
+  .check-btn:disabled{background:#1e444b;color:#557d84;cursor:default}
+  .result-text{font-size:15px;font-weight:700;margin-bottom:6px}
+  .result-text.correct{color:var(--correct)}
+  .result-text.wrong{color:var(--incorrect)}
+  .hint-text{font-size:12px;color:var(--muted);margin:0 0 8px;line-height:1.5}
+  .next-row{display:flex;gap:10px;align-items:center;margin-top:8px}
+  .score{font-size:13px;color:var(--muted)}
+  .score strong{color:var(--correct)}
+  .pedagogy{margin-top:16px;padding:14px 16px;background:#0d2226;border-radius:10px;border:1px solid var(--border);font-size:12.5px;color:var(--muted);line-height:1.65}
+  .pedagogy strong{color:var(--bright)}
+  .c-vel{color:var(--vel)}
+  .c-bfield{color:var(--bfield)}
+  .c-efield{color:var(--efield)}
+  .c-force{color:var(--force)}
+  .section-title{font-size:15px;font-weight:700;color:var(--bright);margin-bottom:8px}
+  .section-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+  .slider-wrap{margin-top:8px}
+  .slider-wrap input[type=range]{width:100%;margin-top:6px;accent-color:var(--accent)}
+  .readout{margin-top:14px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px;line-height:1.7}
+  .readout .m{color:var(--muted)}
+  .eq{display:block;white-space:nowrap}
+  .badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:700}
+  .badge.ok{background:#064e3b;color:var(--correct)}
+  .badge.no{background:#7f1d1d;color:var(--incorrect)}
+  svg{display:block;border-radius:12px;width:100%;height:auto}
+</style>
+</head>
+<body>
+<div class="container">
+  <span class="chip">THEME D · FIELDS · D3 MOTION IN ELECTROMAGNETIC FIELDS</span>
+  <h2>Charged Particle in Electric and Magnetic Fields</h2>
+  <p class="subtitle"><strong>F</strong> = <em>q</em><strong>v</strong> × <strong>B</strong> (magnitude <em>qvB</em> sin θ) &nbsp;|&nbsp; <strong>F</strong> = <em>q</em><strong>E</strong> &nbsp;|&nbsp; negative charge: reverse the right-hand rule</p>
+
+  <div class="tabs">
+    <button class="tab active" id="tabExplore" onclick="switchMode('explore')">Explore Direction</button>
+    <button class="tab" id="tabQuiz" onclick="switchMode('quiz')">Quiz Me</button>
+    <button class="tab" id="tabCircle" onclick="switchMode('circle')">Circular Path</button>
+    <button class="tab" id="tabSel" onclick="switchMode('selector')">Velocity Selector</button>
+  </div>
+
+  <div class="main">
+    <div>
+      <div class="view-toggle" id="viewToggle">
+        <button class="vt-btn active" id="vt3d" onclick="setView('3d')">3D Perspective</button>
+        <button class="vt-btn" id="vt2d" onclick="setView('2d')">2D Convention (⊙ / ⊗)</button>
+      </div>
+      <div id="svgContainer"></div>
+    </div>
+    <div id="controlsContainer"></div>
+  </div>
+
+  <div class="pedagogy" id="pedagogy"></div>
+</div>
+
+<script>
+// ============================================================
+// RIGHT-HANDED COORDINATE SYSTEM (same as the wire sim)
+// +x = right, +y = up, +z = out of page/screen ; x cross y = z
+// Magnetic force: F = q v x B ; Electric force: F = q E
+// ============================================================
+
+const DEG=Math.PI/180;
+const v3=(x,y,z)=>({x,y,z});
+const v3add=(a,b)=>v3(a.x+b.x,a.y+b.y,a.z+b.z);
+const v3scale=(a,s)=>v3(a.x*s,a.y*s,a.z*s);
+const v3cross=(a,b)=>v3(a.y*b.z-a.z*b.y, a.z*b.x-a.x*b.z, a.x*b.y-a.y*b.x);
+const v3len=(a)=>Math.sqrt(a.x*a.x+a.y*a.y+a.z*a.z);
+const v3norm=(a)=>{const l=v3len(a);return l>0?v3scale(a,1/l):v3(0,0,0)};
+
+function project(p,cx,cy,sc){
+  const ay=-30*DEG,ax=20*DEG;
+  const cA=Math.cos(ay),sA=Math.sin(ay);
+  const x1=p.x*cA+p.z*sA,z1=-p.x*sA+p.z*cA,y1=p.y;
+  const cB=Math.cos(ax),sB=Math.sin(ax);
+  const y2=y1*cB-z1*sB;
+  return{x:cx+x1*sc,y:cy-y2*sc};
+}
+
+const DIRS={"+x":v3(1,0,0),"-x":v3(-1,0,0),"+y":v3(0,1,0),"-y":v3(0,-1,0),"+z":v3(0,0,1),"-z":v3(0,0,-1)};
+const DIR_LABELS={"+x":"+x (right)","-x":"−x (left)","+y":"+y (up)","-y":"−y (down)","+z":"+z (out of page)","-z":"−z (into page)"};
+const FORCE_LABELS={"+x":"+x (right)","-x":"−x (left)","+y":"+y (up)","-y":"−y (down)","+z":"+z (out)","-z":"−z (in)","zero":"Zero (no force)"};
+const FORCE_KEYS=["+x","-x","+y","-y","+z","-z","zero"];
+const flipKey=k=>(k[0]==="+"?"-":"+")+k[1];
+
+function vecToKey(v){
+  const t=0.5;
+  if(Math.abs(v.x)<t&&Math.abs(v.y)<t&&Math.abs(v.z)<t)return"zero";
+  if(v.x>t)return"+x";if(v.x<-t)return"-x";
+  if(v.y>t)return"+y";if(v.y<-t)return"-y";
+  if(v.z>t)return"+z";if(v.z<-t)return"-z";
+  return"zero";
+}
+
+const W=520,H=380,CX=W/2,CY=H/2+10,SC=120;
+
+let mode="explore",viewMode="3d";
+let qSign=1,fieldType="B";
+let vDir="+x",bDir="+z",eDir="+y",eVDir="0"; // eVDir: "0" = at rest, else a direction key
+let quizQ=null,quizGuess=null,quizResult=null;
+let score={correct:0,total:0};
+// circular path state (discrete values, see S5.3)
+let circ={m:1,v:1,B:1,sign:1,bOut:true,theta:90*DEG,last:null};
+// selector state
+let sel={v:4,E:6,B:2,sign:1,p:0};
+let rafId=null;
+
+function switchMode(m){
+  mode=m;
+  ["Explore","Quiz","Circle","Sel"].forEach(id=>{
+    document.getElementById("tab"+id).className="tab";
+  });
+  document.getElementById("tab"+(m==="explore"?"Explore":m==="quiz"?"Quiz":m==="circle"?"Circle":"Sel")).className="tab active";
+  document.getElementById("viewToggle").style.display=(m==="explore"||m==="quiz")?"flex":"none";
+  if(rafId){cancelAnimationFrame(rafId);rafId=null;}
+  circ.last=null;
+  if(m==="quiz"){score={correct:0,total:0};generateQuiz();}
+  render();
+  if(m==="circle"||m==="selector")rafId=requestAnimationFrame(tick);
+}
+function setView(v){
+  viewMode=v;
+  document.getElementById("vt3d").className="vt-btn"+(v==="3d"?" active":"");
+  document.getElementById("vt2d").className="vt-btn"+(v==="2d"?" active":"");
+  render();
+}
+function setQSign(s){qSign=s;render();}
+function setFieldType(t){fieldType=t;render();}
+function setVDir(d){vDir=d;render();}
+function setBDir(d){bDir=d;render();}
+function setEDir(d){eDir=d;render();}
+function setEVDir(d){eVDir=d;render();}
+
+function forceOn(){ // explore-tab force (unit vectors)
+  if(fieldType==="B")return v3scale(v3cross(DIRS[vDir],DIRS[bDir]),qSign);
+  return v3scale(DIRS[eDir],qSign);
+}
+
+// ---- SVG helpers ----
+const ARROW_HEAD=14,ARROW_W=ARROW_HEAD*0.45,ARROW_SW=2.5;
+const AXIS_HEAD=8,AXIS_W=AXIS_HEAD*0.4,AXIS_SW=1.5;
+function svgArrow3D(from,to,color,isAxis,op){
+  op=op||1;
+  const hd=isAxis?AXIS_HEAD:ARROW_HEAD, hw=isAxis?AXIS_W:ARROW_W, sw=isAxis?AXIS_SW:ARROW_SW;
+  const p1=project(from,CX,CY,SC),p2=project(to,CX,CY,SC);
+  const dx=p2.x-p1.x,dy=p2.y-p1.y,len=Math.sqrt(dx*dx+dy*dy);
+  if(len<2)return"";
+  const ux=dx/len,uy=dy/len,h=Math.min(hd,len*0.4);
+  const bx=p2.x-ux*h,by=p2.y-uy*h;
+  return`<g opacity="${op}"><line x1="${p1.x}" y1="${p1.y}" x2="${bx}" y2="${by}" stroke="${color}" stroke-width="${sw}"/><polygon points="${p2.x},${p2.y} ${bx-uy*hw},${by+ux*hw} ${bx+uy*hw},${by-ux*hw}" fill="${color}"/></g>`;
+}
+function svgArrow2D(x1,y1,x2,y2,color,isAxis,op){
+  op=op||1;
+  const hd=isAxis?AXIS_HEAD:ARROW_HEAD, hw=isAxis?AXIS_W:ARROW_W, sw=isAxis?AXIS_SW:ARROW_SW;
+  const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy);
+  if(len<2)return"";
+  const ux=dx/len,uy=dy/len;
+  const h=Math.min(hd,len*0.4);
+  const bx=x2-ux*h,by=y2-uy*h;
+  return`<g opacity="${op}"><line x1="${x1}" y1="${y1}" x2="${bx}" y2="${by}" stroke="${color}" stroke-width="${sw}"/><polygon points="${x2},${y2} ${bx-uy*hw},${by+ux*hw} ${bx+uy*hw},${by-ux*hw}" fill="${color}"/></g>`;
+}
+function svgDot(cx,cy,r,color,op){
+  op=op||1;
+  return`<g opacity="${op}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="${r*0.2}" fill="${color}"/></g>`;
+}
+function svgCrossCircle(cx,cy,r,color,op){
+  op=op||1;const d=r*0.55;
+  return`<g opacity="${op}"><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="2"/><line x1="${cx-d}" y1="${cy-d}" x2="${cx+d}" y2="${cy+d}" stroke="${color}" stroke-width="2"/><line x1="${cx+d}" y1="${cy-d}" x2="${cx-d}" y2="${cy+d}" stroke="${color}" stroke-width="2"/></g>`;
+}
+function particleGlyph(px,py,sign,r){
+  r=r||14;
+  let s=`<circle cx="${px}" cy="${py}" r="${r}" fill="#10282c" stroke="#f0fbfc" stroke-width="2"/>`;
+  s+=`<line x1="${px-r*0.45}" y1="${py}" x2="${px+r*0.45}" y2="${py}" stroke="#f0fbfc" stroke-width="2"/>`;
+  if(sign>0)s+=`<line x1="${px}" y1="${py-r*0.45}" x2="${px}" y2="${py+r*0.45}" stroke="#f0fbfc" stroke-width="2"/>`;
+  return s;
+}
+function legend(showF,showE,showV){
+  let s=`<g transform="translate(12,16)">`;
+  let row=0;
+  if(showV){s+=`<line x1="0" y1="${row}" x2="18" y2="${row}" stroke="#f59e0b" stroke-width="3"/><text x="24" y="${row+4}" fill="#f59e0b" font-size="11" font-weight="600">v (velocity)</text>`;row+=18;}
+  if(showE)s+=`<line x1="0" y1="${row}" x2="18" y2="${row}" stroke="#a78bfa" stroke-width="2.5"/><text x="24" y="${row+4}" fill="#a78bfa" font-size="11" font-weight="600">E (field)</text>`;
+  else s+=`<line x1="0" y1="${row}" x2="18" y2="${row}" stroke="#60a5fa" stroke-width="2.5"/><text x="24" y="${row+4}" fill="#60a5fa" font-size="11" font-weight="600">B (field)</text>`;
+  row+=18;
+  if(showF)s+=`<line x1="0" y1="${row}" x2="18" y2="${row}" stroke="#f43f5e" stroke-width="3"/><text x="24" y="${row+4}" fill="#f43f5e" font-size="11" font-weight="600">F (force)</text>`;
+  s+=`</g>`;
+  return s;
+}
+
+// ---- 3D scene ----
+function render3DScene(vv,fieldVec,isE,showForce,sign){
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#081517;border-radius:12px;display:block">`;
+  svg+=svgArrow3D(v3(0,0,0),v3(1.6,0,0),"#5b7f86",true,0.4);
+  svg+=svgArrow3D(v3(0,0,0),v3(0,1.6,0),"#5b7f86",true,0.4);
+  svg+=svgArrow3D(v3(0,0,0),v3(0,0,1.6),"#5b7f86",true,0.4);
+  const xl=project(v3(1.85,0,0),CX,CY,SC);
+  svg+=`<text x="${xl.x}" y="${xl.y}" fill="#5b7f86" text-anchor="middle" font-size="11" font-weight="600">+x</text>`;
+  const yTip=project(v3(0,1.6,0),CX,CY,SC);
+  svg+=`<text x="${yTip.x+12}" y="${yTip.y-8}" fill="#5b7f86" font-size="11" font-weight="600">+y</text>`;
+  const zl=project(v3(0,0,1.85),CX,CY,SC);
+  svg+=`<text x="${zl.x}" y="${zl.y}" fill="#5b7f86" text-anchor="middle" font-size="11" font-weight="600">+z</text>`;
+
+  const fCol=isE?"#a78bfa":"#60a5fa";
+  let perp1,perp2;
+  if(Math.abs(fieldVec.y)<0.9)perp1=v3norm(v3cross(fieldVec,v3(0,1,0)));
+  else perp1=v3norm(v3cross(fieldVec,v3(1,0,0)));
+  perp2=v3norm(v3cross(fieldVec,perp1));
+  for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++){
+    const off=v3add(v3scale(perp1,i*0.7),v3scale(perp2,j*0.7));
+    svg+=svgArrow3D(v3add(off,v3scale(fieldVec,-1.0)),v3add(off,v3scale(fieldVec,1.0)),fCol,false,0.35);
+  }
+  if(vv)svg+=svgArrow3D(v3(0,0,0),v3scale(vv,1.1),"#f59e0b",false,1);
+  if(showForce){
+    const Fc=isE?v3scale(fieldVec,sign):v3scale(v3cross(vv,fieldVec),sign);
+    const Fh=v3norm(Fc),Fm=v3len(Fc);
+    if(Fm>0.01)svg+=svgArrow3D(v3(0,0,0),v3scale(Fh,Fm*1.0),"#f43f5e",false,1);
+  }
+  const o=project(v3(0,0,0),CX,CY,SC);
+  svg+=particleGlyph(o.x,o.y,sign,12);
+  svg+=legend(showForce,isE,!!vv);
+  svg+=`</svg>`;
+  return svg;
+}
+
+// ---- 2D scene ----
+function symbolNear(px,py,zval,color,label,dx,dy){
+  let s=zval>0?svgDot(px+dx,py+dy,11,color,1):svgCrossCircle(px+dx,py+dy,11,color,1);
+  s+=`<text x="${px+dx+18}" y="${py+dy+5}" fill="${color}" font-size="14" font-weight="700">${label}</text>`;
+  return s;
+}
+function render2DScene(vv,fieldVec,isE,showForce,sign){
+  const mx=CX,my=CY-10;
+  const fCol=isE?"#a78bfa":"#60a5fa",fName=isE?"E":"B";
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#081517;border-radius:12px;display:block">`;
+  svg+=svgArrow2D(mx-180,my,mx+180,my,"#5b7f86",true,0.3);
+  svg+=svgArrow2D(mx,my+140,mx,my-150,"#5b7f86",true,0.3);
+  svg+=`<text x="${mx+190}" y="${my+4}" fill="#5b7f86" font-size="12" font-weight="600">+x</text>`;
+  svg+=`<text x="${mx+6}" y="${my-158}" fill="#5b7f86" font-size="12" font-weight="600">+y</text>`;
+  const arrowLen=100,symR=11;
+  if(Math.abs(fieldVec.z)>0.5){
+    for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++){
+      if(i===0&&j===0)continue;
+      if(fieldVec.z>0)svg+=svgDot(mx+i*55,my+j*55,symR,fCol,0.4);
+      else svg+=svgCrossCircle(mx+i*55,my+j*55,symR,fCol,0.4);
+    }
+    svg+=`<text x="${mx-130}" y="${my-120}" fill="${fCol}" font-size="14" font-weight="700">${fName}</text>`;
+  }else{
+    let perpX=-fieldVec.y,perpY=fieldVec.x;
+    const bLen=arrowLen*1.1;
+    for(let i=-2;i<=2;i++){
+      const ox=perpX*i*45,oy=-perpY*i*45,px=mx+ox,py=my+oy;
+      svg+=svgArrow2D(px-fieldVec.x*bLen,py+fieldVec.y*bLen,px+fieldVec.x*bLen,py-fieldVec.y*bLen,fCol,false,0.4);
+    }
+    const blx=mx-Math.abs(fieldVec.y)*70-Math.abs(fieldVec.x)*20;
+    const bly=my-Math.abs(fieldVec.x)*70-Math.abs(fieldVec.y)*20;
+    svg+=`<text x="${blx}" y="${bly}" fill="${fCol}" font-size="14" font-weight="700">${fName}</text>`;
+  }
+  svg+=particleGlyph(mx,my,sign,15);
+  if(vv){
+    if(Math.abs(vv.z)>0.5){
+      svg+=symbolNear(mx,my,vv.z,"#f59e0b","v",34,-30);
+    }else{
+      const ax2=mx+vv.x*arrowLen,ay2=my-vv.y*arrowLen;
+      svg+=svgArrow2D(mx+vv.x*17,my-vv.y*17,ax2,ay2,"#f59e0b",false,1);
+      svg+=`<text x="${ax2+vv.x*14-vv.y*14}" y="${ay2-vv.y*14-vv.x*14+4}" fill="#f59e0b" font-size="14" font-weight="700">v</text>`;
+    }
+  }
+  if(showForce){
+    const Fc=isE?v3scale(fieldVec,sign):v3scale(v3cross(vv||v3(0,0,0),fieldVec),sign);
+    const Fh=v3norm(Fc),Fm=v3len(Fc);
+    if(Fm>0.01){
+      if(Math.abs(Fh.z)>0.5){
+        svg+=symbolNear(mx,my,Fh.z,"#f43f5e","F",-34,34);
+      }else{
+        const fScale=Fm*arrowLen*0.9;
+        const fx2=mx+Fh.x*fScale,fy2=my-Fh.y*fScale;
+        svg+=svgArrow2D(mx+Fh.x*17,my-Fh.y*17,fx2,fy2,"#f43f5e",false,1);
+        svg+=`<text x="${fx2+Fh.x*14+Fh.y*14}" y="${fy2-Fh.y*14+Fh.x*14+4}" fill="#f43f5e" font-size="14" font-weight="700">F</text>`;
+      }
+    }
+  }
+  svg+=legend(showForce,isE,!!vv);
+  svg+=`<g transform="translate(${W-120},${H-40})">`;
+  svg+=svgDot(10,0,7,"#8cb3ba",0.6);
+  svg+=`<text x="24" y="4" fill="#8cb3ba" font-size="10">= out of page (+z)</text>`;
+  svg+=svgCrossCircle(10,18,7,"#8cb3ba",0.6);
+  svg+=`<text x="24" y="22" fill="#8cb3ba" font-size="10">= into page (−z)</text>`;
+  svg+=`</g></svg>`;
+  return svg;
+}
+
+// ---- quiz ----
+function generateQuiz(){
+  const dirs=Object.keys(DIRS);
+  const sign=Math.random()<0.5?1:-1;
+  if(Math.random()<0.72){
+    const iDir=dirs[Math.floor(Math.random()*dirs.length)];
+    const bD=dirs[Math.floor(Math.random()*dirs.length)];
+    const Fv=v3scale(v3cross(DIRS[iDir],DIRS[bD]),sign);
+    quizQ={kind:"B",sign,vDir:iDir,fDir:bD,answer:vecToKey(Fv)};
+  }else{
+    const eD=dirs[Math.floor(Math.random()*dirs.length)];
+    // half the time, state an irrelevant velocity (the irrelevant-variable trap)
+    const vD=Math.random()<0.5?dirs[Math.floor(Math.random()*dirs.length)]:null;
+    quizQ={kind:"E",sign,vDir:vD,fDir:eD,answer:sign>0?eD:flipKey(eD)};
+  }
+  quizGuess=null;quizResult=null;
+}
+function selectGuess(k){if(!quizResult){quizGuess=k;render();}}
+function checkAnswer(){
+  if(!quizGuess||!quizQ)return;
+  const ok=quizGuess===quizQ.answer;
+  quizResult=ok?"correct":"incorrect";
+  score.total++;if(ok)score.correct++;
+  render();
+}
+function nextQuestion(){generateQuiz();render();}
+
+// ---- circular path (discrete values per S5.3) ----
+function setCircVal(k,val){circ[k]=Number(val);renderCircControls();}
+function setCircSign(s){circ.sign=s;renderCircControls();}
+function setCircBOut(b){circ.bOut=b;renderCircControls();}
+function circRadiusPx(){return 40*circ.m*circ.v/circ.B;} // values in {1,2}: 20 to 160 px
+function circReadoutHtml(){
+  const rRel=(circ.m*circ.v/circ.B).toFixed(1);
+  const tRel=(circ.m/circ.B).toFixed(1);
+  return`<span class="eq">qvB = mv²/r &nbsp;→&nbsp; r = mv/qB</span>
+  <span class="eq">r ∝ mv/B = ${circ.m} × ${circ.v} / ${circ.B} = <strong>${rRel}</strong> (arbitrary units)</span>
+  <span class="eq">T = 2πm/qB ∝ m/B = <strong>${tRel}</strong> : independent of v</span>
+  <div style="margin-top:6px"><span class="m">Doubling v doubles r but leaves T unchanged: the faster particle rides a bigger circle in the same time. The magnetic force stays perpendicular to v, so it changes direction, never speed, and does no work.</span></div>`;
+}
+function renderCircScene(){
+  const mx=CX,my=CY-10;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#081517;border-radius:12px;display:block">`;
+  for(let i=-2;i<=2;i++)for(let j=-1;j<=1;j++){
+    const px=mx+i*90,py=my+j*105;
+    if(circ.bOut)svg+=svgDot(px,py,10,"#60a5fa",0.35);
+    else svg+=svgCrossCircle(px,py,10,"#60a5fa",0.35);
+  }
+  svg+=`<text x="20" y="${H-16}" fill="#60a5fa" font-size="12" font-weight="600">B ${circ.bOut?"out of":"into"} the page</text>`;
+  const r=circRadiusPx();
+  svg+=`<circle cx="${mx}" cy="${my}" r="${r}" fill="none" stroke="#2e5f68" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+  const px=mx+r*Math.cos(circ.theta),py=my-r*Math.sin(circ.theta);
+  const s=-circ.sign*(circ.bOut?1:-1);
+  const vx=-Math.sin(circ.theta)*s,vy=Math.cos(circ.theta)*s;
+  const fx=-Math.cos(circ.theta),fy=-Math.sin(circ.theta);
+  const vLen=30+14*circ.v; // visible change with v
+  svg+=svgArrow2D(px+vx*18,py-vy*18,px+vx*vLen,py-vy*vLen,"#f59e0b",false,1);
+  svg+=`<text x="${px+vx*(vLen+14)}" y="${py-vy*(vLen+14)+4}" fill="#f59e0b" font-size="13" font-weight="700">v</text>`;
+  const fLen=Math.min(56,r*0.8);
+  svg+=svgArrow2D(px+fx*18,py-fy*18,px+fx*fLen,py-fy*fLen,"#f43f5e",false,1);
+  svg+=`<text x="${px+fx*(fLen+14)}" y="${py-fy*(fLen+14)+4}" fill="#f43f5e" font-size="13" font-weight="700">F</text>`;
+  svg+=particleGlyph(px,py,circ.sign,13);
+  svg+=`<circle cx="${mx}" cy="${my}" r="2.5" fill="#5b7f86"/>`;
+  svg+=`</svg>`;
+  return svg;
+}
+function valBtns(k,cur){
+  return[1,2].map(v=>`<button class="dir-btn${v===cur?' active':''}" onclick="setCircVal('${k}',${v})">×${v}</button>`).join("");
+}
+function renderCircControls(){
+  document.getElementById("controlsContainer").innerHTML=`
+    <div class="controls">
+      <p class="section-desc">A charge moving perpendicular to a uniform magnetic field travels in a circle: the magnetic force is the centripetal force. Each quantity takes two values; watch what doubling each one does to the radius, and what it does not do to the period.</p>
+      <div class="grid2" style="margin-bottom:12px">
+        <div>
+          <label class="label">Charge</label>
+          <div class="btn-group">
+            <button class="dir-btn${circ.sign>0?' active':''}" onclick="setCircSign(1)">+q</button>
+            <button class="dir-btn${circ.sign<0?' active':''}" onclick="setCircSign(-1)">−q</button>
+          </div>
+        </div>
+        <div>
+          <label class="label">Field direction</label>
+          <div class="btn-group">
+            <button class="dir-btn${circ.bOut?' active':''}" onclick="setCircBOut(true)">B out ⊙</button>
+            <button class="dir-btn${!circ.bOut?' active':''}" onclick="setCircBOut(false)">B in ⊗</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid3">
+        <div><label class="label">mass m</label><div class="btn-group">${valBtns('m',circ.m)}</div></div>
+        <div><label class="label">speed v</label><div class="btn-group">${valBtns('v',circ.v)}</div></div>
+        <div><label class="label">field B</label><div class="btn-group">${valBtns('B',circ.B)}</div></div>
+      </div>
+      <div class="readout" id="circReadout">${circReadoutHtml()}</div>
+    </div>`;
+}
+
+// ---- velocity selector ----
+function setSel(k,val){
+  sel[k]=Number(val);
+  const el=document.getElementById("selReadout");
+  if(el)el.innerHTML=selReadoutHtml();
+  const lab=document.getElementById("slab"+k);
+  if(lab)lab.textContent=sel[k].toFixed(1);
+}
+function setSelSign(s){sel.sign=s;renderSelControls();}
+function selNet(){return sel.v*sel.B-sel.E;}
+function selReadoutHtml(){
+  const fb=(sel.v*sel.B).toFixed(1),fe=sel.E.toFixed(1);
+  const bal=Math.abs(selNet())<0.15;
+  const vSel=(sel.E/sel.B).toFixed(2);
+  const dirWord=selNet()*sel.sign>0?"upwards":"downwards";
+  return`<span class="eq">Magnetic force ∝ vB = <strong>${fb}</strong></span>
+  <span class="eq">Electric force ∝ E = <strong>${fe}</strong></span>
+  <span class="eq">Undeflected when vB = E, i.e. v = E/B = <strong>${vSel}</strong></span>
+  <div style="margin-top:6px">${bal?'<span class="badge ok">balanced: passes straight through</span>':`<span class="badge no">deflects ${dirWord}</span>`}</div>`;
+}
+function renderSelScene(){
+  const x0=60,x1=460,ymid=195;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#081517;border-radius:12px;display:block">`;
+  svg+=`<rect x="${x0}" y="66" width="${x1-x0}" height="9" rx="2" fill="#8cb3ba"/>`;
+  svg+=`<rect x="${x0}" y="316" width="${x1-x0}" height="9" rx="2" fill="#8cb3ba"/>`;
+  svg+=`<text x="${x0-8}" y="76" fill="#f87171" font-size="15" font-weight="700" text-anchor="end">+</text>`;
+  svg+=`<text x="${x0-8}" y="328" fill="#60a5fa" font-size="15" font-weight="700" text-anchor="end">−</text>`;
+  for(let i=0;i<5;i++){
+    const ex=x0+40+i*85;
+    svg+=svgArrow2D(ex,92,ex,132,"#a78bfa",false,0.5);
+  }
+  svg+=`<text x="${x0+18}" y="112" fill="#a78bfa" font-size="13" font-weight="700">E</text>`;
+  for(let i=0;i<5;i++)for(let j=0;j<2;j++){
+    svg+=svgCrossCircle(x0+45+i*85,168+j*60,9,"#60a5fa",0.35);
+  }
+  svg+=`<text x="${x1-14}" y="152" fill="#60a5fa" font-size="12" font-weight="600" text-anchor="end">B into page</text>`;
+  const defl=selPathDefl();
+  let d="M "+x0+" "+ymid;
+  for(let i=1;i<=40;i++){
+    const t=i/40;
+    d+=" L "+(x0+t*(x1-x0))+" "+(ymid-defl*t*t);
+  }
+  svg+=`<path d="${d}" fill="none" stroke="#2e5f68" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+  const t=sel.p;
+  const px=x0+t*(x1-x0),py=ymid-defl*t*t;
+  const fB=sel.v*sel.B*sel.sign,fE=-sel.E*sel.sign;
+  const sc=5;
+  const fBl=Math.max(16,Math.min(70,Math.abs(fB)*sc)),fEl=Math.max(16,Math.min(70,Math.abs(fE)*sc));
+  svg+=svgArrow2D(px,py,px,py-(fB>0?fBl:-fBl),"#f43f5e",false,0.95);
+  svg+=`<text x="${px+10}" y="${py-(fB>0?fBl+6:-fBl-14)}" fill="#f43f5e" font-size="11" font-weight="700">F_B</text>`;
+  svg+=svgArrow2D(px,py,px,py-(fE>0?fEl:-fEl),"#a78bfa",false,0.95);
+  svg+=`<text x="${px+10}" y="${py-(fE>0?fEl+6:-fEl-14)}" fill="#a78bfa" font-size="11" font-weight="700">F_E</text>`;
+  svg+=svgArrow2D(px+16,py,px+16+Math.max(20,sel.v*7),py,"#f59e0b",false,0.9);
+  svg+=particleGlyph(px,py,sel.sign,12);
+  svg+=`</svg>`;
+  return svg;
+}
+function selPathDefl(){
+  const raw=90*sel.sign*selNet()/(sel.v*sel.v);
+  return Math.max(-115,Math.min(115,raw));
+}
+function renderSelControls(){
+  document.getElementById("controlsContainer").innerHTML=`
+    <div class="controls">
+      <p class="section-desc">Crossed fields: E between the plates, B into the page. The electric and magnetic forces oppose; only particles with exactly <strong>v = E/B</strong> pass through undeflected, whatever their charge or mass.</p>
+      <div class="grid2" style="margin-bottom:12px">
+        <div>
+          <label class="label">Charge</label>
+          <div class="btn-group">
+            <button class="dir-btn${sel.sign>0?' active':''}" onclick="setSelSign(1)">+q</button>
+            <button class="dir-btn${sel.sign<0?' active':''}" onclick="setSelSign(-1)">−q</button>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      <div class="grid3">
+        <div class="slider-wrap"><label class="label">speed v: <span id="slabv" style="color:var(--bright)">${sel.v.toFixed(1)}</span></label>
+          <input type="range" min="1" max="10" step="0.1" value="${sel.v}" oninput="setSel('v',this.value)"></div>
+        <div class="slider-wrap"><label class="label">field E: <span id="slabE" style="color:var(--bright)">${sel.E.toFixed(1)}</span></label>
+          <input type="range" min="1" max="10" step="0.1" value="${sel.E}" oninput="setSel('E',this.value)"></div>
+        <div class="slider-wrap"><label class="label">field B: <span id="slabB" style="color:var(--bright)">${sel.B.toFixed(1)}</span></label>
+          <input type="range" min="1" max="5" step="0.1" value="${sel.B}" oninput="setSel('B',this.value)"></div>
+      </div>
+      <div class="readout" id="selReadout">${selReadoutHtml()}</div>
+    </div>`;
+}
+
+// ---- animation loop ----
+function tick(ts){
+  if(mode!=="circle"&&mode!=="selector"){rafId=null;return;}
+  if(circ.last===null)circ.last=ts;
+  const dt=Math.min(0.05,(ts-circ.last)/1000);
+  circ.last=ts;
+  if(mode==="circle"){
+    const omega=1.6*circ.B/circ.m;
+    const s=-circ.sign*(circ.bOut?1:-1);
+    circ.theta+=s*omega*dt;
+    document.getElementById("svgContainer").innerHTML=renderCircScene();
+  }else{
+    sel.p+=sel.v*0.105*dt;
+    if(sel.p>1)sel.p=0;
+    document.getElementById("svgContainer").innerHTML=renderSelScene();
+  }
+  rafId=requestAnimationFrame(tick);
+}
+
+// ---- main render ----
+function render(){
+  const svgEl=document.getElementById("svgContainer");
+  const ctrlEl=document.getElementById("controlsContainer");
+  const pedEl=document.getElementById("pedagogy");
+
+  if(mode==="explore"){
+    const isE=fieldType==="E";
+    const vv=isE?(eVDir==="0"?null:DIRS[eVDir]):DIRS[vDir];
+    const fv=isE?DIRS[eDir]:DIRS[bDir];
+    const renderFn=viewMode==="3d"?render3DScene:render2DScene;
+    svgEl.innerHTML=renderFn(vv,fv,isE,true,qSign);
+    const Fc=isE?v3scale(fv,qSign):v3scale(v3cross(vv,fv),qSign);
+    const Fm=v3len(Fc);
+    const fLabel=Fm>0.01?(FORCE_LABELS[vecToKey(Fc)]||"—"):"Zero (v parallel to B)";
+    ctrlEl.innerHTML=`
+      <div class="controls">
+        <div class="grid2" style="margin-bottom:12px">
+          <div>
+            <label class="label">Charge</label>
+            <div class="btn-group">
+              <button class="dir-btn${qSign>0?' active':''}" onclick="setQSign(1)">+q</button>
+              <button class="dir-btn${qSign<0?' active':''}" onclick="setQSign(-1)">−q</button>
+            </div>
+          </div>
+          <div>
+            <label class="label">Field type</label>
+            <div class="btn-group">
+              <button class="dir-btn${!isE?' active':''}" onclick="setFieldType('B')">Magnetic B</button>
+              <button class="dir-btn${isE?' active':''}" onclick="setFieldType('E')">Electric E</button>
+            </div>
+          </div>
+        </div>
+        ${!isE?`<div class="grid2">
+          <div>
+            <label class="label">Velocity direction (v)</label>
+            <div class="btn-group">${Object.keys(DIRS).map(d=>`<button class="dir-btn${d===vDir?' active':''}" onclick="setVDir('${d}')">${d}</button>`).join("")}</div>
+          </div>
+          <div>
+            <label class="label">Magnetic field direction (B)</label>
+            <div class="btn-group">${Object.keys(DIRS).map(d=>`<button class="dir-btn${d===bDir?' active':''}" onclick="setBDir('${d}')">${d}</button>`).join("")}</div>
+          </div>
+        </div>`
+        :`<div class="grid2">
+          <div>
+            <label class="label">Electric field direction (E)</label>
+            <div class="btn-group">${Object.keys(DIRS).map(d=>`<button class="dir-btn${d===eDir?' active':''}" onclick="setEDir('${d}')">${d}</button>`).join("")}</div>
+          </div>
+          <div>
+            <label class="label">Velocity (try changing it)</label>
+            <div class="btn-group"><button class="dir-btn${eVDir==="0"?' active':''}" onclick="setEVDir('0')">at rest</button>${Object.keys(DIRS).map(d=>`<button class="dir-btn${d===eVDir?' active':''}" onclick="setEVDir('${d}')">${d}</button>`).join("")}</div>
+          </div>
+        </div>`}
+        <div class="readout">
+          <div><span class="m">Force direction:</span> <strong style="color:${Fm>0.01?'var(--force)':'var(--muted)'}">${fLabel}</strong></div>
+          ${isE?`<div><span class="m">Change the velocity above: the force does not move. F = qE has no v in it.</span></div>`:''}
+        </div>
+      </div>`;
+    pedEl.innerHTML=isE?
+      `<strong>Electric force:</strong> <span class="c-force">F</span> = q<span class="c-efield">E</span>. A positive charge is pushed along the field; a negative charge is pushed against it. The velocity is irrelevant: a stationary charge feels exactly the same electric force as a moving one. Compare that with the magnetic case, where no motion means no force at all.`
+      :`<strong>Right-hand rule for a moving charge:</strong> point your thumb along <span class="c-vel">v</span>, fingers along <span class="c-bfield">B</span>; your palm pushes in the direction of <span class="c-force">F</span> for a <em>positive</em> charge. For a <em>negative</em> charge, the force is exactly reversed.
+      <br><br><strong>Zero force:</strong> if v is parallel or antiparallel to B, the force vanishes; and a stationary charge feels no magnetic force at all.
+      <br><strong>Coordinate system:</strong> Right-handed — x̂ × ŷ = ẑ.`;
+
+  } else if(mode==="quiz"){
+    if(!quizQ)generateQuiz();
+    const isE=quizQ.kind==="E";
+    const vv=quizQ.vDir?DIRS[quizQ.vDir]:null;
+    const fv=DIRS[quizQ.fDir];
+    const renderFn=viewMode==="3d"?render3DScene:render2DScene;
+    svgEl.innerHTML=renderFn(vv,fv,isE,!!quizResult,quizQ.sign);
+    let optsHtml=FORCE_KEYS.map(k=>{
+      let cls="opt-btn";
+      if(quizResult)cls+=" locked";
+      if(quizGuess===k&&!quizResult)cls+=" selected";
+      if(quizGuess===k&&quizResult==="correct")cls+=" correct";
+      if(quizGuess===k&&quizResult==="incorrect")cls+=" wrong";
+      return`<button class="${cls}" onclick="selectGuess('${k}')">${FORCE_LABELS[k]}</button>`;
+    }).join("");
+    let resultHtml="";
+    if(quizResult){
+      if(quizResult==="correct"){
+        resultHtml=`<div class="result-text correct">Correct!</div>`;
+      }else{
+        const hint=isE?
+          `F = qE: the force is along E for a positive charge, opposite to E for a negative one. This charge is ${quizQ.sign>0?"positive":"negative"} and E points ${DIR_LABELS[quizQ.fDir]}.${quizQ.vDir?" The stated velocity is irrelevant: the electric force does not depend on v.":""}`
+          :`Right hand: thumb along v (${quizQ.vDir}), fingers along B (${quizQ.fDir}); the palm gives F for a positive charge${quizQ.sign<0?", then reverse it because this charge is negative":""}.${quizQ.answer==="zero"?" Here v and B are parallel, so the force is zero.":""}`;
+        resultHtml=`<div class="result-text wrong">Not quite — the answer is ${FORCE_LABELS[quizQ.answer]}</div>
+          <p class="hint-text">${hint}</p>`;
+      }
+      resultHtml+=`<div class="next-row">
+        <button class="check-btn" onclick="nextQuestion()">Next Question</button>
+        <span class="score">Score: <strong>${score.correct}</strong> / ${score.total}</span>
+      </div>`;
+    }
+    ctrlEl.innerHTML=`
+      <div class="controls">
+        <div class="quiz-info">The charge is <strong style="color:var(--bright)">${quizQ.sign>0?"positive (+q)":"negative (−q)"}</strong></div>
+        ${!isE?`<div class="quiz-info"><span class="c-vel" style="font-weight:700">v</span> points in the <strong>${DIR_LABELS[quizQ.vDir]}</strong> direction</div>
+        <div class="quiz-info"><span class="c-bfield" style="font-weight:700">B</span> points in the <strong>${DIR_LABELS[quizQ.fDir]}</strong> direction</div>`
+        :`<div class="quiz-info"><span class="c-efield" style="font-weight:700">E</span> points in the <strong>${DIR_LABELS[quizQ.fDir]}</strong> direction (uniform electric field)</div>
+        ${quizQ.vDir?`<div class="quiz-info"><span class="c-vel" style="font-weight:700">v</span> points in the <strong>${DIR_LABELS[quizQ.vDir]}</strong> direction</div>`:''}`}
+        <p class="quiz-prompt">What is the direction of the ${isE?"electric":"magnetic"} force on the charge?</p>
+        <div class="quiz-opts">${optsHtml}</div>
+        ${!quizResult?`<button class="check-btn" ${!quizGuess?'disabled':''} onclick="checkAnswer()">Check Answer</button>`:''}
+        ${resultHtml}
+      </div>`;
+    pedEl.innerHTML=`<strong>Watch the three classic traps:</strong> forgetting to reverse the force for a negative charge (a sign-error); forgetting that parallel v and B give <em>zero</em> magnetic force; and letting a stated velocity distract you in an electric-field question, where F = qE ignores the motion entirely.`;
+
+  } else if(mode==="circle"){
+    svgEl.innerHTML=renderCircScene();
+    renderCircControls();
+    pedEl.innerHTML=`<strong>Key idea:</strong> the magnetic force provides the centripetal force: qvB = mv²/r, so <strong>r = mv/qB</strong>. Double the speed and the radius doubles; double the field and it halves; double the mass and it doubles. The period T = 2πm/qB is independent of speed. Flip the charge sign or the field direction and the particle circles the other way.`;
+
+  } else {
+    svgEl.innerHTML=renderSelScene();
+    renderSelControls();
+    pedEl.innerHTML=`<strong>Velocity selector:</strong> with E and B crossed, the electric force qE and magnetic force qvB point in opposite directions. They balance only when <strong>v = E/B</strong>. Too fast and the magnetic force wins; too slow and the electric force wins. Flip the charge sign: <em>both</em> forces reverse, so the same speed still passes; the selected v depends on neither charge nor mass.`;
+  }
+}
+
+render();
+</script>
+</body>
+</html>

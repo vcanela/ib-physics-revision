@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB Physics Simulations</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0f172a;--panel:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--bright:#f1f5f9;--accent:#3b82f6;
+    --thA:#38bdf8;--thB:#fb923c;--thC:#34d399;--thD:#60a5fa;--thE:#a78bfa;--thX:#f87171}
+  body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:28px 14px;min-height:100vh}
+  .container{max-width:640px;margin:0 auto}
+  h1{font-size:24px;font-weight:700;color:var(--bright);margin-bottom:6px}
+  .subtitle{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+  .theme-h{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:22px 0 10px}
+  a.card{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:border-color .15s}
+  a.card:hover{border-color:var(--accent)}
+  .card .name{font-size:15px;font-weight:700;color:var(--bright);margin-bottom:3px}
+  .card .desc{font-size:13px;color:var(--muted);line-height:1.5}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:2px}
+  .tag.a{background:#0b3352;color:var(--thA)}
+  .tag.b{background:#3d2208;color:var(--thB)}
+  .tag.c{background:#0a3d2a;color:var(--thC)}
+  .tag.d{background:#172a54;color:var(--thD)}
+  .tag.e{background:#2e1065;color:var(--thE)}
+  .tag.x{background:#450e0e;color:var(--thX)}
+  .tag.lvl{background:#1e293b;border:1px solid var(--border);color:var(--muted)}
+  .foot{margin-top:26px;font-size:12px;color:#64748b;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>IB Physics Simulations</h1>
+  <p class="subtitle">Small interactive aids for IB Diploma Physics revision. Each one covers a single concept: explore it, quiz yourself on it, and see how the quantities scale. Best used alongside past-paper problems, not instead of them.</p>
+
+  <div class="theme-h">Theme A: space, time and motion</div>
+
+  <a class="card" href="motion-graphs/motion-graphs.html">
+    <span class="name">Motion Graph Translator<span class="tag a">A1</span><span class="tag lvl">SL</span></span>
+    <span class="desc">One motion, three graphs: match x-t, v-t and a-t stories, then watch the area under v-t become displacement, live.</span>
+  </a>
+
+  <div class="theme-h">Theme B: the particulate nature of matter</div>
+
+  <a class="card" href="blackbody-curves/blackbody-curves.html">
+    <span class="name">Blackbody Curves: Stefan-Boltzmann and Wien<span class="tag b">B1</span><span class="tag lvl">SL</span></span>
+    <span class="desc">Slide the temperature: the peak obeys Wien's inverse law while the power grows as T⁴. Scaling quiz and an L ∝ r²T⁴ star builder.</span>
+  </a>
+
+  <a class="card" href="resistor-networks/resistor-networks.html">
+    <span class="name">Resistor Network Trainer<span class="tag b">B5</span><span class="tag lvl">SL</span></span>
+    <span class="desc">Series, parallel and combined networks with live currents and p.d.s; ratio quizzes that hunt the inverted-ratio trap.</span>
+  </a>
+
+  <div class="theme-h">Theme C: wave behaviour</div>
+
+  <a class="card" href="shm-pendulum-spring/shm-pendulum-spring.html">
+    <span class="name">SHM: the Irrelevant Mass and the Phase Story<span class="tag c">C1</span><span class="tag lvl">SL + HL</span></span>
+    <span class="desc">Pendulum and spring side by side: watch which knobs change which period (mass fools the pendulum crowd), then the x, v, a phase view.</span>
+  </a>
+
+  <a class="card" href="transverse-wave/transverse-wave.html">
+    <span class="name">Transverse Wave: Snapshot vs History<span class="tag c">C2</span><span class="tag lvl">SL</span></span>
+    <span class="desc">The pattern travels, the particles do not. Predict which way particle P moves next, and stop swapping wavelength for period on graphs.</span>
+  </a>
+
+  <a class="card" href="standing-waves/standing-waves.html">
+    <span class="name">Standing Waves in Strings and Pipes<span class="tag c">C4</span><span class="tag lvl">SL</span></span>
+    <span class="desc">Step through the harmonics of strings and pipes; the closed pipe's even buttons are dead on purpose. Odd harmonics, derived not memorised.</span>
+  </a>
+
+  <a class="card" href="doppler-wavefronts/doppler-wavefronts.html">
+    <span class="name">Doppler Wavefronts<span class="tag c">C5</span><span class="tag lvl">SL + HL</span></span>
+    <span class="desc">Watch wavefronts bunch ahead of a moving source, drill the sign discipline, and see why moving source and moving observer are not the same.</span>
+  </a>
+
+  <div class="theme-h">Theme D: fields</div>
+
+  <a class="card" href="magnetic-force-current-wire/magnetic-force-current-wire.html">
+    <span class="name">Force on a Current-Carrying Wire<span class="tag d">D3</span><span class="tag lvl">SL</span></span>
+    <span class="desc">F = BIL sin θ and the right-hand rule: explore directions, quiz yourself, and see how the force scales with angle.</span>
+  </a>
+
+  <a class="card" href="charged-particle-fields/charged-particle-fields.html">
+    <span class="name">Charged Particle in Electric and Magnetic Fields<span class="tag d">D3</span><span class="tag lvl">SL</span></span>
+    <span class="desc">F = qv × B and F = qE, with negative charges included; circular paths with r = mv/qB; the velocity selector.</span>
+  </a>
+
+  <a class="card" href="two-source-fields/two-source-fields.html">
+    <span class="name">Field and Potential of Two Sources<span class="tag d">D1 + D2</span><span class="tag lvl">SL + HL</span></span>
+    <span class="desc">Probe the line between two masses or charges: where the field cancels, where the potential does, and why they are never the same place.</span>
+  </a>
+
+  <a class="card" href="lenz-law/lenz-law.html">
+    <span class="name">Lenz's Law and Electromagnetic Induction<span class="tag d">D4</span><span class="tag lvl">HL</span></span>
+    <span class="desc">Magnet and coil with the four-step direction chain, induced-current quizzes, and why maximum flux can mean zero emf.</span>
+  </a>
+
+  <div class="theme-h">Theme E: nuclear and quantum physics</div>
+
+  <a class="card" href="energy-level-transitions/energy-level-transitions.html">
+    <span class="name">Energy Level Transitions<span class="tag e">E1</span><span class="tag lvl">SL + HL</span></span>
+    <span class="desc">Emission and absorption between hydrogen levels: build transitions, count spectral lines, and untangle the E, f, λ relationships.</span>
+  </a>
+
+  <a class="card" href="photoelectric-effect/photoelectric-effect.html">
+    <span class="name">The Photoelectric Effect<span class="tag e">E2</span><span class="tag lvl">HL</span></span>
+    <span class="desc">Frequency sets the energy, intensity sets the count: cross the threshold, drill the roles, and read the Einstein line whose slope is h.</span>
+  </a>
+
+  <a class="card" href="nz-decay-board/nz-decay-board.html">
+    <span class="name">Radioactive Decay: the N-Z Board<span class="tag e">E3</span><span class="tag lvl">SL + HL</span></span>
+    <span class="desc">Every decay is a move on the board: walk α and β chains with honest bookkeeping, then ride the half-life curve.</span>
+  </a>
+
+  <div class="theme-h">Cross-theme</div>
+
+  <a class="card" href="scaling-dojo/scaling-dojo.html">
+    <span class="name">The Scaling Dojo<span class="tag x">ALL</span><span class="tag lvl">SL + HL</span></span>
+    <span class="desc">Pure proportionality drill across the whole syllabus: T⁴, √l, 1/r² and friends. Write the power, apply the factor, defeat the exponent-error.</span>
+  </a>
+
+  <div class="foot">Single-file HTML, no dependencies, free to copy and share. Built by V. Canela with Claude.</div>
+</div>
+</body>
+</html>

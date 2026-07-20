@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doppler Wavefronts</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0b1026;--panel:#151c3d;--border:#2c3a70;--text:#e4e8fa;--muted:#94a0d4;--bright:#f4f6ff;--front:#7dd3fc;--src:#fbbf24;--obs:#34d399;--correct:#34d399;--incorrect:#f87171;--accent:#6366f1;--accentBg:#232a63;--accentTxt:#a5b4fc}
+  body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:22px 18px;min-height:100vh}
+  .container{max-width:1150px;margin:0 auto}
+  .chip{display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.05em;padding:3px 10px;border-radius:6px;background:var(--accentBg);color:var(--accentTxt);margin-bottom:8px}
+  h2{font-size:22px;font-weight:700;color:var(--bright);margin-bottom:4px}
+  .subtitle{font-size:13.5px;color:var(--muted);margin-bottom:16px;line-height:1.5}
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+  .tab.active{border-color:var(--accent);background:var(--accentBg);color:var(--accentTxt);font-weight:700}
+  .main{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:16px;align-items:start}
+  @media(max-width:900px){.main{grid-template-columns:1fr}}
+  .controls{background:var(--panel);border-radius:12px;padding:16px;border:1px solid var(--border)}
+  .label{font-size:12px;color:var(--muted);font-weight:600;display:block;margin-bottom:6px}
+  .btn-group{display:flex;flex-wrap:wrap;gap:4px}
+  .dir-btn{padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--muted);cursor:pointer;font-size:13px;font-weight:500;transition:all .15s}
+  .dir-btn.active{border-color:var(--accent);background:var(--accentBg);color:var(--accentTxt);font-weight:700}
+  .quiz-prompt{font-size:14px;font-weight:600;margin-bottom:10px}
+  .quiz-opts{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .opt-btn{padding:8px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--panel);color:var(--text);cursor:pointer;font-size:13px;font-weight:500;text-align:left;transition:all .15s}
+  .opt-btn.selected{border-color:var(--accent);background:var(--accentBg);color:var(--accentTxt);font-weight:700}
+  .opt-btn.correct{border-color:var(--correct);background:#064e3b;color:var(--correct);font-weight:700}
+  .opt-btn.wrong{border-color:var(--incorrect);background:#7f1d1d;color:var(--incorrect);font-weight:700}
+  .opt-btn.locked{cursor:default}
+  .check-btn{padding:8px 24px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+  .check-btn:disabled{background:#2c3a70;color:#6b77ab;cursor:default}
+  .result-text{font-size:15px;font-weight:700;margin-bottom:6px}
+  .result-text.correct{color:var(--correct)}
+  .result-text.wrong{color:var(--incorrect)}
+  .hint-text{font-size:12px;color:var(--muted);margin:0 0 8px;line-height:1.5}
+  .next-row{display:flex;gap:10px;align-items:center;margin-top:8px}
+  .score{font-size:13px;color:var(--muted)}
+  .score strong{color:var(--correct)}
+  .pedagogy{margin-top:16px;padding:14px 16px;background:#101635;border-radius:10px;border:1px solid var(--border);font-size:12.5px;color:var(--muted);line-height:1.65}
+  .pedagogy strong{color:var(--bright)}
+  .section-title{font-size:15px;font-weight:700;color:var(--bright);margin-bottom:8px}
+  .section-desc{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:12px}
+  .slider-wrap{margin-top:8px}
+  .slider-wrap input[type=range]{width:100%;margin-top:6px;accent-color:var(--accent)}
+  .readout{margin-top:14px;padding:12px;background:var(--bg);border-radius:8px;font-size:13px;line-height:1.8}
+  .readout .m{color:var(--muted)}
+  .eq{display:block;white-space:nowrap}
+  svg{display:block;border-radius:12px;width:100%;height:auto}
+</style>
+</head>
+<body>
+<div class="container">
+  <span class="chip">THEME C · WAVE BEHAVIOUR · C5 DOPPLER EFFECT</span>
+  <h2>Doppler Wavefronts</h2>
+  <p class="subtitle">Moving source: wavelength really changes. Moving observer: wavelength unchanged, meeting rate changes. Same shift, different physics.</p>
+
+  <div class="tabs">
+    <button class="tab active" id="tabExplore" onclick="switchMode('explore')">Watch the Wavefronts</button>
+    <button class="tab" id="tabQuiz" onclick="switchMode('quiz')">Quiz Me</button>
+    <button class="tab" id="tabAsym" onclick="switchMode('asym')">Source vs Observer</button>
+  </div>
+
+  <div class="main">
+    <div id="svgContainer"></div>
+    <div id="controlsContainer"></div>
+  </div>
+  <div class="pedagogy" id="pedagogy"></div>
+</div>
+
+<script>
+// ============================================================
+// Wavefronts emitted every T expand at wave speed v from the
+// source position at the moment of emission.
+// Moving source: f' = f v/(v -/+ u_s)   (approach: minus)
+// Moving observer: f' = f (v +/- u_o)/v (approach: plus)
+// ============================================================
+
+const W=800,H=420;
+const VW=70;     // wave speed, px/s
+const T_EMIT=0.55;
+
+let mode="explore";
+let uFrac=0.6;   // source speed as fraction of v (explore)
+let running=true;
+let simT=0,lastTs=null,rafId=null;
+let fronts=[],lastEmit=0,srcX=200;
+let quizQ=null,quizGuess=null,quizResult=null;
+let score={correct:0,total:0};
+let asymU=0.5;
+
+function resetFronts(){fronts=[];lastEmit=0;simT=0;srcX=uFrac>0?170:400;}
+function switchMode(m){
+  mode=m;
+  document.getElementById("tabExplore").className="tab"+(m==="explore"?" active":"");
+  document.getElementById("tabQuiz").className="tab"+(m==="quiz"?" active":"");
+  document.getElementById("tabAsym").className="tab"+(m==="asym"?" active":"");
+  if(rafId){cancelAnimationFrame(rafId);rafId=null;}
+  lastTs=null;
+  if(m==="quiz"){score={correct:0,total:0};generateQuiz();}
+  if(m==="explore")resetFronts();
+  render();
+  if(m==="explore")rafId=requestAnimationFrame(tick);
+}
+function setU(f){uFrac=f;resetFronts();render();}
+function tick(ts){
+  if(mode!=="explore"){rafId=null;return;}
+  if(lastTs===null)lastTs=ts;
+  const dt=Math.min(0.05,(ts-lastTs)/1000);
+  lastTs=ts;
+  simT+=dt;
+  srcX+=uFrac*VW*dt;
+  if(srcX>660){resetFronts();}
+  if(simT-lastEmit>=T_EMIT){
+    fronts.push({x:srcX,y:210,t:simT});
+    lastEmit=simT;
+    if(fronts.length>14)fronts.shift();
+  }
+  document.getElementById("svgContainer").innerHTML=renderFrontScene();
+  rafId=requestAnimationFrame(tick);
+}
+function renderFrontScene(){
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#080c1f;border-radius:12px;display:block">`;
+  // observers
+  svg+=`<circle cx="60" cy="210" r="10" fill="#34d399"/><text x="60" y="240" fill="#34d399" font-size="12" font-weight="700" text-anchor="middle">A (behind)</text>`;
+  svg+=`<circle cx="740" cy="210" r="10" fill="#34d399"/><text x="740" y="240" fill="#34d399" font-size="12" font-weight="700" text-anchor="middle">B (ahead)</text>`;
+  // wavefronts
+  fronts.forEach(f=>{
+    const r=(simT-f.t)*VW;
+    if(r>2&&r<900)svg+=`<circle cx="${f.x}" cy="${f.y}" r="${r}" fill="none" stroke="#7dd3fc" stroke-width="1.6" opacity="${Math.max(0.15,1-r/500)}"/>`;
+  });
+  // source
+  svg+=`<circle cx="${srcX}" cy="210" r="9" fill="#fbbf24"/>`;
+  if(uFrac>0){
+    svg+=`<line x1="${srcX+14}" y1="210" x2="${srcX+50}" y2="210" stroke="#fbbf24" stroke-width="3"/><polygon points="${srcX+60},210 ${srcX+50},205 ${srcX+50},215" fill="#fbbf24"/>`;
+  }
+  svg+=`<text x="${srcX}" y="188" fill="#fbbf24" font-size="12" font-weight="700" text-anchor="middle">source</text>`;
+  if(uFrac>0){
+    svg+=`<text x="740" y="60" fill="#7dd3fc" font-size="12" text-anchor="end">ahead: fronts squashed, λ shorter, f higher</text>`;
+    svg+=`<text x="60" y="60" fill="#7dd3fc" font-size="12">behind: fronts stretched, λ longer, f lower</text>`;
+  }else{
+    svg+=`<text x="${W/2}" y="60" fill="#7dd3fc" font-size="12" text-anchor="middle">stationary source: concentric fronts, same λ everywhere</text>`;
+  }
+  return svg+"</svg>";
+}
+
+// ---- quiz ----
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const CONCEPT_ITEMS=[
+  {q:"A source moves towards a stationary observer. Compared with the emitted wave, the observer receives...",ans:"shorter wavelength and higher frequency",opts:["shorter wavelength and higher frequency","longer wavelength and lower frequency","same wavelength, higher frequency","shorter wavelength, same frequency"],hint:"A moving source really compresses the wavefronts ahead of it: λ is genuinely shorter in the medium, and with v fixed, f = v/λ is higher."},
+  {q:"An observer moves towards a stationary source. In the medium, the wavelength of the sound is...",ans:"unchanged",opts:["unchanged","shorter","longer","zero"],hint:"A moving observer cannot change the wave already in the medium: λ stays exactly as emitted. The observer meets fronts more often, so the frequency rises, but the wavelength does not move. This asymmetry is the most examined idea in the topic."},
+  {q:"A source moves away from a stationary observer. The speed of the sound arriving at the observer is...",ans:"unchanged",opts:["unchanged","lower","higher","zero"],hint:"Wave speed is a property of the medium, not of the source. Doppler changes wavelength and frequency; the speed through the air is fixed."}
+];
+function generateQuiz(){
+  const roll=Math.random();
+  if(roll<0.35){
+    const item=pick(CONCEPT_ITEMS);
+    quizQ={type:"concept",scene:"still",prompt:item.q,answer:item.ans,options:shuffle(item.opts.slice()),hint:item.hint};
+  }else if(roll<0.7){
+    // pick the formula
+    const srcCase=Math.random()<0.5;
+    const toward=Math.random()<0.5;
+    let answer,opts,prompt,hint;
+    if(srcCase){
+      answer=toward?"f' = f v/(v − u)":"f' = f v/(v + u)";
+      opts=["f' = f v/(v − u)","f' = f v/(v + u)","f' = f (v − u)/v","f' = f (v + u)/v"];
+      prompt="A source moves "+(toward?"towards":"away from")+" a stationary observer at speed u. Which formula gives the observed frequency?";
+      hint="Moving source: v/(v ∓ u), with the minus sign for approach so that f' comes out higher. Check the limit: approach must give f' > f, and only "+(toward?"v/(v − u)":"v/(v + u)")+" does that for this case.";
+    }else{
+      answer=toward?"f' = f (v + u)/v":"f' = f (v − u)/v";
+      opts=["f' = f (v + u)/v","f' = f (v − u)/v","f' = f v/(v − u)","f' = f v/(v + u)"];
+      prompt="An observer moves "+(toward?"towards":"away from")+" a stationary source at speed u. Which formula gives the observed frequency?";
+      hint="Moving observer: (v ± u)/v, plus for approach. Sanity check the direction of the shift, then pick the sign that produces it.";
+    }
+    quizQ={type:"formula",scene:"still",prompt,answer,options:shuffle(opts),hint};
+  }else{
+    // numeric
+    const f0=pick([400,500,600]);
+    const us=pick([17,20,34]);
+    const toward=Math.random()<0.5;
+    const v=340;
+    const fp=Math.round(f0*v/(toward?v-us:v+us));
+    const wrong=Math.round(f0*v/(toward?v+us:v-us));
+    const opts=[...new Set([fp,wrong,f0,Math.round(f0*(toward?(v+us):(v-us))/v)])].slice(0,4).map(x=>x+" Hz");
+    quizQ={type:"numeric",scene:"still",answer:fp+" Hz",options:shuffle(opts),
+      prompt:"A source emitting "+f0+" Hz moves "+(toward?"towards":"away from")+" a stationary observer at "+us+" m s⁻¹ (speed of sound 340 m s⁻¹). What frequency is observed?",
+      hint:"Moving source: f' = f v/(v "+(toward?"−":"+")+" u) = "+f0+"×340/"+(toward?v-us:v+us)+" = "+fp+" Hz. The distractor "+wrong+" Hz is the same formula with the sign flipped: always check the shift direction first."};
+  }
+  quizGuess=null;quizResult=null;
+}
+function selectGuess(k){if(!quizResult){quizGuess=k;render();}}
+function checkAnswer(){
+  if(!quizGuess||!quizQ)return;
+  const ok=quizGuess===quizQ.answer;
+  quizResult=ok?"correct":"incorrect";
+  score.total++;if(ok)score.correct++;
+  render();
+}
+function nextQuestion(){generateQuiz();render();}
+function renderQuizScene(){
+  // static wavefront diagram: moving source snapshot
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#080c1f;border-radius:12px;display:block">`;
+  const sx=430,cy=210;
+  for(let k=1;k<=6;k++){
+    const r=k*46;
+    const cxk=sx-k*24; // source was further left when older fronts were emitted
+    svg+=`<circle cx="${cxk}" cy="${cy}" r="${r}" fill="none" stroke="#7dd3fc" stroke-width="1.6" opacity="${1-k*0.12}"/>`;
+  }
+  svg+=`<circle cx="${sx}" cy="${cy}" r="9" fill="#fbbf24"/>`;
+  svg+=`<line x1="${sx+14}" y1="${cy}" x2="${sx+50}" y2="${cy}" stroke="#fbbf24" stroke-width="3"/><polygon points="${sx+60},${cy} ${sx+50},${cy-5} ${sx+50},${cy+5}" fill="#fbbf24"/>`;
+  svg+=`<text x="${sx}" y="${cy-20}" fill="#fbbf24" font-size="12" font-weight="700" text-anchor="middle">source</text>`;
+  svg+=`<text x="${W/2}" y="392" fill="#6b77ab" font-size="11" text-anchor="middle">wavefronts of a moving source: squashed ahead, stretched behind</text>`;
+  return svg+"</svg>";
+}
+
+// ---- asymmetry tab ----
+function renderAsymScene(u){
+  let svg=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="background:#080c1f;border-radius:12px;display:block">`;
+  const gx=90,gy=46,gw=620,gh=300;
+  const U0=-0.8,U1=0.8;
+  const px=uv=>gx+(uv-U0)/(U1-U0)*gw;
+  const FMAX=3.0,FMIN=0;
+  const py=r=>gy+gh-(r-FMIN)/(FMAX-FMIN)*gh;
+  // axes
+  svg+=`<line x1="${gx}" y1="${py(1)}" x2="${gx+gw}" y2="${py(1)}" stroke="#2c3a70" stroke-width="1" stroke-dasharray="4,4"/>`;
+  svg+=`<line x1="${px(0)}" y1="${gy}" x2="${px(0)}" y2="${gy+gh}" stroke="#2c3a70" stroke-width="1"/>`;
+  svg+=`<line x1="${gx}" y1="${gy+gh}" x2="${gx+gw}" y2="${gy+gh}" stroke="#2c3a70" stroke-width="1.5"/>`;
+  svg+=`<text x="${gx+gw/2}" y="${gy+gh+34}" fill="#94a0d4" text-anchor="middle" font-size="12">speed as a fraction of v (positive = approaching)</text>`;
+  svg+=`<text x="${gx-10}" y="${gy-14}" fill="#94a0d4" font-size="12">f′/f</text>`;
+  for(let uv=-0.8;uv<=0.81;uv+=0.4){
+    svg+=`<text x="${px(uv)}" y="${gy+gh+16}" fill="#6b77ab" text-anchor="middle" font-size="10">${uv.toFixed(1)}</text>`;
+  }
+  [0,1,2,3].forEach(r=>{svg+=`<text x="${gx-8}" y="${py(r)+4}" fill="#6b77ab" text-anchor="end" font-size="10">${r}</text>`;});
+  // curves: source-moving: 1/(1-u) ; observer-moving: 1+u  (u>0 approach)
+  let d1="",d2="";
+  for(let i=0;i<=200;i++){
+    const uv=U0+i/200*(U1-U0);
+    const rs=Math.min(FMAX,1/(1-uv));
+    const ro=1+uv;
+    d1+=(i===0?"M":"L")+px(uv).toFixed(1)+","+py(rs).toFixed(1);
+    d2+=(i===0?"M":"L")+px(uv).toFixed(1)+","+py(ro).toFixed(1);
+  }
+  svg+=`<path d="${d1}" fill="none" stroke="#fbbf24" stroke-width="2.5"/>`;
+  svg+=`<path d="${d2}" fill="none" stroke="#34d399" stroke-width="2.5"/>`;
+  svg+=`<text x="${gx+8}" y="${gy+16}" fill="#fbbf24" font-size="12" font-weight="700">source moving: f′/f = 1/(1 ∓ u/v)</text>`;
+  svg+=`<text x="${gx+8}" y="${gy+34}" fill="#34d399" font-size="12" font-weight="700">observer moving: f′/f = 1 ± u/v</text>`;
+  // markers
+  const rs=Math.min(FMAX,1/(1-u)),ro=1+u;
+  svg+=`<circle cx="${px(u)}" cy="${py(rs)}" r="6" fill="#fbbf24"/>`;
+  svg+=`<circle cx="${px(u)}" cy="${py(ro)}" r="6" fill="#34d399"/>`;
+  svg+=`<line x1="${px(u)}" y1="${gy}" x2="${px(u)}" y2="${gy+gh}" stroke="#6b77ab" stroke-width="1" opacity="0.4"/>`;
+  return svg+"</svg>";
+}
+function asymReadoutHtml(u){
+  const rs=1/(1-u),ro=1+u;
+  return`<span class="eq"><span class="m">u/v =</span> <strong>${u.toFixed(2)}</strong> <span class="m">(${u>0?"approaching":u<0?"receding":"at rest"})</span></span>
+  <span class="eq"><span class="m">Source moving: f′/f =</span> <strong>${rs>0?rs.toFixed(2):"—"}</strong></span>
+  <span class="eq"><span class="m">Observer moving: f′/f =</span> <strong>${ro.toFixed(2)}</strong></span>
+  <span class="eq"><span class="m">Not the same number: the two cases are physically different.</span></span>`;
+}
+function setAsymU(v){
+  asymU=Number(v);
+  document.getElementById("svgContainer").innerHTML=renderAsymScene(asymU);
+  document.getElementById("asymReadout").innerHTML=asymReadoutHtml(asymU);
+  document.getElementById("asymLabel").textContent=asymU.toFixed(2);
+}
+
+// ---- main render ----
+function render(){
+  const svgEl=document.getElementById("svgContainer");
+  const ctrlEl=document.getElementById("controlsContainer");
+  const pedEl=document.getElementById("pedagogy");
+
+  if(mode==="explore"){
+    svgEl.innerHTML=renderFrontScene();
+    ctrlEl.innerHTML=`
+      <div class="controls">
+        <p class="section-desc">The source emits a wavefront at regular intervals; each front expands at the wave speed from wherever the source was at that moment. Speed the source up and watch the fronts bunch ahead and stretch behind.</p>
+        <div class="label">Source speed</div>
+        <div class="btn-group">
+          <button class="dir-btn${uFrac===0?' active':''}" onclick="setU(0)">stationary</button>
+          <button class="dir-btn${uFrac===0.35?' active':''}" onclick="setU(0.35)">0.35 v</button>
+          <button class="dir-btn${uFrac===0.6?' active':''}" onclick="setU(0.6)">0.6 v</button>
+          <button class="dir-btn${uFrac===0.85?' active':''}" onclick="setU(0.85)">0.85 v</button>
+        </div>
+        <div class="readout">
+          <span class="eq"><span class="m">Ahead (B): λ′ = λ(1 − u/v) =</span> <strong>${(1-uFrac).toFixed(2)} λ</strong> <span class="m">→ f′ = ${uFrac<1?(1/(1-uFrac)).toFixed(2):"∞"} f</span></span>
+          <span class="eq"><span class="m">Behind (A): λ′ = λ(1 + u/v) =</span> <strong>${(1+uFrac).toFixed(2)} λ</strong> <span class="m">→ f′ = ${(1/(1+uFrac)).toFixed(2)} f</span></span>
+        </div>
+      </div>`;
+    pedEl.innerHTML=`<strong>What the picture proves:</strong> for a moving source the wavelength change is real, printed into the medium itself: the fronts ahead genuinely sit closer together. Every front still expands at the same speed v; nothing about the source's motion changes the wave speed. Those two facts, seen once, defuse most Doppler misconceptions.`;
+
+  } else if(mode==="quiz"){
+    if(!quizQ)generateQuiz();
+    svgEl.innerHTML=renderQuizScene();
+    let optsHtml=quizQ.options.map(k=>{
+      let cls="opt-btn";
+      if(quizResult)cls+=" locked";
+      if(quizGuess===k&&!quizResult)cls+=" selected";
+      if(quizGuess===k&&quizResult==="correct")cls+=" correct";
+      if(quizGuess===k&&quizResult==="incorrect")cls+=" wrong";
+      return`<button class="${cls}" onclick="selectGuess('${k}')">${k}</button>`;
+    }).join("");
+    let resultHtml="";
+    if(quizResult){
+      if(quizResult==="correct")resultHtml=`<div class="result-text correct">Correct!</div>`;
+      else resultHtml=`<div class="result-text wrong">Not quite — the answer is: ${quizQ.answer}</div><p class="hint-text">${quizQ.hint}</p>`;
+      resultHtml+=`<div class="next-row">
+        <button class="check-btn" onclick="nextQuestion()">Next Question</button>
+        <span class="score">Score: <strong>${score.correct}</strong> / ${score.total}</span>
+      </div>`;
+    }
+    ctrlEl.innerHTML=`
+      <div class="controls">
+        <p class="quiz-prompt">${quizQ.prompt}</p>
+        <div class="quiz-opts">${optsHtml}</div>
+        ${!quizResult?`<button class="check-btn" ${!quizGuess?'disabled':''} onclick="checkAnswer()">Check Answer</button>`:''}
+        ${resultHtml}
+      </div>`;
+    pedEl.innerHTML=`<strong>Sign discipline:</strong> never memorise which sign goes where; instead decide the direction of the shift first (approach means higher f, always) and then pick the sign that produces it. That one habit converts every Doppler sign-error into a two-second check.`;
+
+  } else {
+    svgEl.innerHTML=renderAsymScene(asymU);
+    ctrlEl.innerHTML=`
+      <div class="controls">
+        <div class="section-title">The asymmetry, on one graph</div>
+        <p class="section-desc">Same relative speed, two different physical situations. Moving observer gives a straight line; moving source gives a curve that runs away as u approaches v (the sonic boom limit). At u = 0.5v approaching: source case ×2.00, observer case ×1.50.</p>
+        <div class="slider-wrap">
+          <label class="label">u/v: <span id="asymLabel" style="color:var(--bright);font-size:15px">${asymU.toFixed(2)}</span></label>
+          <input type="range" min="-0.8" max="0.8" step="0.02" value="${asymU}" oninput="setAsymU(this.value)">
+        </div>
+        <div class="readout" id="asymReadout">${asymReadoutHtml(asymU)}</div>
+      </div>`;
+    pedEl.innerHTML=`<strong>Why they differ:</strong> a moving source changes the wavelength in the medium; a moving observer changes only the rate of meeting unchanged wavefronts. At everyday speeds the two formulas agree to first order, which is why the confusion survives; at higher speeds they split dramatically, and only the source case can diverge.`;
+  }
+}
+
+render();
+if(mode==="explore")rafId=requestAnimationFrame(tick);
+</script>
+</body>
+</html>

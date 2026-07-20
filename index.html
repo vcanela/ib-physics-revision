@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IB Physics Revision</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--bg:#0f172a;--panel:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--bright:#f1f5f9;--accent:#3b82f6;
+    --thA:#38bdf8;--thB:#fb923c;--thC:#34d399;--thD:#60a5fa;--thE:#a78bfa;--thX:#f87171}
+  body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:28px 14px;min-height:100vh}
+  .container{max-width:640px;margin:0 auto}
+  h1{font-size:26px;font-weight:700;color:var(--bright);margin-bottom:6px}
+  .subtitle{font-size:14px;color:var(--muted);margin-bottom:26px;line-height:1.6}
+  .theme-h{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:26px 0 10px}
+  a.card{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;transition:border-color .15s}
+  a.card:hover{border-color:var(--accent)}
+  .card .name{font-size:16px;font-weight:700;color:var(--bright);margin-bottom:4px}
+  .card .desc{font-size:13px;color:var(--muted);line-height:1.55}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:2px}
+  .tag.count{background:#1e293b;border:1px solid var(--border);color:var(--muted)}
+  .foot{margin-top:30px;font-size:12px;color:#64748b;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>IB Physics Revision</h1>
+  <p class="subtitle">A small collection of revision aids for IB Diploma Physics: interactive simulations to build intuition, and field guides to the traps the papers set. These are aids, not the revision itself; you revise by solving past-paper problems, and each resource here exists to help you see something the page cannot show on its own.</p>
+
+  <div class="theme-h">Interactive simulations</div>
+
+  <a class="card" href="simulations/index.html">
+    <span class="name">The Simulation Collection<span class="tag count">15 sims</span></span>
+    <span class="desc">Fifteen single-concept simulations across Themes A to E: explore it, quiz yourself, and watch how the quantities scale. Motion graphs, blackbody curves, SHM, standing waves, Doppler, fields, decay, the photoelectric effect and more. SL and HL flagged.</span>
+  </a>
+
+  <div class="theme-h">Field guides to the traps</div>
+
+  <a class="card" href="guides/trap-field-guide.html">
+    <span class="name">The Trap Field Guide</span>
+    <span class="desc">The twenty ways Paper 1A catches people, ranked by how often the 2025 papers used each one. Learn to see the trap and the mark takes care of itself.</span>
+  </a>
+
+  <a class="card" href="guides/concept-cards.html">
+    <span class="name">Concept Cards</span>
+    <span class="desc">The ideas Paper 1A asked about most in 2025, each paired with the mistake the examiners design for. Front: the physics. Flip: the trap and the defence.</span>
+  </a>
+
+  <div class="foot">Single-file HTML, no dependencies, free to copy and share. Built by V. Canela with Claude.</div>
+</div>
+</body>
+</html>

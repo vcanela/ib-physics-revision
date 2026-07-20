@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept Cards — IB Physics P1A</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false}]})"></script>
+<style>
+:root{
+  --ink:#1a1c1e; --muted:#5f6a72; --paper:#fbfaf8; --card:#fff; --line:#e5e1da;
+  --accent:#0f62fe;
+  --A:#3b6fd4; --B:#d98a26; --C:#2a9d8f; --D:#8455c9; --E:#c4504b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:1060px;margin:0 auto;padding:36px 22px 70px}
+h1{font:600 30px/1.2 "IBM Plex Serif",Georgia,serif;margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 10px}
+.provenance{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding:5px 12px;margin:14px 0 20px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.filters button{font:500 13px "IBM Plex Sans",sans-serif;border:1px solid var(--line);
+  background:#fff;border-radius:20px;padding:5px 14px;cursor:pointer}
+.filters button.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:12px;background:var(--card);
+  padding:20px 22px;cursor:pointer;position:relative;border-top:4px solid var(--muted)}
+.card:hover{border-color:var(--accent);border-top-color:var(--accent)}
+.card .topic{font:500 11.5px "IBM Plex Mono",monospace;color:var(--muted);
+  position:absolute;top:12px;right:14px}
+.card .hlbadge{font:500 10px "IBM Plex Mono",monospace;border:1px solid var(--ink);
+  border-radius:4px;padding:1px 6px;position:absolute;top:32px;right:14px}
+.card h2{font:600 18.5px/1.25 "IBM Plex Serif",Georgia,serif;margin:0 0 8px;padding-right:56px}
+.card .idea{margin:0 0 12px}
+.card .rel{font-size:14.5px;background:#f4f4f1;border-radius:6px;padding:7px 10px;display:inline-block}
+.back{display:none;margin-top:14px;border-top:1px dashed var(--line);padding-top:12px}
+.card.flipped .back{display:block}
+.back p{margin:0 0 9px;font-size:14px}
+.back .lbl{font:500 11px "IBM Plex Mono",monospace;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:1px}
+.back .seen{font-size:12px;color:var(--muted)}
+.hint{font-size:12px;color:var(--muted);margin-top:12px}
+.card.flipped .hint{display:none}
+footer{color:var(--muted);font-size:13px;margin-top:36px;border-top:1px solid var(--line);padding-top:14px}
+@media print{
+  body{background:#fff}
+  .filters,.hint{display:none}
+  .wrap{max-width:none;padding:0}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .card{break-inside:avoid;border:1px solid #999}
+  .back{display:block}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Concept Cards</h1>
+<p class="sub">The ideas IB Paper&nbsp;1A asked about most in 2025, each paired with the mistake the examiners design for. Front: the physics. Flip: the trap and the defence.</p>
+<p class="provenance">Built from the full 2025 assessment year (299 questions across ten papers, May and November). One assessment year's data: use it to weight your revision, never to skip a topic. Tap a card to flip it. Cards marked HL cover Higher Level content only.</p>
+<div class="filters" id="filters"></div>
+<div class="grid" id="grid"></div>
+<footer>Concept Cards · IB Physics Paper 1A (2023 syllabus) · concept and trap pairings from the May and November 2025 sessions · V.&nbsp;Canela, Diocesan School</footer>
+</div>
+
+<script>
+const CARDS = [
+{c:"Resistor networks",t:"B.5",n:11,
+ idea:"Current divides, voltage shares, and nothing gets used up: what flows into a junction flows out.",
+ rel:"series: \\(R_1+R_2\\) · parallel: \\(\\frac{1}{R}=\\frac{1}{R_1}+\\frac{1}{R_2}\\)",
+ trap:"Series and parallel roles get swapped, and current ratios come out upside down (a branch carrying one third reported as carrying three times).",
+ mis:"“Current is used up in a circuit.” It is not; energy is.",
+ def:"Label the current at every junction before computing anything; charge conservation does the bookkeeping."},
+{c:"Electric field superposition",t:"D.2",n:7,
+ idea:"Fields from several charges add as vectors, each computed as if the others were absent.",
+ rel:"\\(E = \\frac{kq}{r^2}\\), summed as arrows",
+ trap:"One charge's contribution gets forgotten, or an arrow gets drawn backwards, especially between opposite charges, whose fields at the midpoint reinforce rather than cancel.",
+ mis:"—",
+ def:"Draw every field arrow at the point first; only then add."},
+{c:"Energy level transitions",t:"E.1/E.2",n:8,
+ idea:"A photon carries the gap between two levels: big gap, big energy, short wavelength.",
+ rel:"\\(E = hf = \\frac{hc}{\\lambda}\\) · lines \\(= \\frac{n(n-1)}{2}\\)",
+ trap:"Lines get miscounted (levels counted instead of pairs), and energy and wavelength get run in the same direction.",
+ mis:"“Electrons orbit like planets.” Levels are states, not racetracks.",
+ def:"Count pairs of levels, not levels; and \\(\\lambda\\) shrinks as \\(E\\) grows."},
+{c:"The nuclear reactor",t:"E.4",n:7,
+ idea:"Four jobs, four parts: the moderator slows neutrons, control rods absorb them, coolant carries heat, enrichment happened before the fuel arrived.",
+ rel:"job → component; no formula to hide in",
+ trap:"Every option names a real part of the reactor; only one does the job asked. Moderator and control rods are the classic swap, since both act on neutrons.",
+ mis:"“Radiation is always dangerous.” Dose and context decide.",
+ def:"Match job to component, not name to familiarity: slows, absorbs, carries."},
+{c:"Stefan-Boltzmann",t:"B.1",n:4,
+ idea:"A hot surface radiates as the fourth power of its temperature and the square of its radius.",
+ rel:"\\(P = \\sigma A T^4 = 4\\pi r^2 \\sigma T^4\\)",
+ trap:"The fourth power gets demoted to a square, and the final square root gets butchered (\\(\\sqrt{8}\\) becoming 2, or 4).",
+ mis:"—",
+ def:"Write the exponents before the numbers; square your final answer to check the root."},
+{c:"Albedo",t:"B.2",n:6,
+ idea:"Albedo is the reflected fraction; what reaches the surface is everything else.",
+ rel:"\\(I_{\\text{surface}} = (1-\\alpha)\\,I\\)",
+ trap:"The reflected fraction gets reported where the transmitted one was asked, and the global-average quarter gets applied where the Sun is directly overhead.",
+ mis:"—",
+ def:"Ask which fraction the question wants, reflected or transmitted, before touching numbers."},
+{c:"Transverse wave motion",t:"C.2",n:6,
+ idea:"The wave travels along; the medium moves across. The two graphs (against \\(x\\), against \\(t\\)) answer different questions.",
+ rel:"\\(v = f\\lambda\\)",
+ trap:"Particle directions get flipped, and a wavelength turns up where a frequency was asked for.",
+ mis:"“Waves transport matter.” They transport energy; the medium stays home.",
+ def:"Mark the wave's direction on the graph, nudge the curve forward, and read where each particle must go."},
+{c:"Electromagnetic induction",t:"D.4",n:6,hl:1,
+ idea:"emf comes from changing flux, and only from changing flux.",
+ rel:"\\(\\varepsilon = -N\\frac{\\Delta\\Phi}{\\Delta t}\\)",
+ trap:"A large steady flux gets mistaken for a large emf: flux confused with its rate of change, and the minus sign of the opposing direction mislaid.",
+ mis:"—",
+ def:"First question, always: what is changing? No change, no emf, however large the field."},
+{c:"Equations of motion",t:"A.1",n:7,
+ idea:"Uniform acceleration: five quantities, four equations, and distance grows with the square of time.",
+ rel:"\\(v = u + at\\) · \\(s = ut + \\tfrac12 at^2\\)",
+ trap:"The \\(t^2\\) gets treated as \\(t\\), and the \\(\\tfrac12\\) goes missing.",
+ mis:"“Velocity and acceleration must point the same way.” A ball rising disagrees.",
+ def:"Choose the equation that omits the quantity you were not given; count your halves at the end."},
+{c:"Gravitational field",t:"D.1",n:8,
+ idea:"The field falls as \\(1/r^2\\) measured from the centre; the surface is where every falling object finally agrees.",
+ rel:"\\(g = \\frac{GM}{r^2}\\)",
+ trap:"Surface \\(g\\) gets used at altitude as if the field were uniform, and shared endpoints (everyone arriving at the same surface) go unexamined.",
+ mis:"“There is zero gravity in orbit.” Orbit is falling, permanently.",
+ def:"Measure \\(r\\) from the centre, every single time; then check what must be equal at the boundary."},
+{c:"Kinetic theory",t:"B.3",n:5,
+ idea:"Temperature is average molecular kinetic energy; pressure counts collisions and cares nothing for which gas it is.",
+ rel:"\\(\\bar E = \\tfrac32 kT\\) · \\(pV = NkT\\)",
+ trap:"Molecular mass gets smuggled into the pressure, when at a given temperature heavier only means slower.",
+ mis:"“Heat and temperature are the same.” One is transfer, one is state.",
+ def:"Same \\(T\\) means same average kinetic energy, whatever the molecule."},
+{c:"Resistivity",t:"B.5",n:3,
+ idea:"Resistance is material times geometry: long and thin resists, short and fat conducts.",
+ rel:"\\(R = \\frac{\\rho L}{A}\\)",
+ trap:"The length gets scaled and the area forgotten: a stretched wire changes both at once.",
+ mis:"—",
+ def:"At constant volume, doubling \\(L\\) halves \\(A\\): two changes, one stretch, \\(\\times4\\) overall."},
+{c:"Enhanced greenhouse effect",t:"B.2/B.3",n:5,
+ idea:"Greenhouse gases absorb the Earth's outgoing infrared; more of them shifts the equilibrium warmer.",
+ rel:"balance: absorbed solar = emitted IR",
+ trap:"Options get ranked by what they look like (familiarity, abundance, atom counts) rather than by the quantity asked; abundant nitrogen is not a greenhouse gas.",
+ mis:"—",
+ def:"Name the quantity being ranked and check it, however roughly, for all four options."},
+{c:"Radiation properties",t:"E.3",n:3,
+ idea:"Ionizing power and penetrating power run opposite ways: alpha ionizes most and penetrates least.",
+ rel:"ionizing: \\(\\alpha > \\beta > \\gamma\\) · penetrating: \\(\\gamma > \\beta > \\alpha\\)",
+ trap:"True-sounding statements arrive with one relation quietly inverted, usually “most penetrating, so most ionizing”.",
+ mis:"“Radiation is always dangerous.” Ordering, shielding and dose are the physics.",
+ def:"Recite both orderings before judging any statement; they are mirror images."},
+{c:"Radioactive decay",t:"E.3",n:3,
+ idea:"Random per nucleus, exponential per sample, and the nucleon books must balance.",
+ rel:"\\(N = N_0 (\\tfrac12)^{t/T_{1/2}}\\) · \\(A, Z\\) conserved",
+ trap:"Bookkeeping slips in decay equations: a charge or nucleon number that does not balance, a halving miscounted.",
+ mis:"“Radiation is always dangerous.”",
+ def:"Total \\(A\\) and total \\(Z\\), both sides, every equation; then count the halvings one at a time."},
+{c:"Projectile motion",t:"A.1",n:7,
+ idea:"Two independent problems sharing one clock: constant velocity across, constant \\(g\\) down.",
+ rel:"\\(x = u_x t\\) · \\(y = u_y t - \\tfrac12 g t^2\\)",
+ trap:"Velocity and acceleration get entangled, especially at the top of the arc, where one is momentarily zero and the other absolutely is not.",
+ mis:"“Velocity and acceleration must point the same way.”",
+ def:"At the peak: \\(v_y = 0\\) but \\(a = g\\), still, always. Say it before the options do."},
+{c:"Terminal velocity",t:"A.2",n:3,
+ idea:"Speed grows until drag balances weight; from then on the net force, and the acceleration, are zero.",
+ rel:"at \\(v_t\\): \\(mg = F_{\\text{drag}}\\)",
+ trap:"Steady speed gets read as needing a net force, or falling gets read as accelerating, whatever the forces say.",
+ mis:"“Force means motion.” Constant velocity needs no net force at all.",
+ def:"Constant speed = zero net force, not zero force; equilibrium is the destination."},
+{c:"Circular motion",t:"A.2",n:4,
+ idea:"Uniform speed but changing velocity: something real must pull towards the centre, or there is no circle.",
+ rel:"\\(a = \\frac{v^2}{r}\\)",
+ trap:"An outward force gets invented, and the \\(v^2\\) and \\(1/r\\) dependencies get mangled when both change at once.",
+ mis:"“Centrifugal force is real.” In the lab frame it is the absence of enough centripetal force.",
+ def:"Find the real inward force and name it: tension, gravity, friction, normal. No name, no circle."},
+{c:"Specific & latent heat",t:"B.1",n:6,
+ idea:"Heating either changes temperature or changes phase; each gets its own term and they never share.",
+ rel:"\\(Q = mc\\Delta T\\) · \\(Q = mL\\)",
+ trap:"Kilowatts get read as watts, minutes fed in raw, or one of the two terms dropped entirely.",
+ mis:"“Boiling is a heating process.” At the boil, energy changes phase, not temperature.",
+ def:"Convert to SI at the moment of reading; then write one term per process before substituting."},
+{c:"The simple pendulum",t:"C.1",n:3,
+ idea:"The period comes from length and gravity; the bob's mass was never invited.",
+ rel:"\\(T = 2\\pi\\sqrt{\\frac{L}{g}}\\)",
+ trap:"A mass change is stated in the stem and wired into three of the four options; the formula contains no mass at all.",
+ mis:"“Heavier objects fall faster.” The pendulum is this belief with string attached.",
+ def:"Look at the formula: no \\(m\\) anywhere. A stated number is not an invitation."},
+{c:"Snell's law",t:"C.3",n:5,
+ idea:"Into the slower medium, light bends towards the normal; the sines trade in the same ratio as the speeds.",
+ rel:"\\(n_1\\sin\\theta_1 = n_2\\sin\\theta_2\\)",
+ trap:"The index ratio arrives upside down, and “towards” and “away from” the normal get swapped.",
+ mis:"—",
+ def:"Decide which index sits on top before computing, and check: slower medium, smaller angle."},
+{c:"Closed-pipe harmonics",t:"C.4",n:3,
+ idea:"A closed end forces a node there: the fundamental fits a quarter wavelength and only odd harmonics survive.",
+ rel:"\\(\\lambda_1 = 4L\\) · \\(f = nf_1\\), \\(n\\) odd",
+ trap:"The open-pipe formula walks into a closed pipe, or the odd-only rule gets applied to an open one.",
+ mis:"“Sound is a transverse wave.” It is longitudinal; the standing-wave picture is pressure, not sideways motion.",
+ def:"Name the pipe before the formula: closed end, node; open end, antinode; then choose \\(\\lambda\\)."},
+{c:"Photoelectric effect",t:"E.2",n:4,hl:1,
+ idea:"One photon, one electron: emission is decided per photon, so frequency rules and intensity only sets how many.",
+ rel:"\\(E_{\\max} = hf - \\Phi\\)",
+ trap:"Wave-model intuitions: below the threshold, brighter light or more waiting is offered as a rescue. It never is.",
+ mis:"“Light must be either a wave or a particle.” It is both; this experiment shows the particle face.",
+ def:"Check the frequency against the threshold first; if it fails, nothing else in the question matters."},
+{c:"Rotational mechanics",t:"A.4",n:6,hl:1,
+ idea:"How the mass is distributed matters as much as how much there is; and with no external torque, angular momentum holds.",
+ rel:"\\(L = I\\omega\\) · \\(E = \\tfrac12 I\\omega^2\\)",
+ trap:"The wrong thing gets conserved: energy instead of angular momentum for the spinning skater, or the new speed computed with the old moment of inertia.",
+ mis:"—",
+ def:"Ask what is conserved and why: torque-free means \\(L\\); the skater's muscles are allowed to add energy."},
+{c:"Gravitational potential",t:"D.1",n:3,hl:1,
+ idea:"Work per unit mass brought from infinity: negative everywhere, climbing towards zero as you escape.",
+ rel:"\\(V_g = -\\frac{GM}{r}\\) · \\(g = -\\frac{\\Delta V}{\\Delta r}\\)",
+ trap:"A menu of neighbours: potential, potential energy, field strength and force all offered; only the units tell them apart.",
+ mis:"“There is zero gravity in orbit.”",
+ def:"Check the units of the asked quantity before choosing: per kilogram or not, scalar or vector."},
+{c:"First law of thermodynamics",t:"B.4",n:3,hl:1,
+ idea:"Energy in equals energy stored plus energy out: heat, internal energy and work, each with a direction.",
+ rel:"\\(Q = \\Delta U + W_{\\text{by gas}}\\)",
+ trap:"Signs flip: work done on the gas booked as energy leaving, adiabatic confused with isothermal.",
+ mis:"“Heat and temperature are the same.”",
+ def:"Declare every direction before the algebra: heat in or out, work on or by. Adiabatic means \\(Q=0\\), nothing more."},
+{c:"Half-life",t:"E.3",n:4,
+ idea:"Equal fractions in equal times: after each half-life, half of whatever remained.",
+ rel:"\\(N = N_0 (\\tfrac12)^{t/T_{1/2}}\\)",
+ trap:"Two samples differ in both starting amount and half-life, and only one difference gets tracked.",
+ mis:"—",
+ def:"Handle the two dependencies separately: count the halvings for each sample, then compare."},
+{c:"Interference",t:"C.3",n:5,
+ idea:"Path difference decides everything: whole wavelengths reinforce, half wavelengths cancel.",
+ rel:"constructive: \\(n\\lambda\\) · destructive: \\((n+\\tfrac12)\\lambda\\)",
+ trap:"The two conditions get swapped, or the path difference never gets expressed in wavelengths at all.",
+ mis:"—",
+ def:"Write the path difference as a number of wavelengths before deciding anything."},
+{c:"Energy in SHM",t:"C.1",n:3,
+ idea:"Energy trades between kinetic and potential at a constant total set by the amplitude squared.",
+ rel:"\\(E = \\tfrac12 k A^2\\)",
+ trap:"The amplitude's square gets treated as linear, and a stated mass change gets used when the total energy never asked for it.",
+ mis:"—",
+ def:"Total energy tracks \\(A^2\\); check what the governing relation actually contains before using any given number."},
+{c:"Momentum & collisions",t:"A.2",n:5,
+ idea:"Momentum is conserved in every collision; kinetic energy only in the perfectly elastic ones.",
+ rel:"\\(p = mv\\) · \\(J = F\\Delta t\\)",
+ trap:"Kinetic energy gets conserved by decree in collisions that visibly stick together.",
+ mis:"“Newton's third-law pairs cancel.” They act on different bodies; nothing cancels.",
+ def:"Momentum always; energy only if the question says elastic. Sticking together is the giveaway."},
+{c:"Stars: brightness & distance",t:"E.5",n:2,
+ idea:"Apparent brightness is luminosity dimmed by distance squared; the sky shows you the ratio, not the power.",
+ rel:"\\(b = \\frac{L}{4\\pi d^2}\\)",
+ trap:"Brightness stands in for luminosity or for distance: two equally bright stars declared equally powerful when one is simply closer.",
+ mis:"—",
+ def:"Bright is not powerful; ask how far before ranking anything."},
+{c:"Magnetic force on movers",t:"D.3",n:4,
+ idea:"A magnetic field pushes moving charge sideways: perpendicular to both the velocity and the field.",
+ rel:"\\(F = qvB\\) · \\(F = BIL\\)",
+ trap:"Directions: the rule applied with the wrong hand, the charge's sign ignored, or force expected along the field.",
+ mis:"—",
+ def:"Right-hand rule, deliberately, fingers and thumb named out loud; then flip if the charge is negative."},
+{c:"Stellar parallax",t:"E.5",n:6,
+ idea:"Nearby stars appear to shift against the background as the Earth orbits; the annual shift angle is the parallax, and its reciprocal is the distance in parsecs.",
+ rel:"\(d(\text{pc}) = \frac{1}{p(\text{arcsec})}\)",
+ trap:"Neighbouring quantities answer for each other: parsecs, light years and AU swap places, and the angle trades roles with the distance.",
+ mis:"—",
+ def:"Fix the definition first: parallax in arcseconds, distance in parsecs, one the reciprocal of the other; convert units last."},
+{c:"The HR diagram",t:"E.5",n:5,
+ idea:"Luminosity against surface temperature, with temperature increasing to the left; a star's position codes its stage of life.",
+ rel:"axes: \(L\) up, \(T\) leftwards · \(L = 4\pi r^2\sigma T^4\)",
+ trap:"Statements arrive with one relation inverted, usually the reversed temperature axis; radius gets read off position instead of computed from both axes.",
+ mis:"—",
+ def:"Say the axes aloud before judging anything: hot is left, bright is up; radius needs both."},
+{c:"Standing waves",t:"C.4",n:5,
+ idea:"Two identical waves travelling opposite ways lock into a pattern that stores energy in place: nodes never move, antinodes swing hardest.",
+ rel:"node spacing \(= \frac{\lambda}{2}\)",
+ trap:"Nodes, antinodes and loops get miscounted, and the neighbouring situation's formula (open against closed, string against pipe) walks in.",
+ mis:"“Waves transport matter.” A standing wave transports none at all.",
+ def:"Sketch the pattern and count nodes deliberately; then name the boundary before choosing any formula."},
+{c:"Kepler's third law",t:"D.1",n:5,
+ idea:"The square of the period tracks the cube of the orbital radius, for everything orbiting the same body.",
+ rel:"\(T^2 \propto r^3\)",
+ trap:"The wrong power: period taken linear in radius, or the three-halves collapsed to a square root.",
+ mis:"—",
+ def:"Write \(T^2 \propto r^3\) before any numbers; the exponent is the answer."}
+];
+
+const grid = document.getElementById('grid');
+const filters = document.getElementById('filters');
+const THEMES = {all:"All", A:"A · Motion", B:"B · Matter", C:"C · Waves", D:"D · Fields", E:"E · Nuclear & quantum", hl:"HL only"};
+
+CARDS.forEach(card => {
+  const el = document.createElement('div');
+  el.className = 'card'; el.dataset.theme = card.t[0]; el.dataset.hl = card.hl ? '1' : '';
+  el.style.borderTopColor = `var(--${card.t[0]})`;
+  el.innerHTML = `
+    <span class="topic">${card.t}</span>${card.hl ? '<span class="hlbadge">HL</span>' : ''}
+    <h2>${card.c}</h2>
+    <p class="idea">${card.idea}</p>
+    <span class="rel">${card.rel}</span>
+    <div class="back">
+      <p><span class="lbl">The trap</span>${card.trap}</p>
+      <p><span class="lbl">The misconception</span>${card.mis}</p>
+      <p><span class="lbl">The defence</span>${card.def}</p>
+      <p class="seen">${card.n} appearances across the ten 2025 papers</p>
+    </div>
+    <p class="hint">tap to flip</p>`;
+  el.addEventListener('click', () => el.classList.toggle('flipped'));
+  grid.appendChild(el);
+});
+
+Object.entries(THEMES).forEach(([k, label]) => {
+  const b = document.createElement('button');
+  b.textContent = label; if (k === 'all') b.classList.add('on');
+  b.addEventListener('click', () => {
+    filters.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    grid.querySelectorAll('.card').forEach(c => {
+      const show = k === 'all' || (k === 'hl' ? c.dataset.hl === '1' : c.dataset.theme === k);
+      c.style.display = show ? '' : 'none';
+    });
+  });
+  filters.appendChild(b);
+});
+</script>
+</body>
+</html>
