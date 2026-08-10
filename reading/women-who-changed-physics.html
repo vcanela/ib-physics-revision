@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women Who Changed Physics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:         #07070f;
+            --surface:    #0f0f1a;
+            --border:     #1a1a30;
+            --text:       #e8e8f0;
+            --text-dim:   #7777aa;
+            --gold:       #e8b84b;
+            --gold-dim:   #7a5a20;
+            --violet:     #9b7fd4;
+            --green:      #4bab7a;
+            --red:        #e05555;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            line-height: 1.75;
+            font-size: 16px;
+        }
+
+        /* ── HERO ─────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 2rem 5rem;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .hero-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 2.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.2rem, 9vw, 6.5rem);
+            font-weight: 900;
+            line-height: 1.02;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            font-weight: 900;
+            line-height: 1;
+            color: var(--gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            max-width: 180px;
+            margin-top: 0.4rem;
+            display: block;
+        }
+
+        .hero-body {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 560px;
+            border-left: 2px solid var(--gold-dim);
+            padding-left: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .scroll-cue {
+            margin-top: 4rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        /* ── DIVIDER ──────────────────────────────────── */
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── PROFILE ──────────────────────────────────── */
+        .profile {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .profile-meta {
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 0.6rem;
+        }
+
+        .profile-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 0.8rem;
+        }
+
+        .profile-contribution {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--gold);
+            margin-bottom: 2.5rem;
+            max-width: 660px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .profile-grid { grid-template-columns: 1fr; }
+        }
+
+        .box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1.6rem;
+        }
+
+        .box-physics { border-left: 3px solid var(--violet); }
+        .box-anecdote { border-left: 3px solid var(--gold-dim); }
+
+        .box-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            margin-bottom: 0.9rem;
+            font-weight: 600;
+        }
+
+        .box-physics .box-label { color: var(--violet); }
+        .box-anecdote .box-label { color: var(--gold); }
+
+        .box p { font-size: 0.93rem; line-height: 1.75; }
+
+        /* ── NOBEL BADGE ──────────────────────────────── */
+        .nobel {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.1rem;
+            padding: 1.1rem 1.4rem;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .nobel.awarded {
+            background: rgba(75, 171, 122, 0.07);
+            border: 1px solid rgba(75, 171, 122, 0.25);
+        }
+
+        .nobel.overlooked {
+            background: rgba(224, 85, 85, 0.07);
+            border: 1px solid rgba(224, 85, 85, 0.22);
+        }
+
+        .nobel-sym {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            padding-top: 0.15rem;
+        }
+
+        .awarded  .nobel-sym { color: var(--green); }
+        .overlooked .nobel-sym { color: var(--red); }
+
+        .nobel-inner strong {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+            font-weight: 700;
+        }
+
+        .awarded  .nobel-inner strong { color: var(--green); }
+        .overlooked .nobel-inner strong { color: var(--red); }
+
+        /* ── FOOTER ───────────────────────────────────── */
+        footer {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 5rem 2rem 6rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        footer p {
+            color: var(--text-dim);
+            max-width: 640px;
+            margin-bottom: 1.2rem;
+            font-size: 0.97rem;
+        }
+
+        footer blockquote {
+            border-left: 2px solid var(--gold-dim);
+            padding-left: 1.4rem;
+            margin: 2.5rem 0 1rem;
+            font-style: italic;
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        footer blockquote cite {
+            display: block;
+            font-style: normal;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 0.5rem;
+        }
+
+        .footer-credit {
+            margin-top: 4rem;
+            font-size: 0.75rem;
+            color: var(--border);
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        /* ── PRINT ────────────────────────────────────── */
+        @media print {
+            body { background: white; color: black; font-size: 11pt; }
+            .hero { min-height: unset; page-break-after: always; }
+            .profile { page-break-inside: avoid; }
+            .box, .nobel { border: 1px solid #ccc !important; background: #f9f9f9 !important; }
+            .profile-name, .hero h1 { color: black; }
+            .profile-contribution { color: #555; }
+            .box-label { color: #333 !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HERO -->
+<section class="hero">
+    <p class="hero-label">Physics · History · Recognition</p>
+    <h1>Women Who<br><em>Changed</em><br>Physics</h1>
+
+    <div class="hero-stats">
+        <div>
+            <span class="stat-number">8</span>
+            <span class="stat-label">physicists who fundamentally altered our understanding of the universe</span>
+        </div>
+        <div>
+            <span class="stat-number">1</span>
+            <span class="stat-label">of those eight received a Nobel Prize in Physics</span>
+        </div>
+        <div>
+            <span class="stat-number">4</span>
+            <span class="stat-label">were explicitly passed over for work that earned someone else a Nobel</span>
+        </div>
+    </div>
+
+    <p class="hero-body">
+        Science is a human activity, conducted by people inside institutions with biases, hierarchies, and blind spots. The physics done by these eight women is not in dispute. The record of recognition is.
+    </p>
+
+    <p class="scroll-cue">↓ Eight profiles</p>
+</section>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ MARIE CURIE -->
+<article class="profile">
+    <p class="profile-meta">1867 – 1934 &nbsp;·&nbsp; Poland / France</p>
+    <h2 class="profile-name">Marie Curie</h2>
+    <p class="profile-contribution">Discovered polonium and radium, and became the first person to win Nobel Prizes in two sciences.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>Curie showed that radioactivity is an intrinsic property of certain atoms — not a chemical reaction, not an environmental effect. Working with pitchblende ore, she isolated two previously unknown elements: polonium and radium. Her systematic measurements established that radioactive intensity is proportional to the quantity of material, laying the quantitative foundation for the law of radioactive decay.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Her 1903 Nobel Prize in Physics was initially to be awarded to Pierre Curie and Becquerel only. Pierre refused unless Marie was included. In 1911 a French newspaper implied a personal scandal; the Nobel committee suggested she not attend the ceremony. She went anyway. Her personal notebooks remain radioactive today and are stored in lead-lined boxes in Paris. Researchers who wish to consult them must sign a waiver.</p>
+        </div>
+    </div>
+    <div class="nobel awarded">
+        <span class="nobel-sym">◉</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Awarded</strong>
+            Physics 1903 (with Pierre Curie and Henri Becquerel) · Chemistry 1911. The only person ever to win in two sciences.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ HENRIETTA SWAN LEAVITT -->
+<article class="profile">
+    <p class="profile-meta">1868 – 1921 &nbsp;·&nbsp; United States</p>
+    <h2 class="profile-name">Henrietta Swan Leavitt</h2>
+    <p class="profile-contribution">Discovered the period-luminosity relation for Cepheid variable stars — the standard ruler for measuring cosmic distances.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>Leavitt found that brighter Cepheid variables have longer periods. Since all the stars she studied were at roughly the same distance, apparent brightness tracked absolute luminosity directly: period predicts luminosity. Measure a Cepheid's period anywhere in the sky, read off its absolute brightness, compare with how bright it looks — and you have its distance. Hubble used this relation to establish that Andromeda is a separate galaxy and to discover the expanding universe.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Leavitt was employed as a "computer" at the Harvard Observatory — one of a group of women paid 25 cents an hour to classify photographic plates. Women were not permitted to operate telescopes. In 1924, a mathematician began the Nobel nomination process for her. He wrote to the observatory asking for her address. He was informed she had died three years earlier. The Nobel Prize is not awarded posthumously.</p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            Hubble's discovery of the expanding universe — Nobel-worthy in itself — was only possible because of her work. She died in 1921 before her nomination could proceed.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ LISE MEITNER -->
+<article class="profile">
+    <p class="profile-meta">1878 – 1968 &nbsp;·&nbsp; Austria / Sweden</p>
+    <h2 class="profile-name">Lise Meitner</h2>
+    <p class="profile-contribution">With Frisch, explained nuclear fission and calculated the energy released using E = mc²; Hahn and Strassmann had made the experimental discovery.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>When Hahn and Strassmann bombarded uranium with neutrons and produced barium, they could not explain it. Meitner and her nephew Frisch worked out the answer: the uranium nucleus was splitting. Using the liquid-drop model and Einstein's mass-energy equivalence, they calculated that the mass difference between uranium and its products appears as roughly 200 MeV of kinetic energy per event. They named the process fission. That energy calculation underlies every nuclear power station ever built.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Meitner worked with Hahn for thirty years in Berlin. As a Jewish woman under the Nuremberg laws, she was forced to flee Germany in 1938, smuggled across the Dutch border with almost nothing. She did the fission calculation in a Swedish forest over Christmas. When approached to join the Manhattan Project, she declined: <em>"I will have nothing to do with a bomb."</em> Element 109 is named meitnerium.</p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            The 1944 Nobel Prize in Chemistry for the discovery of fission went to Otto Hahn alone. Meitner — who named the process and calculated the energy released — was omitted. She was nominated for the Nobel Prize 48 times.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ EMMY NOETHER -->
+<article class="profile">
+    <p class="profile-meta">1882 – 1935 &nbsp;·&nbsp; Germany / United States</p>
+    <h2 class="profile-name">Emmy Noether</h2>
+    <p class="profile-contribution">Proved that every continuous symmetry of a physical system corresponds to a conserved quantity.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>Noether's theorem (1915) explains why conservation laws exist. If the laws of physics are unchanged under translation in space, momentum is conserved. Unchanged under translation in time, energy is conserved. Unchanged under rotation, angular momentum is conserved. This is not an analogy — it is a precise mathematical proof. Every conservation law in physics has a symmetry behind it. The theorem underlies the entire architecture of modern theoretical physics.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Noether was refused a position at Göttingen because she was a woman. David Hilbert argued her case: <em>"I do not see that the sex of the candidate is an argument against her admission. After all, we are a university, not a bathing establishment."</em> He lost. She lectured under his name. Dismissed by the Nazis in 1933, she moved to the United States. Einstein called her "the most significant creative mathematical genius thus far produced." She died in 1935, aged 53.</p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            Noether's theorem is used daily by every theoretical physicist. No Nobel Prize — in Physics or Mathematics — was ever awarded to her.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ CECILIA PAYNE-GAPOSCHKIN -->
+<article class="profile">
+    <p class="profile-meta">1900 – 1979 &nbsp;·&nbsp; United Kingdom / United States</p>
+    <h2 class="profile-name">Cecilia Payne-Gaposchkin</h2>
+    <p class="profile-contribution">Showed that stars are composed mainly of hydrogen and helium — answering the most basic question in stellar astrophysics.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>Payne applied the Saha ionisation equations to stellar spectra and showed that differences between spectral types reflect temperature, not composition. When she calculated absolute abundances, she found hydrogen is roughly a million times more abundant in the Sun than on Earth. Stars are overwhelmingly hydrogen and helium. This was the correct answer to what stars are made of, and it was essential for understanding where stellar energy comes from.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Henry Norris Russell read her thesis before publication and told her the hydrogen result "was clearly impossible." She added a disclaimer calling it "almost certainly not real." Russell published his own analysis four years later, confirmed the result, and received considerable credit. Cambridge did not award degrees to women until 1948; Payne could not receive one for work her examiners described as "the most brilliant PhD thesis ever written in astronomy."</p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            Her discovery is the foundation of stellar astrophysics. No Nobel Prize was awarded for it — to her or to anyone else.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ CHIEN-SHIUNG WU -->
+<article class="profile">
+    <p class="profile-meta">1912 – 1997 &nbsp;·&nbsp; China / United States</p>
+    <h2 class="profile-name">Chien-Shiung Wu</h2>
+    <p class="profile-contribution">Her experiment decisively showed parity violation — that the weak nuclear force distinguishes left from right.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>It had been assumed that mirror-image physical processes are equally valid (parity conservation). Lee and Yang proposed this had never been tested for the weak force. Wu designed the test: she aligned cobalt-60 nuclei in a magnetic field near absolute zero and measured the direction of emitted electrons. The electrons came out preferentially in one direction. The mirror-image process did not occur equally. Nature distinguishes left from right at the fundamental level.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Lee and Yang chose Wu specifically because she was the best beta-decay experimentalist in the world. She performed the experiment; they received the Nobel Prize in Physics 1957. Wu was not included. She later became the first woman to serve as president of the American Physical Society and the first living scientist to have an asteroid named after her. She is known in physics as "the Queen of Nuclear Physics."</p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            The 1957 Nobel Prize in Physics went to Lee and Yang for proposing parity violation. Wu, who performed the definitive experiment confirming it, was not included.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ VERA RUBIN -->
+<article class="profile">
+    <p class="profile-meta">1928 – 2016 &nbsp;·&nbsp; United States</p>
+    <h2 class="profile-name">Vera Rubin</h2>
+    <p class="profile-contribution">Her galactic rotation curves provided the first strong observational evidence for dark matter.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>Keplerian mechanics predicts that stars at the outer edges of galaxies should orbit more slowly than those near the centre. Rubin and Ford measured the rotation curves of dozens of galaxies and found them flat: orbital speed stays roughly constant at all radii. The only explanation consistent with Newtonian gravity is the presence of large amounts of non-luminous matter distributed in a halo beyond the visible disc. Dark matter now accounts for roughly 27% of the universe's total energy content.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Rubin had applied to Princeton for graduate school; Princeton did not admit women to its physics PhD programme until 1975. Her 1950 Master's thesis suggested large-scale galaxy rotation — she was not taken seriously. It was later confirmed. Her rotation curve data appeared flat in every galaxy she measured, immediately and unambiguously. She was nominated for the Nobel Prize repeatedly. She died in December 2016 without receiving one.</p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            The discovery of dark matter via galactic rotation curves is among the most consequential results in modern cosmology. Rubin died in 2016; the Nobel Prize is not awarded posthumously.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ JOCELYN BELL BURNELL -->
+<article class="profile">
+    <p class="profile-meta">born 1943 &nbsp;·&nbsp; Northern Ireland</p>
+    <h2 class="profile-name">Jocelyn Bell Burnell</h2>
+    <p class="profile-contribution">Discovered pulsars as a graduate student — the precise, repeating radio signals of rapidly rotating neutron stars.</p>
+    <div class="profile-grid">
+        <div class="box box-physics">
+            <p class="box-label">The Physics</p>
+            <p>In 1967, Bell noticed a radio signal repeating with extraordinary regularity — once every 1.337 seconds, precise to one part in ten million. After ruling out terrestrial sources (the signal tracked sidereal time), the source was identified as a rapidly rotating neutron star whose magnetic field concentrates radio emission into a narrow beam sweeping the sky like a lighthouse. Pulsars are the most precise natural clocks in the universe and later provided the first indirect evidence for gravitational waves.</p>
+        </div>
+        <div class="box box-anecdote">
+            <p class="box-label">In Her Time</p>
+            <p>Bell spent two years building the radio telescope, wrote the data analysis software, and spotted the signal by hand while scanning paper chart recordings. The Nobel Prize in Physics 1974 for the discovery of pulsars went to her supervisor Hewish and to Ryle. In 2018 she received the Special Breakthrough Prize — $3 million. She donated the entire sum to fund PhD studentships for underrepresented groups in physics: <em>"I don't need the money. Physics does."</em></p>
+        </div>
+    </div>
+    <div class="nobel overlooked">
+        <span class="nobel-sym">⊘</span>
+        <span class="nobel-inner">
+            <strong>Nobel Prize Not Awarded</strong>
+            The 1974 Nobel Prize for the discovery of pulsars went to her supervisor Hewish and to Ryle. Fred Hoyle publicly called the omission indefensible.
+        </span>
+    </div>
+</article>
+
+<hr>
+
+<!-- ═══════════════════════════════════════════ FOOTER -->
+<footer>
+    <h2>What the record shows</h2>
+    <p>Seven of these eight women never received a Nobel Prize in Physics. Four were explicitly passed over — their work recognised by a prize awarded to someone else. One was nominated after her death. One was told her correct result was impossible and asked to disclaim it in her own thesis.</p>
+    <p>The physics is not in question. Galactic distances are still measured with Leavitt's period-luminosity relation. Every conservation law in the standard model has a Noether symmetry behind it. Every nuclear power station runs on fission that Meitner named and calculated. Bell Burnell's pulsars became a gravitational wave detector. Rubin's rotation curves reshaped cosmology. Payne-Gaposchkin told us what stars are made of.</p>
+    <p>These are not footnotes. The question worth asking is why they were treated as if they were — and whether we have fully stopped doing it.</p>
+
+    <blockquote>
+        "Don't let anyone keep you from doing the science you love."
+        <cite>— Vera Rubin</cite>
+    </blockquote>
+
+    <blockquote>
+        "I will have nothing to do with a bomb."
+        <cite>— Lise Meitner, declining the Manhattan Project</cite>
+    </blockquote>
+
+    <blockquote>
+        "I don't need the money. Physics does."
+        <cite>— Jocelyn Bell Burnell, donating her $3M Breakthrough Prize</cite>
+    </blockquote>
+
+    <p class="footer-credit">Compiled for classroom use · Diocesan School · 2026</p>
+</footer>
+
+</body>
+</html>
