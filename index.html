@@ -6,74 +6,105 @@
 <title>IB Physics Revision</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--bg:#0f172a;--panel:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--bright:#f1f5f9;--accent:#3b82f6;
-    --thA:#38bdf8;--thB:#fb923c;--thC:#34d399;--thD:#60a5fa;--thE:#a78bfa;--thX:#f87171}
-  body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:28px 14px;min-height:100vh}
-  .container{max-width:640px;margin:0 auto}
-  h1{font-size:26px;font-weight:700;color:var(--bright);margin-bottom:6px}
-  .subtitle{font-size:14px;color:var(--muted);margin-bottom:26px;line-height:1.6}
-  .theme-h{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin:26px 0 10px}
-  a.card{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:10px;transition:border-color .15s}
-  a.card:hover{border-color:var(--accent)}
-  .card .name{font-size:16px;font-weight:700;color:var(--bright);margin-bottom:4px}
-  .card .desc{font-size:13px;color:var(--muted);line-height:1.55}
-  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:2px}
-  .tag.count{background:#1e293b;border:1px solid var(--border);color:var(--muted)}
-  .tag.ext{background:#0b3352;color:var(--thA)}
-  .foot{margin-top:30px;font-size:12px;color:#64748b;line-height:1.6}
+  :root{
+    --bg:#0d1117; --panel:#151b23; --border:#2b3440;
+    --text:#e6edf3; --muted:#98a5b3; --bright:#ffffff;
+    /* Okabe-Ito, colourblind-safe qualitative palette */
+    --ok-orange:#E69F00; --ok-sky:#56B4E9; --ok-green:#009E73;
+    --ok-yellow:#F0E442; --ok-blue:#0072B2; --ok-vermillion:#D55E00;
+    --ok-purple:#CC79A7;
+  }
+  body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;
+       background:var(--bg);color:var(--text);padding:34px 14px 56px;min-height:100vh}
+  .container{max-width:660px;margin:0 auto}
+
+  h1{font-size:31px;font-weight:700;color:var(--bright);letter-spacing:-0.4px;margin-bottom:12px}
+  /* the palette itself, declared as a bar under the title */
+  .swatch{display:flex;height:7px;border-radius:4px;overflow:hidden;margin-bottom:18px}
+  .swatch i{flex:1}
+  .subtitle{font-size:14.5px;color:var(--muted);margin-bottom:8px;line-height:1.65}
+
+  section{margin-top:34px}
+  .theme-h{display:flex;align-items:center;gap:9px;
+           font-size:12.5px;font-weight:700;color:var(--c);
+           text-transform:uppercase;letter-spacing:0.09em;margin-bottom:12px}
+  .theme-h::before{content:"";width:13px;height:13px;border-radius:3px;background:var(--c);flex:none}
+  .theme-h::after{content:"";flex:1;height:1px;background:var(--border)}
+
+  a.card{display:block;text-decoration:none;position:relative;
+         background:var(--panel);border:1px solid var(--border);
+         border-left:5px solid var(--c);border-radius:11px;
+         padding:16px 18px;margin-bottom:11px;
+         transition:transform .16s ease, box-shadow .16s ease, background .16s ease}
+  a.card:hover{transform:translateY(-2px);background:var(--t);
+               box-shadow:0 0 0 1px var(--c), 0 14px 30px -14px var(--c)}
+  .card .name{display:block;font-size:16.5px;font-weight:700;color:var(--bright);margin-bottom:5px}
+  .card .desc{display:block;font-size:13.2px;color:var(--muted);line-height:1.6}
+  .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.02em;
+       padding:2px 9px;border-radius:999px;margin-left:9px;vertical-align:2px;
+       background:var(--c);color:#0d1117}
 </style>
 </head>
 <body>
 <div class="container">
+
   <h1>IB Physics Revision</h1>
+  <div class="swatch">
+    <i style="background:var(--ok-orange)"></i><i style="background:var(--ok-sky)"></i>
+    <i style="background:var(--ok-green)"></i><i style="background:var(--ok-yellow)"></i>
+    <i style="background:var(--ok-blue)"></i><i style="background:var(--ok-vermillion)"></i>
+    <i style="background:var(--ok-purple)"></i>
+  </div>
   <p class="subtitle">Revision aids for IB Diploma Physics: worksheets to work through, simulations to build intuition, and guides to the traps the papers set. These are aids, not the revision itself. You revise by solving problems and by drawing your own diagrams; everything here exists to help you see something the page cannot show on its own.</p>
 
-  <div class="theme-h">Worksheets</div>
+  <section style="--c:var(--ok-orange);--t:rgba(230,159,0,0.09)">
+    <div class="theme-h">Worksheets</div>
+    <a class="card" href="worksheets/index.html">
+      <span class="name">Topic Warm-up Worksheets<span class="tag">24 sheets</span></span>
+      <span class="desc">One sheet per syllabus topic, about 30 to 40 minutes of written work each, climbing from definitions to explanation. Worked answers attached, so attempt the sheet first and then check. HL-only topics and parts are flagged.</span>
+    </a>
+  </section>
 
-  <a class="card" href="worksheets/index.html">
-    <span class="name">Topic Warm-up Worksheets<span class="tag count">24 sheets</span></span>
-    <span class="desc">One sheet per syllabus topic, about 30 to 40 minutes of written work each, climbing from definitions to explanation. Worked answers attached, so attempt the sheet first and then check. HL-only topics and parts are flagged.</span>
-  </a>
+  <section style="--c:var(--ok-sky);--t:rgba(86,180,233,0.10)">
+    <div class="theme-h">Interactive simulations</div>
+    <a class="card" href="simulations/index.html">
+      <span class="name">The Simulation Collection<span class="tag">15 sims</span></span>
+      <span class="desc">Fifteen single-concept simulations across Themes A to E: explore it, quiz yourself, and watch how the quantities scale. Motion graphs, blackbody curves, SHM, standing waves, Doppler, fields, decay, the photoelectric effect and more.</span>
+    </a>
+  </section>
 
-  <div class="theme-h">Interactive simulations</div>
+  <section style="--c:var(--ok-green);--t:rgba(0,158,115,0.11)">
+    <div class="theme-h">Guides</div>
+    <a class="card" href="guides/exam-craft.html">
+      <span class="name">Exam Craft<span class="tag">new</span></span>
+      <span class="desc">Four habits for Paper 1A that are not about knowing more physics: pacing, why letter-hunting is worthless, why no theme is safe to skip, and drawing before you check.</span>
+    </a>
+    <a class="card" href="guides/trap-field-guide.html">
+      <span class="name">The Trap Field Guide</span>
+      <span class="desc">The twenty ways Paper 1A catches people, ranked by how often the 2025 papers used each one. Learn to see the trap and the mark takes care of itself.</span>
+    </a>
+    <a class="card" href="guides/concept-cards.html">
+      <span class="name">Concept Cards</span>
+      <span class="desc">The ideas Paper 1A asked about most in 2025, each paired with the mistake the examiners design for. Front: the physics. Flip: the trap and the defence.</span>
+    </a>
+  </section>
 
-  <a class="card" href="simulations/index.html">
-    <span class="name">The Simulation Collection<span class="tag count">15 sims</span></span>
-    <span class="desc">Fifteen single-concept simulations across Themes A to E: explore it, quiz yourself, and watch how the quantities scale. Motion graphs, blackbody curves, SHM, standing waves, Doppler, fields, decay, the photoelectric effect and more.</span>
-  </a>
+  <section style="--c:var(--ok-purple);--t:rgba(204,121,167,0.11)">
+    <div class="theme-h">Tools</div>
+    <a class="card" href="https://vcanela.github.io/pace-trainer/">
+      <span class="name">Pace Trainer<span class="tag">opens separately</span></span>
+      <span class="desc">Train your sense of timing with the clock hidden. Set the number of questions and the minutes, then tap as you finish each one; afterwards it shows you where your time actually went. Set 40 questions in 60 minutes for HL Paper 1A.</span>
+    </a>
+  </section>
 
-  <div class="theme-h">Guides</div>
+  <section style="--c:var(--ok-yellow);--t:rgba(240,228,66,0.09)">
+    <div class="theme-h">Wider reading</div>
+    <a class="card" href="reading/women-who-changed-physics.html">
+      <span class="name">Women Who Changed Physics</span>
+      <span class="desc">Eight physicists who altered our understanding of the universe, and the uneven record of who got credit for it. Not revision: read it because the physics is worth knowing and the history is worth arguing about.</span>
+    </a>
+  </section>
 
-  <a class="card" href="guides/exam-craft.html">
-    <span class="name">Exam Craft</span>
-    <span class="desc">Four habits for Paper 1A that are not about knowing more physics: pacing, why letter-hunting is worthless, why no theme is safe to skip, and drawing before you check.</span>
-  </a>
-
-  <a class="card" href="guides/trap-field-guide.html">
-    <span class="name">The Trap Field Guide</span>
-    <span class="desc">The twenty ways Paper 1A catches people, ranked by how often the 2025 papers used each one. Learn to see the trap and the mark takes care of itself.</span>
-  </a>
-
-  <a class="card" href="guides/concept-cards.html">
-    <span class="name">Concept Cards</span>
-    <span class="desc">The ideas Paper 1A asked about most in 2025, each paired with the mistake the examiners design for. Front: the physics. Flip: the trap and the defence.</span>
-  </a>
-
-  <div class="theme-h">Tools</div>
-
-  <a class="card" href="https://vcanela.github.io/pace-trainer/">
-    <span class="name">Pace Trainer<span class="tag ext">opens separately</span></span>
-    <span class="desc">Train your sense of timing with the clock hidden. Set the number of questions and the minutes, then tap as you finish each one; afterwards it shows you where your time actually went. Set 40 questions in 60 minutes for HL Paper 1A.</span>
-  </a>
-
-  <div class="theme-h">Wider reading</div>
-
-  <a class="card" href="reading/women-who-changed-physics.html">
-    <span class="name">Women Who Changed Physics</span>
-    <span class="desc">Eight physicists who altered our understanding of the universe, and the uneven record of who got credit for it. Not revision: read it because the physics is worth knowing and the history is worth arguing about.</span>
-  </a>
-
-  <div class="foot">Single-file HTML and PDFs, no dependencies, free to copy and share. Built by V. Canela with Claude.</div>
 </div>
 </body>
 </html>
