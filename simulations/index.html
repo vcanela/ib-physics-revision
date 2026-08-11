@@ -6,8 +6,8 @@
 <title>IB Physics Simulations</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--bg:#0f172a;--panel:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--bright:#f1f5f9;--accent:#3b82f6;
-    --thA:#38bdf8;--thB:#fb923c;--thC:#34d399;--thD:#60a5fa;--thE:#a78bfa;--thX:#f87171}
+  :root{--bg:#0d1117;--panel:#151b23;--border:#2b3440;--text:#e6edf3;--muted:#98a5b3;--bright:#ffffff;--accent:#56B4E9;
+    --thA:#56B4E9;--thB:#E69F00;--thC:#009E73;--thD:#0072B2;--thE:#CC79A7;--thX:#D55E00}
   body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:28px 14px;min-height:100vh}
   .container{max-width:640px;margin:0 auto}
   h1{font-size:24px;font-weight:700;color:var(--bright);margin-bottom:6px}
@@ -18,13 +18,14 @@
   .card .name{font-size:15px;font-weight:700;color:var(--bright);margin-bottom:3px}
   .card .desc{font-size:13px;color:var(--muted);line-height:1.5}
   .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:2px}
-  .tag.a{background:#0b3352;color:var(--thA)}
-  .tag.b{background:#3d2208;color:var(--thB)}
-  .tag.c{background:#0a3d2a;color:var(--thC)}
-  .tag.d{background:#172a54;color:var(--thD)}
-  .tag.e{background:#2e1065;color:var(--thE)}
-  .tag.x{background:#450e0e;color:var(--thX)}
-  .tag.lvl{background:#1e293b;border:1px solid var(--border);color:var(--muted)}
+  .tag{border-radius:999px}
+  .tag.a{background:var(--thA);color:#0d1117}
+  .tag.b{background:var(--thB);color:#0d1117}
+  .tag.c{background:var(--thC);color:#0d1117}
+  .tag.d{background:var(--thD);color:#ffffff}  /* blue needs light text: 5.2:1 */
+  .tag.e{background:var(--thE);color:#0d1117}
+  .tag.x{background:var(--thX);color:#0d1117}
+  .tag.lvl{background:transparent;border:1px solid var(--border);color:var(--muted)}
   .foot{margin-top:26px;font-size:12px;color:#64748b;line-height:1.6}
 </style>
 </head>
@@ -120,7 +121,7 @@
     <span class="desc">Pure proportionality drill across the whole syllabus: T⁴, √l, 1/r² and friends. Write the power, apply the factor, defeat the exponent-error.</span>
   </a>
 
-  <div class="foot">Single-file HTML, no dependencies, free to copy and share. Built by V. Canela with Claude.</div>
+  <div class="foot">Single-file HTML, no dependencies, free to copy and share.</div>
 </div>
 </body>
 </html>

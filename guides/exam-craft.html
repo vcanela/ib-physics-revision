@@ -6,7 +6,8 @@
 <title>Exam Craft &mdash; IB Physics Paper 1A</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--bg:#0f172a;--panel:#1e293b;--border:#334155;--text:#e2e8f0;--muted:#94a3b8;--bright:#f1f5f9;--accent:#3b82f6;--warn:#fb923c}
+  :root{--bg:#0d1117;--panel:#151b23;--border:#2b3440;--text:#e6edf3;--muted:#98a5b3;--bright:#ffffff;
+    --accent:#009E73; --ok-orange:#E69F00; --ok-sky:#56B4E9; --ok-green:#009E73; --ok-purple:#CC79A7}
   body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);padding:28px 14px;min-height:100vh;line-height:1.6}
   .container{max-width:640px;margin:0 auto}
   a.back{display:inline-block;font-size:13px;color:var(--muted);text-decoration:none;margin-bottom:18px}
@@ -15,12 +16,16 @@
   .sub{font-size:14px;color:var(--muted);margin-bottom:26px}
   h2{font-size:17px;font-weight:700;color:var(--bright);margin:26px 0 8px}
   p{font-size:14.5px;color:var(--text);margin-bottom:10px}
-  .item{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-bottom:14px}
-  .item h2{margin-top:0}
+  .item{background:var(--panel);border:1px solid var(--border);border-left:4px solid var(--c);
+         border-radius:11px;padding:16px 18px;margin-bottom:14px}
+  .item h2{color:var(--c);margin-top:0}
+  .num{display:inline-block;min-width:22px;height:22px;line-height:22px;text-align:center;
+        border-radius:6px;background:var(--c);color:#0d1117;font-size:13px;font-weight:700;margin-right:8px}
+
   .lead{font-size:14.5px;color:var(--bright);font-weight:600;margin-bottom:6px}
   .muted{font-size:13.5px;color:var(--muted)}
-  a.inline{color:var(--accent);text-decoration:none;border-bottom:1px solid #1e40af}
-  a.inline:hover{border-bottom-color:var(--accent)}
+  a.inline{color:var(--c,var(--accent));text-decoration:none;border-bottom:1px solid var(--border)}
+  a.inline:hover{border-bottom-color:var(--c,var(--accent))}
   .pace{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 4px}
   .pace div{background:#0b1220;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--muted)}
   .pace strong{color:var(--bright)}
@@ -33,8 +38,8 @@
   <h1>Exam Craft</h1>
   <p class="sub">Four habits for Paper 1A. None of them is about knowing more physics; they are about not losing marks you already have.</p>
 
-  <div class="item">
-    <h2>1. Know your pace, then stop watching the clock</h2>
+  <div class="item" style="--c:var(--ok-sky)">
+    <h2><span class="num">1</span>Know your pace, then stop watching the clock</h2>
     <p class="lead">About 90 seconds a question.</p>
     <div class="pace">
       <div>HL Paper 1A &middot; <strong>40 questions</strong> in about <strong>60 min</strong></div>
@@ -53,8 +58,8 @@
     minutes for HL, or 30 in 45 for SL.</p>
   </div>
 
-  <div class="item">
-    <h2>2. Never letter-hunt</h2>
+  <div class="item" style="--c:var(--ok-orange)">
+    <h2><span class="num">2</span>Never letter-hunt</h2>
     <p class="lead">&ldquo;That&rsquo;s too many Cs in a row&rdquo; is not information.</p>
     <p class="muted">Answer keys are deliberately balanced across A, B, C and D. Across
     the five HL papers of 2025 the letter counts were flat to within a question or
@@ -63,8 +68,8 @@
     If your answer is C for the fourth time, and your working says C, write C.</p>
   </div>
 
-  <div class="item">
-    <h2>3. No theme is safe to skip</h2>
+  <div class="item" style="--c:var(--ok-purple)">
+    <h2><span class="num">3</span>No theme is safe to skip</h2>
     <p class="lead">All five themes turn up in force, on every paper.</p>
     <p class="muted">A tempting revision strategy is to gamble: pick the themes that
     came up last time and skimp on the rest. It does not work here. Every paper
@@ -73,8 +78,8 @@
     not a reason to drop it.</p>
   </div>
 
-  <div class="item">
-    <h2>4. Draw it, and commit before you check</h2>
+  <div class="item" style="--c:var(--ok-green)">
+    <h2><span class="num">4</span>Draw it, and commit before you check</h2>
     <p class="lead">The diagram you draw beats the diagram you are given.</p>
     <p class="muted">When a question describes a situation, sketch it: the forces, the
     rays, the field, the circuit. Most of the
@@ -87,7 +92,7 @@
     you the feeling of understanding without the substance of it.</p>
   </div>
 
-  <div class="foot">Written for Diocesan IB Physics from an analysis of the 2025 Paper 1A papers. Built by V. Canela with Claude.</div>
+  <div class="foot">Written for Diocesan IB Physics from an analysis of the 2025 Paper 1A papers.</div>
 </div>
 </body>
 </html>
