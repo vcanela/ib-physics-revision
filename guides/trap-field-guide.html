@@ -23,15 +23,21 @@ header .sub{color:var(--muted);margin:0 0 18px}
 .provenance{font-size:13px;color:var(--muted);border-left:3px solid var(--line);
   padding:6px 12px;margin:18px 0 6px}
 .howto{font-size:14px;color:var(--muted);margin:6px 0 26px}
+
+/* ---- the index doubles as the navigation: one trap shows at a time ---- */
 .index{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));
-  gap:8px;margin:0 0 44px;padding:0;list-style:none}
+  gap:8px;margin:0 0 30px;padding:0;list-style:none}
 .index a{display:flex;justify-content:space-between;align-items:baseline;gap:8px;
   padding:8px 12px;background:var(--card);border:1px solid var(--line);
   border-radius:8px;text-decoration:none;color:var(--ink);font-size:13.5px}
 .index a:hover{border-color:var(--accent)}
+.index a.on{border-color:var(--accent);background:#eef3ff;
+  box-shadow:inset 3px 0 0 var(--accent);font-weight:500}
 .index .n{color:var(--muted);font:500 12px "IBM Plex Mono",monospace}
-section.trap{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:26px 28px;margin:0 0 26px}
+
+section.trap{display:none;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:26px 28px;margin:0 0 20px}
+section.trap.on{display:block}
 .trap h2{font:600 23px/1.25 "IBM Plex Serif",Georgia,serif;margin:0}
 .traphead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .rank{color:var(--muted);font:500 13px "IBM Plex Mono",monospace}
@@ -39,10 +45,29 @@ section.trap{background:var(--card);border:1px solid var(--line);border-radius:1
 .bar i{display:block;height:100%;background:var(--accent);opacity:.75}
 .count{font-size:12.5px;color:var(--muted);margin-bottom:14px}
 .feel{font-style:italic;color:#39434b;margin:10px 0 18px}
-.q{border:1px solid var(--line);border-radius:10px;padding:18px 20px;background:#fdfdfc}
-.q .stem{margin:0 0 14px}
-.q .stmts{margin:0 0 14px;padding-left:8px;list-style:none}
-.q .stmts li{margin:2px 0}
+.defence{margin:0 0 18px;padding:10px 14px;border-radius:8px;
+  background:#f4f7ff;border:1px solid #d8e2fd;font-size:15px}
+.defence b{color:var(--accent)}
+
+/* ---- the practice questions, one unfoldable panel each ---- */
+.qlabel{font:500 12px "IBM Plex Mono",monospace;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.07em;margin:0 0 9px}
+details.qd{border:1px solid var(--line);border-radius:10px;background:#fdfdfc;
+  margin:0 0 10px;overflow:hidden}
+details.qd>summary{list-style:none;cursor:pointer;padding:12px 16px;
+  display:flex;align-items:baseline;gap:10px;font-size:14.5px}
+details.qd>summary::-webkit-details-marker{display:none}
+details.qd>summary::before{content:"+";font:500 16px "IBM Plex Mono",monospace;
+  color:var(--accent);width:13px;flex:none;line-height:1.3}
+details.qd[open]>summary::before{content:"\2212"}
+details.qd[open]>summary{border-bottom:1px solid var(--line);background:#f7f8fa}
+details.qd>summary .qn{font:500 13px "IBM Plex Mono",monospace;color:var(--muted);flex:none}
+details.qd>summary .qt{color:var(--ink)}
+details.qd>summary:hover{background:#f2f5f9}
+.qbody{padding:18px 20px 20px}
+.qbody .stem{margin:0 0 14px}
+.qbody .stmts{margin:0 0 14px;padding-left:8px;list-style:none}
+.qbody .stmts li{margin:2px 0}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 @media(max-width:540px){.opts{grid-template-columns:1fr}}
 .opt{display:flex;gap:10px;align-items:baseline;text-align:left;
@@ -59,19 +84,28 @@ section.trap{background:var(--card);border:1px solid var(--line);border-radius:1
 .anatomy ul{margin:0;padding-left:20px}
 .anatomy li{margin:4px 0;font-size:15px}
 .anatomy li b{font:500 13px "IBM Plex Mono",monospace}
-.defence{margin:18px 0 4px;padding:10px 14px;border-radius:8px;
-  background:#f4f7ff;border:1px solid #d8e2fd;font-size:15px}
-.defence b{color:var(--accent)}
-.hunt{font-size:13.5px;color:var(--muted);margin:10px 0 0}
 .reveal{margin-top:12px;background:none;border:none;color:var(--accent);
   font:500 14px "IBM Plex Sans",sans-serif;cursor:pointer;padding:0}
+.hunt{font-size:13.5px;color:var(--muted);margin:18px 0 0;
+  border-top:1px solid var(--line);padding-top:14px}
+
+.pager{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  margin:0 0 10px}
+.pager button{background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:8px 14px;font:500 14px "IBM Plex Sans",sans-serif;color:var(--ink);cursor:pointer}
+.pager button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.pager button:disabled{opacity:.4;cursor:default}
+.pager .pos{font:500 12.5px "IBM Plex Mono",monospace;color:var(--muted)}
+
 footer{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid var(--line);padding-top:16px}
 @media print{
   body{background:#fff}
   .wrap{max-width:none;padding:0}
-  .index,.reveal,.howto{display:none}
-  section.trap{border:none;border-top:1.5px solid #000;border-radius:0;
-    padding:14px 0;margin:0;break-inside:avoid}
+  .index,.reveal,.howto,.pager{display:none}
+  section.trap{display:block!important;border:none;border-top:1.5px solid #000;
+    border-radius:0;padding:14px 0;margin:0;break-inside:avoid}
+  details.qd{border:1px solid #bbb;break-inside:avoid}
+  details.qd>summary{background:none}
   .anatomy{display:block}
   .opt{border:1px solid #bbb}
 }
@@ -82,12 +116,17 @@ footer{color:var(--muted);font-size:13px;margin-top:40px;border-top:1px solid va
 <header>
   <h1>The Trap Field Guide</h1>
   <p class="sub">The twenty ways IB Physics Paper&nbsp;1A catches people, ranked by how often the 2025 papers used each one. Learn to see the trap and the mark takes care of itself.</p>
-  <p class="provenance">Built from the full 2025 assessment year: 299 questions across ten papers (May and November sessions), 966 tagged wrong-answer traps. The frequencies describe one assessment year; they are a guide to where to put your effort, not a prophecy about your paper. Every practice question below is original, written to the same design as a real 2025 question.</p>
-  <p class="howto">How to use it: read the trap, <strong>attempt the question before revealing anything</strong>, then read the anatomy of the three wrong answers. The defence line is what you say to yourself in the exam.</p>
+  <p class="provenance">Built from the full 2025 assessment year: 299 questions across ten papers (May and November sessions), 966 tagged wrong-answer traps. The frequencies describe one assessment year; they are a guide to where to put your effort, not a prophecy about your paper. Every practice question below is original, written to the same design as a real 2025 question, and pitched at <strong>standard level</strong> so that every question here is fair game for everyone.</p>
+  <p class="howto">How to use it: pick a trap from the grid, read what it feels like from the inside, then open a question and <strong>attempt it before revealing anything</strong>. The anatomy tells you which error built each wrong answer. The defence line is what you say to yourself in the exam. The three questions on a trap sit in three different themes on purpose: a trap is a habit, not a topic.</p>
 </header>
 <ul class="index" id="index"></ul>
 <main id="main"></main>
-<footer>Trap Field Guide · IB Physics Paper 1A (2023 syllabus) · trap statistics from the May and November 2025 sessions · all practice questions original · V.&nbsp;Canela, Diocesan School</footer>
+<div class="pager">
+  <button id="prev">&larr; Previous trap</button>
+  <span class="pos" id="pos"></span>
+  <button id="next">Next trap &rarr;</button>
+</div>
+<footer>Trap Field Guide · IB Physics Paper 1A (2023 syllabus) · trap statistics from the May and November 2025 sessions · all practice questions original and at standard level · V.&nbsp;Canela, Diocesan School</footer>
 </div>
 
 <script>
@@ -96,235 +135,679 @@ const TRAPS = [
  feel:"It feels like recalling a fact. A confident, familiar statement arrives; it is simply a statement about the wrong idea, or the relationship run backwards. Example: “gamma is the most powerful radiation, so it must ionize most”, when penetration and ionization actually run opposite ways.",
  hunt:"Hunts everywhere; the most common trap in every one of the five themes. 320 of the 966 tagged traps across 2025.",
  defence:"Before choosing, say the definition in your own words and check the <b>relationship's direction</b>: what increases, what decreases, what is unrelated.",
- q:{stem:"Three statements are made about alpha and beta-minus radiation:",
-    stmts:["I.&nbsp;&nbsp;Alpha radiation is more strongly ionizing than beta radiation.","II.&nbsp;&nbsp;Alpha radiation is less penetrating than beta radiation.","III.&nbsp;Alpha particles travel faster than beta particles."],
-    tail:"Which statements are correct?",
-    opts:{A:"I and II only",B:"I and III only",C:"II and III only",D:"I, II and III"}, key:"A",
-    keynote:"Ionization and penetration run inversely: alpha ionizes most, so it penetrates least, and, being the heaviest emission, it is the slowest. III is false.",
-    anatomy:{B:"keeps the false III and throws away the true II.",C:"drops the true I, often via “all radiation is basically similar”.",D:"the “alpha is the strongest, so it wins at everything” intuition."}}},
+ qs:[
+  {tag:"alpha and beta radiation",
+   stem:"Three statements are made about alpha and beta-minus radiation:",
+   stmts:["I.&nbsp;&nbsp;Alpha radiation is more strongly ionizing than beta radiation.","II.&nbsp;&nbsp;Alpha radiation is less penetrating than beta radiation.","III.&nbsp;Alpha particles travel faster than beta particles."],
+   tail:"Which statements are correct?",
+   opts:{A:"I and II only",B:"I and III only",C:"II and III only",D:"I, II and III"}, key:"A",
+   keynote:"Ionization and penetration run inversely: alpha ionizes most, so it penetrates least, and, being the heaviest emission, it is the slowest. III is false.",
+   anatomy:{B:"keeps the false III and throws away the true II.",C:"drops the true I, often via “all radiation is basically similar”.",D:"the “alpha is the strongest, so it wins at everything” intuition."}},
+
+  {tag:"the greenhouse effect",
+   stem:"Which statement best describes the mechanism of the greenhouse effect?",
+   opts:{A:"Greenhouse gases absorb incoming short-wavelength radiation from the Sun and reflect it back to space.",
+         B:"Greenhouse gases absorb outgoing long-wavelength radiation from the Earth's surface and re-radiate some of it back towards the surface.",
+         C:"Depletion of the ozone layer allows more ultraviolet radiation to reach the surface, warming it.",
+         D:"Greenhouse gases raise the Earth's albedo, so more of the Sun's radiation is retained."}, key:"B",
+   keynote:"The atmosphere is largely transparent to the Sun's short wavelengths on the way in. It is the long-wavelength infrared leaving the warmed surface that greenhouse gases absorb and partly return.",
+   anatomy:{A:"runs the wavelengths backwards, and swaps absorption for reflection while it is at it.",
+            C:"the most durable imposter in the whole course. Ozone depletion is a real problem with a different mechanism, a different gas and a different part of the spectrum.",
+            D:"albedo pointing the wrong way: a higher albedo reflects <em>more</em> away, which cools."}},
+
+  {tag:"sound travelling through air",
+   stem:"A sound wave travels through air from a speaker to a listener. Which statement is correct?",
+   opts:{A:"The air molecules travel from the speaker to the listener with the wave.",
+         B:"The air molecules oscillate parallel to the direction in which the energy travels.",
+         C:"The wave can be polarised by passing it through a suitable filter.",
+         D:"Increasing the amplitude of the wave increases its speed through the air."}, key:"B",
+   keynote:"Sound is longitudinal: each molecule oscillates back and forth about a fixed position, along the line the energy travels. The energy moves; the air does not.",
+   anatomy:{A:"waves transport matter, the most persistent wave misconception there is. What travels is the disturbance.",
+            C:"polarisation needs a transverse wave, which has a plane of oscillation to restrict. A longitudinal wave has nothing to filter.",
+            D:"amplitude confused with speed. The speed of sound is set by the medium, not by how loud the sound is."}}]},
 
 {id:"droppedhalf", name:"The Dropped Half", count:127,
  feel:"The method is right, the answer is wrong. Somewhere a \\(\\tfrac12\\), a \\(\\times4\\), or an efficiency quietly fell out of the working. Example: kinetic energy computed as \\(mv^2\\).",
- hunt:"Mechanics and thermal calculations above all: the \\(\\tfrac12\\) in kinetic and elastic energy, moments of inertia, efficiency factors.",
+ hunt:"Mechanics and thermal calculations above all: the \\(\\tfrac12\\) in kinetic and elastic energy, efficiency factors, squared quantities.",
  defence:"List the factors <b>before</b> substituting numbers, and count them again at the end. The wrong options are built from your dropped factor.",
- q:{stem:"A ceiling fan, initially at rest, accelerates uniformly for 6.0&nbsp;s, reaching a final angular velocity of \\(8\\pi\\ \\text{rad s}^{-1}\\). How many complete revolutions does it make in this time?",
-    opts:{A:"6",B:"12",C:"24",D:"48"}, key:"B",
-    keynote:"\\(\\theta = \\tfrac12\\omega t = \\tfrac12 \\times 8\\pi \\times 6.0 = 24\\pi\\) rad, and \\(24\\pi \\div 2\\pi = 12\\) revolutions.",
-    anatomy:{A:"applies the \\(\\tfrac12\\) twice.",C:"drops the \\(\\tfrac12\\) (uses \\(\\theta=\\omega t\\) for accelerated motion).",D:"drops the \\(\\tfrac12\\) and divides by \\(\\pi\\) instead of \\(2\\pi\\)."}}},
+ qs:[
+  {tag:"a car speeding up",
+   stem:"A car of mass 1200&nbsp;kg accelerates along a level road from \\(8.0\\ \\text{m s}^{-1}\\) to \\(16\\ \\text{m s}^{-1}\\). What is the increase in its kinetic energy?",
+   opts:{A:"\\(3.8\\times10^{4}\\ \\text{J}\\)",B:"\\(1.2\\times10^{5}\\ \\text{J}\\)",C:"\\(1.5\\times10^{5}\\ \\text{J}\\)",D:"\\(2.3\\times10^{5}\\ \\text{J}\\)"}, key:"B",
+   keynote:"\\(\\Delta E_k = \\tfrac12 m (v^2 - u^2) = \\tfrac12 \\times 1200 \\times (256 - 64) = 1.15\\times10^{5}\\ \\text{J}\\).",
+   anatomy:{A:"squares the change in speed, \\(\\tfrac12 m(\\Delta v)^2\\), instead of taking the change in the square. Those are not the same thing and never will be.",
+            C:"computes the final kinetic energy and forgets the car was already moving.",
+            D:"drops the \\(\\tfrac12\\): exactly twice the right answer, which is the signature."}},
+
+  {tag:"a wind turbine's efficiency",
+   stem:"The kinetic energy arriving at the blades of a wind turbine is \\(5.0\\times10^{5}\\ \\text{J}\\) each second. The turbine converts this to electrical energy with an efficiency of 40%. What is its electrical output power?",
+   opts:{A:"\\(2.0\\times10^{5}\\ \\text{W}\\)",B:"\\(2.5\\times10^{5}\\ \\text{W}\\)",C:"\\(5.0\\times10^{5}\\ \\text{W}\\)",D:"\\(1.25\\times10^{6}\\ \\text{W}\\)"}, key:"A",
+   keynote:"Useful output = efficiency × input = \\(0.40 \\times 5.0\\times10^{5} = 2.0\\times10^{5}\\ \\text{W}\\).",
+   anatomy:{B:"halves it. The “call it about half” reflex, applied to a number the question gave you exactly.",
+            C:"drops the efficiency factor altogether and reports the energy arriving as the energy delivered.",
+            D:"divides by the efficiency instead of multiplying, which would make the turbine emit more than the wind brought it."}},
+
+  {tag:"a spring launching a trolley",
+   stem:"A spring of spring constant \\(250\\ \\text{N m}^{-1}\\) is compressed by 0.20&nbsp;m and released, launching a 0.50&nbsp;kg trolley along a frictionless horizontal track. What is the speed of the trolley as it leaves the spring?",
+   opts:{A:"\\(3.2\\ \\text{m s}^{-1}\\)",B:"\\(4.5\\ \\text{m s}^{-1}\\)",C:"\\(6.3\\ \\text{m s}^{-1}\\)",D:"\\(10\\ \\text{m s}^{-1}\\)"}, key:"B",
+   keynote:"\\(E_p = \\tfrac12 k x^2 = \\tfrac12 \\times 250 \\times 0.040 = 5.0\\ \\text{J}\\), then \\(\\tfrac12 m v^2 = 5.0\\) gives \\(v = \\sqrt{20} = 4.5\\ \\text{m s}^{-1}\\).",
+   anatomy:{A:"drops the \\(\\tfrac12\\) from the kinetic energy, so the trolley is handed too little speed for the energy it carries.",
+            C:"drops the \\(\\tfrac12\\) from the elastic energy, doubling the store before a joule of it has been spent.",
+            D:"forgets to square the compression: the same family of slip, one line earlier."}}]},
 
 {id:"wrongway", name:"The Wrong Way Round", count:68,
- feel:"The size is right and the direction feels like an afterthought. In fields and thermodynamics the direction is the whole question. Example: work done on the gas booked as energy leaving it.",
- hunt:"Fields territory above all: 29 of its 68 tagged uses across 2025 were there. Also energy bookkeeping and wave directions.",
- defence:"Declare your <b>sign convention out loud</b> before computing, then check the answer's direction against physical sense: energy in or out, attract or repel, up or down.",
- q:{stem:"60&nbsp;J of work is done <em>on</em> a fixed mass of gas while it loses 100&nbsp;J of thermal energy to the surroundings. What is the change in the internal energy of the gas?",
-    opts:{A:"\\(-160\\ \\text{J}\\)",B:"\\(-40\\ \\text{J}\\)",C:"\\(+40\\ \\text{J}\\)",D:"\\(+160\\ \\text{J}\\)"}, key:"B",
-    keynote:"\\(\\Delta U = Q + W_{\\text{on}} = (-100) + (+60) = -40\\ \\text{J}\\).",
-    anatomy:{A:"flips the work sign: treats work done on the gas as energy leaving.",C:"flips the heat sign: the gas lost that 100 J.",D:"flips both signs and feels doubly consistent doing it."}}},
+ feel:"The size is right and the direction feels like an afterthought. In fields and in momentum bookkeeping, the direction is the whole question. Example: a rebound counted as a slowing-down.",
+ hunt:"Fields territory above all: 29 of its 68 tagged uses across 2025 were there. Also momentum changes, energy bookkeeping and wave directions.",
+ defence:"Declare your <b>sign convention out loud</b> before computing, then check the answer's direction against physical sense: in or out, towards or away, up or down.",
+ qs:[
+  {tag:"a ball bouncing off a wall",
+   stem:"A ball of mass 0.15&nbsp;kg travelling horizontally at \\(12\\ \\text{m s}^{-1}\\) strikes a wall and rebounds horizontally at \\(8.0\\ \\text{m s}^{-1}\\). What is the magnitude of the change in momentum of the ball?",
+   opts:{A:"\\(0.60\\ \\text{kg m s}^{-1}\\)",B:"\\(1.2\\ \\text{kg m s}^{-1}\\)",C:"\\(1.8\\ \\text{kg m s}^{-1}\\)",D:"\\(3.0\\ \\text{kg m s}^{-1}\\)"}, key:"D",
+   keynote:"Take the initial direction as positive: \\(\\Delta p = m(v - u) = 0.15 \\times (-8.0 - 12) = -3.0\\), so the magnitude is \\(3.0\\ \\text{kg m s}^{-1}\\). Because the ball turns round, the two momenta <em>add</em>.",
+   anatomy:{A:"subtracts the speeds as though the ball carried on forwards more slowly. This is the trap itself, and it is the most common answer students give.",
+            B:"uses only the momentum after the bounce.",
+            C:"uses only the momentum before it."}},
+
+  {tag:"an electron between charged plates",
+   stem:"Two parallel plates produce a uniform electric field that points from the positive plate on the left towards the negative plate on the right. An electron is released from rest between them. Which row is correct?",
+   opts:{A:"Force to the left; field strength constant as it moves",
+         B:"Force to the right; field strength constant as it moves",
+         C:"Force to the left; field strength decreases as it nears the plate",
+         D:"Force to the right; field strength increases as it nears the plate"}, key:"A",
+   keynote:"The electron is negative, so the force on it is opposite to the field: to the left, towards the positive plate. Between parallel plates the field is uniform, so its strength is the same everywhere.",
+   anatomy:{B:"the force on a negative charge taken to follow the field. The single most common sign error in the fields theme.",
+            C:"right direction, but the inverse-square habit smuggled into a uniform field, where distance from the plate changes nothing.",
+            D:"both errors at once, dressed up by the appealing picture of a charge falling into an ever-stronger field."}},
+
+  {tag:"a ball at the top of its flight",
+   stem:"A ball is thrown vertically upwards and rises freely. Taking upwards as positive and ignoring air resistance, which row describes the ball at the highest point of its flight?",
+   opts:{A:"Velocity zero; acceleration zero",
+         B:"Velocity zero; acceleration \\(-9.8\\ \\text{m s}^{-2}\\)",
+         C:"Velocity zero; acceleration \\(+9.8\\ \\text{m s}^{-2}\\)",
+         D:"Velocity \\(-9.8\\ \\text{m s}^{-1}\\); acceleration zero"}, key:"B",
+   keynote:"At the top the ball is momentarily at rest, but gravity has not paused: the acceleration is \\(9.8\\ \\text{m s}^{-2}\\) downwards throughout, which is negative on this convention.",
+   anatomy:{A:"reads “momentarily at rest” as “nothing is happening to it”. If the acceleration really were zero the ball would hang there.",
+            C:"the right size with the sign reversed. Gravity points down whichever way the ball is travelling, which is the whole point of the question.",
+            D:"hands the value of \\(g\\) to the velocity column, and empties the one it belongs in."}}]},
 
 {id:"missing", name:"The Missing Ingredient", count:67,
  feel:"You account for one thing that changed and feel finished. The question changed two. Example: comparing radioactive samples that differ in both starting amount and half-life, and tracking only one.",
- hunt:"Spread widely; strongest in mechanics and nuclear/quantum, wherever two quantities change at once.",
+ hunt:"Spread widely; strongest in mechanics, thermal and nuclear, wherever two quantities change at once.",
  defence:"Ask: <b>what does this quantity actually depend on?</b> Then tick each dependency off against the question, one by one.",
- q:{stem:"Sample X initially contains \\(2N_0\\) atoms of a nuclide with half-life \\(T\\). Sample Y initially contains \\(N_0\\) atoms of a nuclide with half-life \\(2T\\). What is the ratio \\(\\dfrac{\\text{atoms of X remaining}}{\\text{atoms of Y remaining}}\\) after a time \\(2T\\)?",
-    opts:{A:"4",B:"2",C:"1",D:"\\(\\tfrac12\\)"}, key:"C",
-    keynote:"X halves twice: \\(2N_0 \\to N_0/2\\). Y halves once: \\(N_0 \\to N_0/2\\). The ratio is 1.",
-    anatomy:{A:"keeps only the initial numbers and doubles the effect.",B:"remembers the initial numbers, forgets the half-lives differ.",D:"remembers the half-lives, forgets X started with twice as many."}}},
+ qs:[
+  {tag:"two radioactive samples",
+   stem:"Sample X initially contains \\(2N_0\\) atoms of a nuclide with half-life \\(T\\). Sample Y initially contains \\(N_0\\) atoms of a nuclide with half-life \\(2T\\). What is the ratio \\(\\dfrac{\\text{atoms of X remaining}}{\\text{atoms of Y remaining}}\\) after a time \\(2T\\)?",
+   opts:{A:"4",B:"2",C:"1",D:"\\(\\tfrac12\\)"}, key:"C",
+   keynote:"X halves twice: \\(2N_0 \\to N_0/2\\). Y halves once: \\(N_0 \\to N_0/2\\). The ratio is 1.",
+   anatomy:{A:"keeps only the initial numbers and doubles the effect.",B:"remembers the initial numbers, forgets the half-lives differ.",D:"remembers the half-lives, forgets X started with twice as many."}},
+
+  {tag:"heating two different blocks",
+   stem:"Block X has mass \\(2m\\) and specific heat capacity \\(c\\). Block Y has mass \\(m\\) and specific heat capacity \\(4c\\). The same quantity of thermal energy is supplied to each, and neither changes state. What is the ratio \\(\\dfrac{\\Delta T_{\\text{X}}}{\\Delta T_{\\text{Y}}}\\)?",
+   opts:{A:"\\(\\tfrac12\\)",B:"1",C:"2",D:"4"}, key:"C",
+   keynote:"\\(\\Delta T = Q/mc\\). For X that is \\(Q/2mc\\); for Y it is \\(Q/4mc\\). The ratio is 2: X warms twice as much.",
+   anatomy:{A:"tracks the masses and forgets the specific heat capacities differ. X is heavier, so surely it warms less.",
+            B:"equal energy in, equal temperature rise: neither dependency tracked at all.",
+            D:"tracks the specific heat capacities and forgets that X has twice the mass."}},
+
+  {tag:"the surface of another planet",
+   stem:"Planet Q has twice the mass of planet P and twice the radius. The gravitational field strength at the surface of P is \\(g\\). What is the field strength at the surface of Q?",
+   opts:{A:"\\(\\dfrac{g}{4}\\)",B:"\\(\\dfrac{g}{2}\\)",C:"\\(g\\)",D:"\\(2g\\)"}, key:"B",
+   keynote:"\\(g = GM/R^2\\). Doubling \\(M\\) multiplies by 2; doubling \\(R\\) divides by 4. Together: \\(g/2\\).",
+   anatomy:{A:"tracks the radius alone. The inverse square gives a quarter, and the extra mass never arrives.",
+            C:"assumes the two doublings cancel, which they would if the field went as \\(1/R\\) rather than \\(1/R^2\\).",
+            D:"tracks the mass alone, and the bigger planet is simply given a stronger pull."}}]},
 
 {id:"wronghouse", name:"Right Formula, Wrong House", count:63,
  feel:"The formula is genuinely correct; it just belongs to the neighbouring situation. Example: the closed-pipe wavelength walked into an open pipe.",
- hunt:"Pipes against strings, open against closed, the \\(P = V^2/R\\) family, lens conventions.",
+ hunt:"Pipes against strings, open against closed, series against parallel, entering a denser medium against leaving one.",
  defence:"Name the situation <b>before</b> reaching for the formula: “open pipe, both ends antinodes, \\(\\lambda_1 = 2L\\), all harmonics.” The naming does the filtering.",
- q:{stem:"A pipe of length 0.50&nbsp;m is open at <em>both</em> ends. The speed of sound is \\(340\\ \\text{m s}^{-1}\\). What are the frequencies of the first two harmonics?",
-    opts:{A:"340 Hz and 680 Hz",B:"170 Hz and 340 Hz",C:"170 Hz and 510 Hz",D:"340 Hz and 1020 Hz"}, key:"A",
-    keynote:"Open pipe: \\(\\lambda_1 = 2L = 1.0\\ \\text{m}\\), so \\(f_1 = 340\\) Hz, and an open pipe sounds all harmonics: \\(f_2 = 680\\) Hz.",
-    anatomy:{B:"borrows the closed-pipe formula \\(\\lambda_1 = 4L\\).",C:"borrows the closed-pipe formula and its odd-harmonics rule.",D:"right \\(f_1\\), but applies the odd-only rule to an open pipe."}}},
+ qs:[
+  {tag:"a pipe open at both ends",
+   stem:"A pipe of length 0.50&nbsp;m is open at <em>both</em> ends. The speed of sound is \\(340\\ \\text{m s}^{-1}\\). What are the frequencies of the first two harmonics?",
+   opts:{A:"340 Hz and 680 Hz",B:"170 Hz and 340 Hz",C:"170 Hz and 510 Hz",D:"340 Hz and 1020 Hz"}, key:"A",
+   keynote:"Open pipe: \\(\\lambda_1 = 2L = 1.0\\ \\text{m}\\), so \\(f_1 = 340\\) Hz, and an open pipe sounds all harmonics: \\(f_2 = 680\\) Hz.",
+   anatomy:{B:"borrows the closed-pipe formula \\(\\lambda_1 = 4L\\).",C:"borrows the closed-pipe formula and its odd-harmonics rule.",D:"right \\(f_1\\), but applies the odd-only rule to an open pipe."}},
+
+  {tag:"two resistors in parallel",
+   stem:"A \\(3.0\\ \\Omega\\) resistor and a \\(6.0\\ \\Omega\\) resistor are connected in parallel across a 12&nbsp;V supply of negligible internal resistance. What is the total power dissipated?",
+   opts:{A:"16 W",B:"24 W",C:"72 W",D:"288 W"}, key:"C",
+   keynote:"\\(\\dfrac1R = \\dfrac13 + \\dfrac16 = \\dfrac12\\), so \\(R = 2.0\\ \\Omega\\) and \\(P = V^2/R = 144/2.0 = 72\\ \\text{W}\\).",
+   anatomy:{A:"adds the resistances as if they were in series: the formula from next door, and the answer comes out below the power of either resistor alone, which should have rung a bell.",
+            B:"finds the power in the \\(6.0\\ \\Omega\\) resistor and calls it the total.",
+            D:"stops at \\(1/R = 0.5\\) and substitutes that as \\(R\\), leaving the final inversion undone."}},
+
+  {tag:"light entering glass from water",
+   stem:"A ray of light travels from water (\\(n = 1.33\\)) into glass (\\(n = 1.50\\)), meeting the boundary at an angle of incidence of \\(40^\\circ\\). What happens to the ray?",
+   opts:{A:"It refracts at \\(25^\\circ\\) to the normal",B:"It refracts at \\(35^\\circ\\) to the normal",C:"It refracts at \\(46^\\circ\\) to the normal",D:"It is totally internally reflected at the boundary"}, key:"B",
+   keynote:"\\(n_1 \\sin\\theta_1 = n_2 \\sin\\theta_2\\): \\(\\sin\\theta_2 = 1.33 \\sin 40^\\circ / 1.50 = 0.570\\), so \\(\\theta_2 = 35^\\circ\\). Entering a denser medium, the ray bends <em>towards</em> the normal.",
+   anatomy:{A:"uses the air-to-glass version, \\(\\sin\\theta_1 = 1.50\\sin\\theta_2\\), leaving the water's refractive index out entirely. Right formula, wrong first medium.",
+            C:"inverts the ratio of the indices and bends the ray away from the normal, which is what happens going the other way.",
+            D:"reaches for total internal reflection, which lives in the other house: it needs the ray to be leaving the denser medium, and here the ray is entering one."}}]},
 
 {id:"wrongpower", name:"The Wrong Power", count:51,
  feel:"You remember that the quantities are related, just not how strongly. \\(T^4\\) becomes \\(T^2\\); \\(r^3\\) becomes \\(r\\). Example: a star twice as hot radiating “twice” as much, instead of sixteen times.",
  hunt:"Power laws: radiated power, Kepler's third law, kinematics squares, inverse-square fields.",
  defence:"Write the proportionality with its exponent <b>before</b> touching numbers: \\(T^2 \\propto r^3\\), \\(P \\propto T^4\\). The exponent is the physics.",
- q:{stem:"Planet P orbits a star in a circular orbit of radius \\(r\\) with period \\(T\\). Planet Q orbits the same star at radius \\(4r\\). What is the orbital period of Q?",
-    opts:{A:"\\(2T\\)",B:"\\(4T\\)",C:"\\(16T\\)",D:"\\(8T\\)"}, key:"D",
-    keynote:"\\(T^2 \\propto r^3\\), so \\(T \\propto r^{3/2}\\) and \\(4^{3/2} = 8\\).",
-    anatomy:{A:"uses \\(T \\propto \\sqrt r\\).",B:"uses \\(T \\propto r\\), the straight-line guess.",C:"uses \\(T \\propto r^2\\), squaring for the sake of squaring."}}},
+ qs:[
+  {tag:"two planets round one star",
+   stem:"Planet P orbits a star in a circular orbit of radius \\(r\\) with period \\(T\\). Planet Q orbits the same star at radius \\(4r\\). What is the orbital period of Q?",
+   opts:{A:"\\(2T\\)",B:"\\(4T\\)",C:"\\(16T\\)",D:"\\(8T\\)"}, key:"D",
+   keynote:"\\(T^2 \\propto r^3\\), so \\(T \\propto r^{3/2}\\) and \\(4^{3/2} = 8\\).",
+   anatomy:{A:"uses \\(T \\propto \\sqrt r\\).",B:"uses \\(T \\propto r\\), the straight-line guess.",C:"uses \\(T \\propto r^2\\), squaring for the sake of squaring."}},
+
+  {tag:"a hotter star",
+   stem:"Stars A and B have the same radius. The surface temperature of B is three times that of A. What is the ratio \\(\\dfrac{L_{\\text{B}}}{L_{\\text{A}}}\\) of their luminosities?",
+   opts:{A:"9",B:"12",C:"27",D:"81"}, key:"D",
+   keynote:"\\(L = \\sigma A T^4\\), and the radii are equal, so \\(L \\propto T^4\\): the ratio is \\(3^4 = 81\\).",
+   anatomy:{A:"uses \\(T^2\\), the reflex exponent: when in doubt, square it.",
+            B:"multiplies the temperature factor by the exponent, \\(3 \\times 4\\), instead of raising it, \\(3^4\\). The arithmetic of powers rather than the physics.",
+            C:"uses \\(T^3\\), one power short, which is where “Stefan's fourth power” lands when it is half remembered."}},
+
+  {tag:"braking distance",
+   stem:"A car travelling at \\(20\\ \\text{m s}^{-1}\\) brakes to rest in a distance \\(d\\). What distance does the same car need to stop from \\(60\\ \\text{m s}^{-1}\\), with the same constant braking force?",
+   opts:{A:"\\(3d\\)",B:"\\(6d\\)",C:"\\(9d\\)",D:"\\(27d\\)"}, key:"C",
+   keynote:"\\(v^2 = u^2 + 2as\\) with \\(v = 0\\) gives \\(s \\propto u^2\\). Three times the speed needs \\(3^2 = 9\\) times the distance.",
+   anatomy:{A:"takes the stopping distance as proportional to the speed. This is the everyday intuition, and it is the reason tailgating at speed is so much worse than it feels.",
+            B:"doubles the ratio as a compromise, as though squaring meant “times two, then times three”.",
+            D:"cubes it: the wrong exponent in the other direction."}}]},
 
 {id:"flipped", name:"The Flipped Fraction", count:44,
  feel:"You compute everything correctly and then report Y:X when the question asked X:Y. Example: a refractive-index ratio delivered upside down.",
  hunt:"Anywhere a ratio is the answer: currents, refractive indices, energy per unit mass, activities.",
  defence:"Write the requested ratio as a <b>labelled fraction first</b> (“Z over W”), and sanity-check: should it be bigger or smaller than 1?",
- q:{stem:"Four identical resistors, resistance \\(R\\) each, are connected to a cell of negligible internal resistance. Resistor W sits alone on one branch. The other branch has one resistor in series with a parallel pair; Z is one of the pair. What is \\(\\dfrac{I_{\\text{Z}}}{I_{\\text{W}}}\\), the ratio of the current in Z to the current in W?",
-    opts:{A:"3",B:"\\(\\tfrac23\\)",C:"\\(\\tfrac13\\)",D:"\\(\\tfrac32\\)"}, key:"C",
-    keynote:"\\(I_{\\text{W}} = V/R\\). The other branch is \\(R + R/2 = 3R/2\\), so it carries \\(2V/3R\\), which splits in half: \\(I_{\\text{Z}} = V/3R\\). The ratio is \\(\\tfrac13\\).",
-    anatomy:{A:"the exact reciprocal: everything right, fraction upside down.",B:"uses the whole branch current for Z, forgetting the final split.",D:"both errors stacked."}}},
+ qs:[
+  {tag:"currents in a resistor network",
+   stem:"Four identical resistors, resistance \\(R\\) each, are connected to a cell of negligible internal resistance. Resistor W sits alone on one branch. The other branch has one resistor in series with a parallel pair; Z is one of the pair. What is \\(\\dfrac{I_{\\text{Z}}}{I_{\\text{W}}}\\), the ratio of the current in Z to the current in W?",
+   opts:{A:"3",B:"\\(\\tfrac23\\)",C:"\\(\\tfrac13\\)",D:"\\(\\tfrac32\\)"}, key:"C",
+   keynote:"\\(I_{\\text{W}} = V/R\\). The other branch is \\(R + R/2 = 3R/2\\), so it carries \\(2V/3R\\), which splits in half: \\(I_{\\text{Z}} = V/3R\\). The ratio is \\(\\tfrac13\\).",
+   anatomy:{A:"the exact reciprocal: everything right, fraction upside down.",B:"uses the whole branch current for Z, forgetting the final split.",D:"both errors stacked."}},
+
+  {tag:"a refracted ray",
+   stem:"Light travels from medium 1 into medium 2. The angle of incidence is \\(50^\\circ\\) and the angle of refraction is \\(30^\\circ\\). What is \\(\\dfrac{n_2}{n_1}\\)?",
+   opts:{A:"0.60",B:"0.65",C:"1.53",D:"1.67"}, key:"C",
+   keynote:"\\(n_1\\sin\\theta_1 = n_2\\sin\\theta_2\\), so \\(\\dfrac{n_2}{n_1} = \\dfrac{\\sin 50^\\circ}{\\sin 30^\\circ} = \\dfrac{0.766}{0.500} = 1.53\\).",
+   anatomy:{A:"uses the angles themselves instead of their sines, <em>and</em> inverts the ratio.",
+            B:"the exact reciprocal. Check it against sense before you write it down: the ray bent towards the normal, so medium 2 is the denser one and the ratio has to be greater than 1.",
+            D:"uses the angles instead of their sines. It lands close enough to the right answer to survive a glance, which is exactly what makes it dangerous."}},
+
+  {tag:"two heaters, two beakers",
+   stem:"Heater X, of power 500&nbsp;W, warms 3.0&nbsp;kg of water. Heater Y, of power 250&nbsp;W, warms 1.0&nbsp;kg of water. Both run for the same time and neither sample boils. What is \\(\\dfrac{\\Delta T_{\\text{X}}}{\\Delta T_{\\text{Y}}}\\)?",
+   opts:{A:"\\(\\tfrac13\\)",B:"\\(\\tfrac23\\)",C:"\\(\\tfrac32\\)",D:"2"}, key:"B",
+   keynote:"\\(\\Delta T = \\dfrac{Pt}{mc}\\). For X that is \\(500t/3c\\) and for Y it is \\(250t/c\\), so the ratio is \\(\\dfrac{500/3}{250} = \\dfrac23\\).",
+   anatomy:{A:"tracks the masses alone and forgets that the heaters differ.",
+            C:"the reciprocal: the right physics with the fraction turned over.",
+            D:"tracks the powers alone. X's heater is twice as strong, so X is imagined to warm twice as much, with the three kilograms left out of it."}}]},
 
 {id:"wrongmember", name:"The Wrong Team Member", count:39,
  feel:"Every option is true of something. All four name real parts of the system; only one does the job asked about. Example: crediting the moderator with what the control rods do.",
- hunt:"Nuclear and quantum menus above all: 27 of its 39 tagged uses across 2025 were there. Reactor components, named field quantities, units of neighbouring quantities.",
+ hunt:"Nuclear menus above all: 27 of its 39 tagged uses across 2025 were there. Reactor components, named field quantities, units of neighbouring quantities.",
  defence:"Match <b>job to component</b>, not name to familiarity: who slows, who absorbs, who transfers. If every option sounds real, the trap is exactly this one.",
- q:{stem:"What is the function of the control rods in a nuclear fission reactor?",
-    opts:{A:"To decrease the kinetic energy of fast neutrons",B:"To transfer thermal energy from the reactor core to the turbines",C:"To absorb neutrons so that the rate of fission can be regulated",D:"To increase the proportion of uranium-235 in the fuel"}, key:"C",
-    keynote:"Control rods absorb neutrons; pushing them in or out sets the reaction rate.",
-    anatomy:{A:"the moderator's job, the classic mix-up: both act on neutrons, one slows, one absorbs.",B:"the heat exchanger and coolant loop.",D:"fuel enrichment, done before the fuel ever enters the reactor."}}},
+ qs:[
+  {tag:"inside a fission reactor",
+   stem:"What is the function of the control rods in a nuclear fission reactor?",
+   opts:{A:"To decrease the kinetic energy of fast neutrons",B:"To transfer thermal energy from the reactor core to the turbines",C:"To absorb neutrons so that the rate of fission can be regulated",D:"To increase the proportion of uranium-235 in the fuel"}, key:"C",
+   keynote:"Control rods absorb neutrons; pushing them in or out sets the reaction rate.",
+   anatomy:{A:"the moderator's job, the classic mix-up: both act on neutrons, one slows, one absorbs.",B:"the heat exchanger and coolant loop.",D:"fuel enrichment, done before the fuel ever enters the reactor."}},
+
+  {tag:"meters in a circuit",
+   stem:"Which statement about connecting meters into a circuit is correct?",
+   opts:{A:"An ammeter is connected in parallel with a component and should have a high resistance",
+         B:"A voltmeter is connected in parallel with a component and should have a high resistance",
+         C:"A voltmeter is connected in series with a component and should have a low resistance",
+         D:"An ammeter is connected in series with a component and should have a high resistance"}, key:"B",
+   keynote:"A voltmeter goes across the component and must draw almost no current, so its resistance is high. An ammeter goes in the path of the current and must not impede it, so its resistance is low.",
+   anatomy:{A:"gives the ammeter the voltmeter's position and the voltmeter's resistance: both properties handed to the wrong instrument.",
+            C:"right instrument, wrong job. A voltmeter in series would carry the circuit's current and change the very thing it was put there to measure.",
+            D:"right position, wrong resistance. A high-resistance ammeter throttles the current it is supposed to read."}},
+
+  {tag:"measuring a nearby star",
+   stem:"An astronomer measures the stellar parallax angle of a nearby star. What does this measurement, on its own, give?",
+   opts:{A:"The star's luminosity",B:"The star's distance from Earth",C:"The star's surface temperature",D:"The star's apparent brightness"}, key:"B",
+   keynote:"Parallax is a geometrical measurement of angle, and \\(d\\ (\\text{parsec}) = 1/p\\ (\\text{arc-second})\\) turns it straight into a distance.",
+   anatomy:{A:"luminosity is what you get <em>after</em> combining a distance with an apparent brightness. Parallax supplies only one of the two.",
+            C:"temperature comes from the star's spectrum or its colour, and owes nothing to the geometry.",
+            D:"apparent brightness is what a detector pointed at the star measures. Parallax measures an angle, not an energy."}}]},
 
 {id:"miscount", name:"The Miscount", count:35,
  feel:"Not hard physics, just counting, and everyone counts it three different ways under time pressure. Example: four energy levels giving “four” spectral lines.",
- hunt:"Energy-level transitions and interference orders: 22 of its 35 tagged uses across 2025 were in nuclear and quantum, most of the rest in wave counting.",
+ hunt:"Energy-level transitions and interference orders: 22 of its 35 tagged uses across 2025 were in nuclear and atomic, most of the rest in wave counting.",
  defence:"Count <b>pairs, not levels</b>: \\(n\\) levels give \\(\\tfrac{n(n-1)}{2}\\) transitions. Draw the arrows if in doubt; ten seconds of drawing beats a lost mark.",
- q:{stem:"An atom has exactly four energy levels. What is the maximum number of spectral lines of <em>different</em> photon energies that can appear in its emission spectrum?",
-    opts:{A:"3",B:"6",C:"4",D:"12"}, key:"B",
-    keynote:"One line per pair of levels: \\(\\tfrac{4\\times3}{2} = 6\\).",
-    anatomy:{A:"counts only the adjacent, step-by-step transitions.",C:"counts the levels themselves.",D:"counts ordered pairs, each transition twice."}}},
+ qs:[
+  {tag:"lines in an emission spectrum",
+   stem:"An atom has exactly four energy levels. What is the maximum number of spectral lines of <em>different</em> photon energies that can appear in its emission spectrum?",
+   opts:{A:"3",B:"6",C:"4",D:"12"}, key:"B",
+   keynote:"One line per pair of levels: \\(\\tfrac{4\\times3}{2} = 6\\).",
+   anatomy:{A:"counts only the adjacent, step-by-step transitions.",C:"counts the levels themselves.",D:"counts ordered pairs, each transition twice."}},
+
+  {tag:"a string in its third harmonic",
+   stem:"A string fixed at both ends vibrates in its third harmonic. How many nodes and how many antinodes are there on the string?",
+   opts:{A:"3 nodes and 3 antinodes",B:"4 nodes and 3 antinodes",C:"3 nodes and 4 antinodes",D:"2 nodes and 3 antinodes"}, key:"B",
+   keynote:"The third harmonic fits \\(3\\lambda/2\\) onto the string: three antinodes, with nodes at both fixed ends and two more in between. Four nodes in all.",
+   anatomy:{A:"counts the interior nodes and forgets that the two fixed ends are nodes as well.",
+            C:"swaps the two counts, which is what happens when you picture the shape but never label it.",
+            D:"counts only the two ends, missing the nodes the third harmonic puts in the middle."}},
+
+  {tag:"an hour of decay",
+   stem:"A radioactive source has an activity of 800&nbsp;Bq and a half-life of 15 minutes. What is its activity after 1.0 hour?",
+   opts:{A:"zero",B:"50 Bq",C:"100 Bq",D:"200 Bq"}, key:"B",
+   keynote:"An hour is four half-lives: \\(800 \\to 400 \\to 200 \\to 100 \\to 50\\ \\text{Bq}\\).",
+   anatomy:{A:"takes four half-lives to finish the source off. Repeated halving never reaches zero, which is the whole character of exponential decay.",
+            C:"counts three halvings instead of four: the off-by-one that comes of counting the arrows between the numbers rather than the numbers.",
+            D:"divides the activity by the number of half-lives instead of halving it that many times."}}]},
 
 {id:"upsidedown", name:"Upside-Down Proportionality", count:27,
  feel:"Bigger goes with bigger, says intuition. But energy grows as wavelength shrinks, and period grows as gravity weakens. Example: “longer wavelength, more energetic photon”.",
  hunt:"Wavelength and energy conversions, pendulum and orbit relations, field against distance.",
  defence:"Ask the <b>direction question</b> first: when this doubles, does that double or halve? Settle it before any arithmetic.",
- q:{stem:"Transition P in an atom emits a photon of wavelength 400&nbsp;nm; transition Q emits a photon of wavelength 600&nbsp;nm. Which transition involves the larger energy change, and what is the ratio \\(\\dfrac{\\Delta E_{\\text{P}}}{\\Delta E_{\\text{Q}}}\\)?",
-    opts:{A:"P;&nbsp; 1.5",B:"Q;&nbsp; 1.5",C:"P;&nbsp; 0.67",D:"Q;&nbsp; 0.67"}, key:"A",
-    keynote:"\\(E = hc/\\lambda\\): the shorter wavelength carries the larger energy. P wins, and the ratio is \\(600/400 = 1.5\\).",
-    anatomy:{B:"treats \\(E \\propto \\lambda\\): longer wavelength, more energy, the direct-proportion reflex.",C:"right transition, but reports the reciprocal ratio.",D:"both errors at once, and it feels self-consistent."}}},
+ qs:[
+  {tag:"two photons, two wavelengths",
+   stem:"Transition P in an atom emits a photon of wavelength 400&nbsp;nm; transition Q emits a photon of wavelength 600&nbsp;nm. Which transition involves the larger energy change, and what is the ratio \\(\\dfrac{\\Delta E_{\\text{P}}}{\\Delta E_{\\text{Q}}}\\)?",
+   opts:{A:"P;&nbsp; 1.5",B:"Q;&nbsp; 1.5",C:"P;&nbsp; 0.67",D:"Q;&nbsp; 0.67"}, key:"A",
+   keynote:"\\(E = hc/\\lambda\\): the shorter wavelength carries the larger energy. P wins, and the ratio is \\(600/400 = 1.5\\).",
+   anatomy:{B:"treats \\(E \\propto \\lambda\\): longer wavelength, more energy, the direct-proportion reflex.",C:"right transition, but reports the reciprocal ratio.",D:"both errors at once, and it feels self-consistent."}},
+
+  {tag:"a pendulum on another planet",
+   stem:"A simple pendulum has period \\(T\\) on Earth. It is taken to a planet where the gravitational field strength is four times that on Earth. What is its period there?",
+   opts:{A:"\\(\\dfrac{T}{4}\\)",B:"\\(\\dfrac{T}{2}\\)",C:"\\(2T\\)",D:"\\(4T\\)"}, key:"B",
+   keynote:"\\(T = 2\\pi\\sqrt{L/g}\\), so \\(T \\propto 1/\\sqrt g\\). Four times the field gives \\(T/\\sqrt4 = T/2\\).",
+   anatomy:{A:"remembers the inverse and forgets the square root.",
+            C:"the direct-proportion reflex: stronger gravity read as a longer period. A stronger field pulls the bob back harder, so it must swing faster, not slower.",
+            D:"stronger gravity, longer period, and no square root either: the trap at full strength."}},
+
+  {tag:"squeezing a gas",
+   stem:"A fixed mass of ideal gas at a pressure of 100&nbsp;kPa is compressed at constant temperature from a volume of \\(600\\ \\text{cm}^3\\) to \\(200\\ \\text{cm}^3\\). What is its new pressure?",
+   opts:{A:"33 kPa",B:"100 kPa",C:"300 kPa",D:"900 kPa"}, key:"C",
+   keynote:"At constant temperature \\(pV\\) is constant: \\(p_2 = 100 \\times 600/200 = 300\\ \\text{kPa}\\).",
+   anatomy:{A:"divides where it should multiply. The volume fell by a factor of three, so the pressure is taken down by three as well: bigger with bigger, when the relationship is inverse.",
+            B:"assumes that squeezing a gas at constant temperature leaves the pressure alone.",
+            D:"squares the volume ratio, importing an exponent the isothermal law does not have."}}]},
 
 {id:"redherring", name:"The Red Herring", count:26,
  feel:"The question tells you the mass changed, so surely the answer must use it. Three of the four options do. The physics does not. Example: a pendulum's mass doubled, period unchanged.",
  hunt:"Oscillations and orbits: pendulum periods, elastic energy, orbital speeds. When a mass is stated but does not enter the governing equation, expect the options to weaponise it.",
  defence:"Write the governing relation and ask of each given quantity: <b>are you actually in the formula?</b> A stated number is not an invitation.",
- q:{stem:"A satellite of mass \\(m\\) orbits a planet at radius \\(r\\) with speed \\(v\\). A second satellite, of mass \\(2m\\), orbits the same planet at radius \\(4r\\). What is its orbital speed?",
-    opts:{A:"\\(v\\)",B:"\\(\\dfrac{v}{2}\\)",C:"\\(\\dfrac{v}{\\sqrt2}\\)",D:"\\(2v\\)"}, key:"B",
-    keynote:"\\(v = \\sqrt{GM/r}\\): the satellite's own mass never appears. Radius \\(\\times4\\) means speed \\(\\div\\sqrt4 = \\div2\\).",
-    anatomy:{A:"imagines the doubled mass cancels the radius change.",C:"lets the mass sneak in as a \\(\\sqrt2\\) on top of the correct radius factor.",D:"speed proportional to satellite mass, radius mishandled: the full red-herring meal."}}},
+ qs:[
+  {tag:"a heavier satellite, further out",
+   stem:"A satellite of mass \\(m\\) orbits a planet at radius \\(r\\) with speed \\(v\\). A second satellite, of mass \\(2m\\), orbits the same planet at radius \\(4r\\). What is its orbital speed?",
+   opts:{A:"\\(v\\)",B:"\\(\\dfrac{v}{2}\\)",C:"\\(\\dfrac{v}{\\sqrt2}\\)",D:"\\(2v\\)"}, key:"B",
+   keynote:"\\(v = \\sqrt{GM/r}\\): the satellite's own mass never appears. Radius \\(\\times4\\) means speed \\(\\div\\sqrt4 = \\div2\\).",
+   anatomy:{A:"imagines the doubled mass cancels the radius change.",C:"lets the mass sneak in as a \\(\\sqrt2\\) on top of the correct radius factor.",D:"speed proportional to satellite mass, radius mishandled: the full red-herring meal."}},
+
+  {tag:"two pendulums, two bobs",
+   stem:"Two simple pendulums have the same length and swing with small amplitude. Pendulum P has a bob of mass \\(m\\); pendulum Q has a bob of mass \\(4m\\). What is the ratio \\(\\dfrac{T_{\\text{Q}}}{T_{\\text{P}}}\\) of their periods?",
+   opts:{A:"1",B:"\\(\\tfrac12\\)",C:"2",D:"4"}, key:"A",
+   keynote:"\\(T = 2\\pi\\sqrt{L/g}\\). The mass of the bob does not appear, so the periods are identical.",
+   anatomy:{B:"the heavier bob taken to swing faster, because gravity pulls it harder. It does, and the extra inertia cancels it exactly.",
+            C:"takes the square root of the mass ratio: the right instinct applied to the wrong variable. The root belongs to \\(L\\) and to \\(g\\), not to the bob.",
+            D:"period read as proportional to mass, the heavier-swings-slower picture."}},
+
+  {tag:"a box pushed across a floor",
+   stem:"A box of mass 5.0&nbsp;kg is pushed along a rough horizontal floor at a constant velocity of \\(2.0\\ \\text{m s}^{-1}\\) by a horizontal force of 12&nbsp;N. What is the magnitude of the frictional force on the box?",
+   opts:{A:"10 N",B:"12 N",C:"24 N",D:"49 N"}, key:"B",
+   keynote:"Constant velocity means zero resultant force, so the friction exactly balances the push: 12&nbsp;N. Neither the mass nor the speed is needed.",
+   anatomy:{A:"multiplies mass by velocity, which gives a momentum in \\(\\text{kg m s}^{-1}\\) wearing a newton's clothes.",
+            C:"multiplies the push by the speed, which gives a power in watts.",
+            D:"uses the weight, \\(mg = 49\\ \\text{N}\\), because a mass was given and surely must be for something. The weight acts vertically; the friction does not."}}]},
 
 {id:"prefixslip", name:"The Prefix Slip", count:23,
  feel:"kJ read as J, minutes fed into a formula that wanted seconds. The physics was over before the mistake happened. Example: a 2 kW heater doing its sums as a 2 W one.",
  hunt:"Thermal and power questions above all: 12 of its 23 tagged uses across 2025 were in the matter theme.",
  defence:"Convert <b>everything to SI at the moment you read it</b>, in the margin, before any formula. kW → W, minutes → s, cm² → m².",
- q:{stem:"A 2.0&nbsp;kW heater warms 1.5&nbsp;kg of water (\\(c = 4200\\ \\text{J kg}^{-1}\\text{K}^{-1}\\)) for 3.0 minutes. Assuming no energy losses, what is the temperature rise of the water?",
-    opts:{A:"0.057 K",B:"0.95 K",C:"57 K",D:"86 K"}, key:"C",
-    keynote:"\\(Q = 2000 \\times 180 = 3.6\\times10^5\\ \\text{J}\\); \\(\\Delta T = Q/mc = 3.6\\times10^5 \\div 6300 = 57\\ \\text{K}\\).",
-    anatomy:{A:"reads 2.0 kW as 2.0 W.",B:"leaves the time in minutes.",D:"a dropped-factor slip for company: loses the 1.5 kg and divides by \\(c\\) alone."}}},
+ qs:[
+  {tag:"a heater warming water",
+   stem:"A 2.0&nbsp;kW heater warms 1.5&nbsp;kg of water (\\(c = 4200\\ \\text{J kg}^{-1}\\text{K}^{-1}\\)) for 3.0 minutes. Assuming no energy losses, what is the temperature rise of the water?",
+   opts:{A:"0.057 K",B:"0.95 K",C:"57 K",D:"86 K"}, key:"C",
+   keynote:"\\(Q = 2000 \\times 180 = 3.6\\times10^5\\ \\text{J}\\); \\(\\Delta T = Q/mc = 3.6\\times10^5 \\div 6300 = 57\\ \\text{K}\\).",
+   anatomy:{A:"reads 2.0 kW as 2.0 W.",B:"leaves the time in minutes.",D:"a dropped-factor slip for company: loses the 1.5 kg and divides by \\(c\\) alone."}},
+
+  {tag:"an accelerated electron",
+   stem:"An electron is accelerated from rest through a potential difference of 5.0&nbsp;kV. What kinetic energy does it gain? (\\(e = 1.6\\times10^{-19}\\ \\text{C}\\))",
+   opts:{A:"\\(3.2\\times10^{-23}\\ \\text{J}\\)",B:"\\(8.0\\times10^{-19}\\ \\text{J}\\)",C:"\\(8.0\\times10^{-16}\\ \\text{J}\\)",D:"\\(8.0\\times10^{-13}\\ \\text{J}\\)"}, key:"C",
+   keynote:"\\(E = qV = 1.6\\times10^{-19} \\times 5000 = 8.0\\times10^{-16}\\ \\text{J}\\).",
+   anatomy:{A:"divides by the potential difference instead of multiplying by it.",
+            B:"reads 5.0 kV as 5.0 V. One prefix, three orders of magnitude.",
+            D:"gives the kilo prefix a factor of a million."}},
+
+  {tag:"a radio transmitter",
+   stem:"A radio transmitter emits waves of frequency 90&nbsp;MHz. What is their wavelength? (\\(c = 3.0\\times10^{8}\\ \\text{m s}^{-1}\\))",
+   opts:{A:"\\(3.3\\ \\text{mm}\\)",B:"\\(3.3\\ \\text{m}\\)",C:"\\(3.3\\times10^{6}\\ \\text{m}\\)",D:"\\(2.7\\times10^{16}\\ \\text{m}\\)"}, key:"B",
+   keynote:"\\(\\lambda = c/f = 3.0\\times10^{8} \\div 9.0\\times10^{7} = 3.3\\ \\text{m}\\), which is about right for an FM aerial.",
+   anatomy:{A:"gives the mega prefix a factor of \\(10^{9}\\), which belongs to giga.",
+            C:"drops the prefix entirely and treats 90 MHz as 90 Hz. A wavelength a third the radius of the Earth should have been the giveaway.",
+            D:"multiplies where the relationship divides: \\(\\lambda = c/f\\), not \\(cf\\)."}}]},
 
 {id:"identityswap", name:"The Identity Swap", count:16,
  feel:"Two quantities travel together so often that one answers for the other: a wavelength turns up where a frequency was asked for. Example: “\\(10^{-5}\\) Hz” that is really \\(10^{-5}\\) m in disguise.",
  hunt:"Waves, almost entirely: wavelength for frequency, period for frequency, amplitude for displacement.",
  defence:"Attach <b>units to every number you write</b>. A wavelength in metres cannot pretend to be a frequency in hertz if the unit is sitting next to it.",
- q:{stem:"Infrared radiation has a wavelength of about \\(1\\times10^{-5}\\ \\text{m}\\). What is the approximate frequency of this radiation, and what is its nature?",
-    opts:{A:"\\(3\\times10^{13}\\ \\text{Hz}\\); transverse",B:"\\(3\\times10^{13}\\ \\text{Hz}\\); longitudinal",C:"\\(1\\times10^{-5}\\ \\text{Hz}\\); transverse",D:"\\(1\\times10^{-5}\\ \\text{Hz}\\); longitudinal"}, key:"A",
-    keynote:"\\(f = c/\\lambda = 3\\times10^8 \\div 1\\times10^{-5} = 3\\times10^{13}\\ \\text{Hz}\\); all electromagnetic radiation is transverse.",
-    anatomy:{B:"right number, but makes EM waves longitudinal like sound.",C:"quotes the wavelength as if it were the frequency: the swap itself.",D:"both errors together."}}},
+ qs:[
+  {tag:"infrared radiation",
+   stem:"Infrared radiation has a wavelength of about \\(1\\times10^{-5}\\ \\text{m}\\). What is the approximate frequency of this radiation, and what is its nature?",
+   opts:{A:"\\(3\\times10^{13}\\ \\text{Hz}\\); transverse",B:"\\(3\\times10^{13}\\ \\text{Hz}\\); longitudinal",C:"\\(1\\times10^{-5}\\ \\text{Hz}\\); transverse",D:"\\(1\\times10^{-5}\\ \\text{Hz}\\); longitudinal"}, key:"A",
+   keynote:"\\(f = c/\\lambda = 3\\times10^8 \\div 1\\times10^{-5} = 3\\times10^{13}\\ \\text{Hz}\\); all electromagnetic radiation is transverse.",
+   anatomy:{B:"right number, but makes EM waves longitudinal like sound.",C:"quotes the wavelength as if it were the frequency: the swap itself.",D:"both errors together."}},
+
+  {tag:"forty oscillations",
+   stem:"An object oscillating with simple harmonic motion completes 40 oscillations in 8.0&nbsp;s. What are its time period and its frequency?",
+   opts:{A:"\\(T = 0.20\\ \\text{s}\\); \\(f = 5.0\\ \\text{Hz}\\)",B:"\\(T = 5.0\\ \\text{s}\\); \\(f = 0.20\\ \\text{Hz}\\)",
+         C:"\\(T = 0.20\\ \\text{s}\\); \\(f = 0.20\\ \\text{Hz}\\)",D:"\\(T = 5.0\\ \\text{s}\\); \\(f = 5.0\\ \\text{Hz}\\)"}, key:"A",
+   keynote:"\\(T = 8.0/40 = 0.20\\ \\text{s}\\) and \\(f = 40/8.0 = 5.0\\ \\text{Hz}\\). They are reciprocals, so one of them must be less than 1 and the other greater.",
+   anatomy:{B:"the two swapped outright: oscillations per second reported as seconds per oscillation.",
+            C:"gets the period right, then hands the same number to the frequency, as though they were one quantity in two costumes.",
+            D:"gets the frequency right, then hands the same number to the period."}},
+
+  {tag:"once around the track",
+   stem:"An athlete runs once around a circular track of circumference 400&nbsp;m in 50&nbsp;s, finishing where she started. What are her average speed and her average velocity over the lap?",
+   opts:{A:"speed \\(8.0\\ \\text{m s}^{-1}\\); velocity \\(8.0\\ \\text{m s}^{-1}\\)",B:"speed \\(8.0\\ \\text{m s}^{-1}\\); velocity zero",
+         C:"speed zero; velocity \\(8.0\\ \\text{m s}^{-1}\\)",D:"speed zero; velocity zero"}, key:"B",
+   keynote:"Speed uses the distance travelled, 400&nbsp;m, giving \\(8.0\\ \\text{m s}^{-1}\\). Velocity uses the displacement, which over a full lap is zero.",
+   anatomy:{A:"velocity answering with the speed's value: the swap in its plainest form.",
+            C:"the two exchanged. She covered 400 m of ground, so her speed cannot be zero.",
+            D:"reads “back where she started” as “nothing happened”, and zeroes both."}}]},
 
 {id:"misread", name:"The Misread Diagram", count:16,
  feel:"The diagram is drawn to scale and the scale is the data. Reading it casually hands you the wrong gap, the wrong length, the wrong ratio.",
  hunt:"Energy-level diagrams, to-scale graphs and vector diagrams.",
  defence:"When a diagram says <b>“to scale”, measure it with your eye deliberately</b>: estimate the proportions in numbers before comparing options.",
- q:{stem:"The diagram (drawn to scale) shows three energy levels of an atom. Which downward transition emits the photon with the <em>longest</em> wavelength?",
-    svg:'<svg viewBox="0 0 260 150" width="240" height="139" role="img" aria-label="Three energy levels drawn to scale: E1 at the bottom, E2 close beneath E3 at the top" style="display:block;margin:0 0 14px"><line x1="30" y1="130" x2="180" y2="130" stroke="#1a1c1e" stroke-width="2.5"/><line x1="30" y1="34" x2="180" y2="34" stroke="#1a1c1e" stroke-width="2.5"/><line x1="30" y1="15" x2="180" y2="15" stroke="#1a1c1e" stroke-width="2.5"/><text x="190" y="134" font-size="14" font-family="IBM Plex Sans,sans-serif">E₁</text><text x="190" y="38" font-size="14" font-family="IBM Plex Sans,sans-serif">E₂</text><text x="190" y="19" font-size="14" font-family="IBM Plex Sans,sans-serif">E₃</text></svg>',
-    opts:{A:"E₃ → E₁",B:"E₂ → E₁",C:"All three emit the same wavelength",D:"E₃ → E₂"}, key:"D",
-    keynote:"Longest wavelength means smallest energy gap, and the scale says the E₃ to E₂ gap is by far the smallest.",
-    anatomy:{A:"picks the biggest gap: energy and wavelength treated as direct partners.",B:"misreads the proportions and takes the middling-looking gap.",C:"declines to read the scale at all."}}},
+ qs:[
+  {tag:"three energy levels, to scale",
+   stem:"The diagram (drawn to scale) shows three energy levels of an atom. Which downward transition emits the photon with the <em>longest</em> wavelength?",
+   svg:'<svg viewBox="0 0 260 150" width="240" height="139" role="img" aria-label="Three energy levels drawn to scale: E1 at the bottom, E2 close beneath E3 at the top" style="display:block;margin:0 0 14px"><line x1="30" y1="130" x2="180" y2="130" stroke="#1a1c1e" stroke-width="2.5"/><line x1="30" y1="34" x2="180" y2="34" stroke="#1a1c1e" stroke-width="2.5"/><line x1="30" y1="15" x2="180" y2="15" stroke="#1a1c1e" stroke-width="2.5"/><text x="190" y="134" font-size="14" font-family="IBM Plex Sans,sans-serif">E₁</text><text x="190" y="38" font-size="14" font-family="IBM Plex Sans,sans-serif">E₂</text><text x="190" y="19" font-size="14" font-family="IBM Plex Sans,sans-serif">E₃</text></svg>',
+   opts:{A:"E₃ → E₁",B:"E₂ → E₁",C:"All three emit the same wavelength",D:"E₃ → E₂"}, key:"D",
+   keynote:"Longest wavelength means smallest energy gap, and the scale says the E₃ to E₂ gap is by far the smallest.",
+   anatomy:{A:"picks the biggest gap: energy and wavelength treated as direct partners.",B:"misreads the proportions and takes the middling-looking gap.",C:"declines to read the scale at all."}},
+
+  {tag:"a velocity-time graph",
+   stem:"The graph shows the velocity of an object moving in a straight line. What is the displacement of the object between \\(t = 0\\) and \\(t = 6.0\\ \\text{s}\\)?",
+   svg:'<svg viewBox="0 0 300 230" width="300" height="230" role="img" aria-label="Velocity-time graph. The velocity is plus 6 metres per second from 0 to 2 seconds, then falls in a straight line, crossing zero at 4 seconds and reaching minus 6 metres per second at 6 seconds." style="display:block;margin:0 0 14px"><g stroke="#e3dfd8" stroke-width="1"><line x1="91" y1="20" x2="91" y2="192"/><line x1="127" y1="20" x2="127" y2="192"/><line x1="163" y1="20" x2="163" y2="192"/><line x1="199" y1="20" x2="199" y2="192"/><line x1="235" y1="20" x2="235" y2="192"/><line x1="271" y1="20" x2="271" y2="192"/><line x1="55" y1="25" x2="280" y2="25"/><line x1="55" y1="52" x2="280" y2="52"/><line x1="55" y1="78" x2="280" y2="78"/><line x1="55" y1="132" x2="280" y2="132"/><line x1="55" y1="158" x2="280" y2="158"/><line x1="55" y1="185" x2="280" y2="185"/></g><g stroke="#1a1c1e" stroke-width="1.6"><line x1="55" y1="20" x2="55" y2="192"/><line x1="52" y1="105" x2="280" y2="105"/></g><polyline points="55,25 127,25 271,185" fill="none" stroke="#0f62fe" stroke-width="2.6"/><g font-size="11" font-family="IBM Plex Sans,sans-serif" fill="#5f6a72" text-anchor="end"><text x="48" y="29">6</text><text x="48" y="56">4</text><text x="48" y="82">2</text><text x="48" y="109">0</text><text x="48" y="136">-2</text><text x="48" y="162">-4</text><text x="48" y="189">-6</text></g><g font-size="11" font-family="IBM Plex Sans,sans-serif" fill="#5f6a72" text-anchor="middle"><text x="55" y="206">0</text><text x="127" y="206">2</text><text x="199" y="206">4</text><text x="271" y="206">6</text><text x="165" y="224">time / s</text></g><text x="14" y="105" font-size="11" font-family="IBM Plex Sans,sans-serif" fill="#5f6a72" text-anchor="middle" transform="rotate(-90 14 105)">velocity / m s&#8315;&#185;</text></svg>',
+   opts:{A:"zero",B:"12 m",C:"18 m",D:"24 m"}, key:"B",
+   keynote:"Area under the graph, counting area below the axis as negative: \\(12 + 6 - 6 = 12\\ \\text{m}\\).",
+   anatomy:{A:"treats the whole sloping section as negative, when only the part below the axis is, and cancels the answer away to nothing.",
+            C:"stops reading at \\(t = 4.0\\ \\text{s}\\), where the line crosses the axis, and never collects the last two seconds.",
+            D:"adds every area as a positive. That gives the distance travelled, 24 m, which is a different question."}},
+
+  {tag:"a spring under load",
+   stem:"The graph shows how the length of a spring varies with the load hung from it. What is the spring constant of the spring?",
+   svg:'<svg viewBox="0 0 300 230" width="300" height="230" role="img" aria-label="Graph of spring length against load. The length axis starts at 20 centimetres, not at zero. The line runs straight from 20 centimetres at zero load to 45 centimetres at a load of 10 newtons." style="display:block;margin:0 0 14px"><g stroke="#e3dfd8" stroke-width="1"><line x1="102" y1="20" x2="102" y2="185"/><line x1="144" y1="20" x2="144" y2="185"/><line x1="186" y1="20" x2="186" y2="185"/><line x1="228" y1="20" x2="228" y2="185"/><line x1="270" y1="20" x2="270" y2="185"/><line x1="60" y1="153" x2="280" y2="153"/><line x1="60" y1="121" x2="280" y2="121"/><line x1="60" y1="89" x2="280" y2="89"/><line x1="60" y1="57" x2="280" y2="57"/><line x1="60" y1="25" x2="280" y2="25"/></g><g stroke="#1a1c1e" stroke-width="1.6"><line x1="60" y1="20" x2="60" y2="192"/><line x1="57" y1="185" x2="280" y2="185"/></g><line x1="60" y1="185" x2="270" y2="25" stroke="#0f62fe" stroke-width="2.6"/><g font-size="11" font-family="IBM Plex Sans,sans-serif" fill="#5f6a72" text-anchor="end"><text x="53" y="189">20</text><text x="53" y="157">25</text><text x="53" y="125">30</text><text x="53" y="93">35</text><text x="53" y="61">40</text><text x="53" y="29">45</text></g><g font-size="11" font-family="IBM Plex Sans,sans-serif" fill="#5f6a72" text-anchor="middle"><text x="60" y="203">0</text><text x="102" y="203">2</text><text x="144" y="203">4</text><text x="186" y="203">6</text><text x="228" y="203">8</text><text x="270" y="203">10</text><text x="168" y="222">load / N</text></g><text x="14" y="105" font-size="11" font-family="IBM Plex Sans,sans-serif" fill="#5f6a72" text-anchor="middle" transform="rotate(-90 14 105)">length / cm</text></svg>',
+   opts:{A:"\\(0.025\\ \\text{N m}^{-1}\\)",B:"\\(0.40\\ \\text{N m}^{-1}\\)",C:"\\(22\\ \\text{N m}^{-1}\\)",D:"\\(40\\ \\text{N m}^{-1}\\)"}, key:"D",
+   keynote:"The unstretched length is the intercept, 20&nbsp;cm. A load of 10&nbsp;N stretches it to 45&nbsp;cm, an extension of 25&nbsp;cm, so \\(k = F/x = 10/0.25 = 40\\ \\text{N m}^{-1}\\).",
+   anatomy:{A:"takes the gradient upside down. Length is up the axis and load across, so the gradient is \\(x/F\\); the spring constant is the other way up.",
+            B:"leaves the extension in centimetres. The unit wanted is \\(\\text{N m}^{-1}\\), so the length has to be in metres.",
+            C:"measures from the axis instead of from the unstretched length, using the full 45 cm rather than the 25 cm the spring actually stretched. The axis does not start at zero, which is the entire point of this diagram."}}]},
 
 {id:"butcheredroot", name:"The Butchered Root", count:13,
- feel:"You reach \\(x^2 = 8\\) with the physics complete, and then the square root goes wrong three different ways. Example: \\(\\sqrt{32}\\) evaluated as 4, or as 16.",
+ feel:"You reach \\(x^2 = 8\\) with the physics complete, and then the square root goes wrong three different ways. Example: \\(\\sqrt{8}\\) evaluated as 4, or as 2.",
  hunt:"Radiated-power radii, spring systems, any relation that ends in “now take the root”.",
  defence:"Slow down at the root: \\(\\sqrt8 = 2\\sqrt2 \\approx 2.8\\), not 2, not 4. Check by squaring your answer.",
- q:{stem:"Star X has radius \\(r\\) and surface temperature \\(T\\). Star Y has surface temperature \\(T/2\\) and emits <em>half</em> the total power of X. What is the radius of Y?",
-    opts:{A:"\\(2r\\)",B:"\\(4r\\)",C:"\\(8r\\)",D:"\\(2\\sqrt2\\,r\\)"}, key:"D",
-    keynote:"\\(P \\propto r^2T^4\\): \\(\\tfrac12 = (r_Y/r)^2 \\times \\tfrac1{16}\\), so \\((r_Y/r)^2 = 8\\) and \\(r_Y = 2\\sqrt2\\,r \\approx 2.8r\\).",
-    anatomy:{A:"truncates \\(\\sqrt8\\) down to 2.",B:"evaluates \\(\\sqrt8\\) as \\(8\\div2\\).",C:"forgets the square root entirely."}}},
+ qs:[
+  {tag:"the radius of a cooler star",
+   stem:"Star X has radius \\(r\\) and surface temperature \\(T\\). Star Y has surface temperature \\(T/2\\) and emits <em>half</em> the total power of X. What is the radius of Y?",
+   opts:{A:"\\(2r\\)",B:"\\(4r\\)",C:"\\(8r\\)",D:"\\(2\\sqrt2\\,r\\)"}, key:"D",
+   keynote:"\\(P \\propto r^2T^4\\): \\(\\tfrac12 = (r_Y/r)^2 \\times \\tfrac1{16}\\), so \\((r_Y/r)^2 = 8\\) and \\(r_Y = 2\\sqrt2\\,r \\approx 2.8r\\).",
+   anatomy:{A:"truncates \\(\\sqrt8\\) down to 2.",B:"evaluates \\(\\sqrt8\\) as \\(8\\div2\\).",C:"forgets the square root entirely."}},
+
+  {tag:"a stone dropped 40 metres",
+   stem:"A stone is dropped from rest and falls freely through 40&nbsp;m. Taking \\(g = 10\\ \\text{m s}^{-2}\\), how long does the fall take?",
+   opts:{A:"2.0 s",B:"2.8 s",C:"4.0 s",D:"8.0 s"}, key:"B",
+   keynote:"\\(s = \\tfrac12 g t^2\\) gives \\(t = \\sqrt{2s/g} = \\sqrt{8} = 2.8\\ \\text{s}\\).",
+   anatomy:{A:"truncates \\(\\sqrt8\\) to 2, because \\(2^2 = 4\\) is nearby and the arithmetic stops there.",
+            C:"evaluates \\(\\sqrt8\\) as \\(8 \\div 2\\).",
+            D:"forgets the root altogether and reports \\(2s/g\\) itself, which is not a time at all."}},
+
+  {tag:"current from a power rating",
+   stem:"A resistor of resistance \\(50\\ \\Omega\\) dissipates \\(2.0\\ \\text{W}\\). What is the current in it?",
+   opts:{A:"0.020 A",B:"0.040 A",C:"0.20 A",D:"10 A"}, key:"C",
+   keynote:"\\(P = I^2R\\), so \\(I = \\sqrt{P/R} = \\sqrt{0.040} = 0.20\\ \\text{A}\\).",
+   anatomy:{A:"halves \\(0.040\\) instead of taking its root. Halving and square-rooting agree at 4 and nowhere that helps you.",
+            B:"forgets the root and reports \\(P/R\\), which is a current squared.",
+            D:"inverts inside the root and computes \\(\\sqrt{PR} = \\sqrt{100}\\). Ten amperes through \\(50\\ \\Omega\\) would dissipate 5 kW, not 2 W."}}]},
 
 {id:"halfscaling", name:"Half the Scaling", count:11,
  feel:"One quantity changed, but it dragged another with it, and you scaled for the first alone. Example: a stretched wire whose new length is counted but whose thinner cross-section is not.",
  hunt:"Stretched wires (length up, area down), scaled systems, anything at constant volume.",
  defence:"When one variable changes, ask <b>what else is forced to change with it</b>, then scale for both.",
- q:{stem:"A wire of resistance \\(R\\) is stretched, at constant volume, to twice its original length. What is its new resistance?",
-    opts:{A:"\\(2R\\)",B:"\\(4R\\)",C:"\\(8R\\)",D:"\\(R\\)"}, key:"B",
-    keynote:"\\(R = \\rho L/A\\): doubling \\(L\\) at constant volume halves \\(A\\), so \\(R\\) scales by \\(2\\times2 = 4\\).",
-    anatomy:{A:"scales for the length and never asks what happened to the area.",C:"overshoots to \\(2^3\\), doubling everything in sight.",D:"decides the same wire must keep the same resistance."}}},
+ qs:[
+  {tag:"a wire stretched to twice its length",
+   stem:"A wire of resistance \\(R\\) is stretched, at constant volume, to twice its original length. What is its new resistance?",
+   opts:{A:"\\(2R\\)",B:"\\(4R\\)",C:"\\(8R\\)",D:"\\(R\\)"}, key:"B",
+   keynote:"\\(R = \\rho L/A\\): doubling \\(L\\) at constant volume halves \\(A\\), so \\(R\\) scales by \\(2\\times2 = 4\\).",
+   anatomy:{A:"scales for the length and never asks what happened to the area.",C:"overshoots to \\(2^3\\), doubling everything in sight.",D:"decides the same wire must keep the same resistance."}},
+
+  {tag:"two cubes of the same metal",
+   stem:"A cube of metal has side length \\(L\\). A second cube of the same metal has side length \\(2L\\). The same temperature rise is to be produced in each. What is the ratio \\(\\dfrac{\\text{energy needed for the large cube}}{\\text{energy needed for the small cube}}\\)?",
+   opts:{A:"2",B:"4",C:"8",D:"16"}, key:"C",
+   keynote:"\\(Q = mc\\Delta T\\), and mass goes with volume: doubling every side multiplies the volume by \\(2^3 = 8\\).",
+   anatomy:{A:"scales with the side length and stops there, forgetting that a cube has three dimensions and all three doubled.",
+            B:"scales with the surface area. Energy stored goes with the mass, and mass goes with volume, not with area.",
+            D:"multiplies the volume factor by the length factor one time too many."}},
+
+  {tag:"a spring cut in half",
+   stem:"A spring of spring constant \\(k\\) is cut exactly in half. What is the spring constant of each half?",
+   opts:{A:"\\(\\dfrac{k}{2}\\)",B:"\\(k\\)",C:"\\(2k\\)",D:"\\(4k\\)"}, key:"C",
+   keynote:"For a given force, each half stretches only half as far as the whole spring did, and \\(k = F/x\\) with \\(x\\) halved gives \\(2k\\). A shorter spring is a stiffer spring.",
+   anatomy:{A:"scales the constant the same way as the length. Halve the spring, halve the constant. The two run in opposite directions, which is the whole trap.",
+            B:"assumes that cutting cannot change a property of the material. The spring constant is a property of the spring, not of the steel.",
+            D:"doubles twice."}}]},
 
 {id:"judgingbylooks", name:"Judging by Looks", count:11,
  feel:"You rank by the feature you can see instead of the quantity that was asked for. Example: two equally bright stars declared equally powerful, when one is simply closer.",
  hunt:"Star brightness standing in for luminosity or distance; surface features standing in for the real quantity.",
  defence:"Name the quantity being ranked and <b>compute it for every option</b>, even roughly. The visible feature is bait, not data.",
- q:{stem:"Stars X and Y have the <em>same apparent brightness</em> when observed from Earth. X is three times as far from Earth as Y. What is \\(\\dfrac{L_{\\text{X}}}{L_{\\text{Y}}}\\), the ratio of their luminosities?",
-    opts:{A:"1",B:"3",C:"\\(\\tfrac19\\)",D:"9"}, key:"D",
-    keynote:"\\(b = \\dfrac{L}{4\\pi d^2}\\), so equal brightness means \\(L \\propto d^2\\): \\(3^2 = 9\\).",
-    anatomy:{A:"equal brightness read as equal power: the visible feature answering for the physical one.",B:"remembers distance matters but forgets the square.",C:"runs the ratio upside down: the distant star declared dimmer."}}},
+ qs:[
+  {tag:"two equally bright stars",
+   stem:"Stars X and Y have the <em>same apparent brightness</em> when observed from Earth. X is three times as far from Earth as Y. What is \\(\\dfrac{L_{\\text{X}}}{L_{\\text{Y}}}\\), the ratio of their luminosities?",
+   opts:{A:"1",B:"3",C:"\\(\\tfrac19\\)",D:"9"}, key:"D",
+   keynote:"\\(b = \\dfrac{L}{4\\pi d^2}\\), so equal brightness means \\(L \\propto d^2\\): \\(3^2 = 9\\).",
+   anatomy:{A:"equal brightness read as equal power: the visible feature answering for the physical one.",B:"remembers distance matters but forgets the square.",C:"runs the ratio upside down: the distant star declared dimmer."}},
+
+  {tag:"a red star and a blue star",
+   stem:"Star P appears red and star Q appears blue. Which statement about them is certainly correct?",
+   opts:{A:"P has a lower surface temperature than Q",B:"P is less luminous than Q",C:"P is smaller than Q",D:"P is further from Earth than Q"}, key:"A",
+   keynote:"Colour fixes the surface temperature and nothing else on its own: the peak wavelength is longer for a cooler surface, which is what makes P look red.",
+   anatomy:{B:"colour read as brightness. A red giant can outshine a blue main-sequence star many times over.",
+            C:"colour read as size, which for red giants runs the wrong way in any case.",
+            D:"colour read as distance, borrowing redshift from cosmology, where it describes receding galaxies rather than a star's surface."}},
+
+  {tag:"two traces on an oscilloscope",
+   stem:"Two sound waves are displayed on an oscilloscope. Wave X has twice the amplitude of wave Y and the same frequency. Which statement is correct?",
+   opts:{A:"X is louder than Y and has the same pitch",B:"X has a higher pitch than Y",C:"X travels faster through the air than Y",D:"X has twice the intensity of Y"}, key:"A",
+   keynote:"Amplitude is the height of the trace and sets the loudness; frequency is how closely the peaks are spaced and sets the pitch. Only the height differs here.",
+   anatomy:{B:"the taller trace read as the higher note. Height on the screen is loudness, not pitch.",
+            C:"the bigger-looking wave taken for the faster one. The speed of sound is set by the air, not by the trace.",
+            D:"notices that amplitude matters and takes the relationship as direct. Intensity goes as the <em>square</em> of the amplitude, so X carries four times the intensity, not twice."}}]},
 
 {id:"boundary", name:"The Forgotten Boundary", count:5,
  feel:"The middle of the story is analysed beautifully; the endpoints, where the answer lives, go unexamined. Example: a Doppler shift that fails to be zero while the source is still at rest.",
  hunt:"Sources starting or ending at rest, objects meeting a shared surface, conditions at \\(t = 0\\).",
  defence:"Interrogate the <b>endpoints first</b>: what must be true at the start, at the end, at the meeting point? Options that violate a boundary die instantly.",
- q:{stem:"A source of sound is initially at rest, then accelerates uniformly in a straight line <em>towards</em> a stationary observer, reaching speed \\(u\\) at time \\(T\\). Which statement describes the fractional frequency shift \\(\\Delta f/f_0\\) heard between \\(t=0\\) and \\(t=T\\)?",
-    opts:{A:"Zero at \\(t=0\\), positive and increasing in magnitude",B:"Positive at \\(t=0\\), increasing in magnitude",C:"Zero at \\(t=0\\), negative and increasing in magnitude",D:"Constant and positive throughout"}, key:"A",
-    keynote:"The shift tracks the source's speed: zero while it is at rest (the boundary), growing as it speeds up, positive because it approaches.",
-    anatomy:{B:"misses the at-rest starting condition: a stationary source shifts nothing.",C:"gets the boundary but runs the approach sign backwards.",D:"forgets the shift depends on the changing speed at all."}}},
+ qs:[
+  {tag:"a source that starts at rest",
+   stem:"A source of sound is initially at rest, then accelerates uniformly in a straight line <em>towards</em> a stationary observer, reaching speed \\(u\\) at time \\(T\\). Which statement describes the fractional frequency shift \\(\\Delta f/f_0\\) heard between \\(t=0\\) and \\(t=T\\)?",
+   opts:{A:"Zero at \\(t=0\\), positive and increasing in magnitude",B:"Positive at \\(t=0\\), increasing in magnitude",C:"Zero at \\(t=0\\), negative and increasing in magnitude",D:"Constant and positive throughout"}, key:"A",
+   keynote:"The shift tracks the source's speed: zero while it is at rest (the boundary), growing as it speeds up, positive because it approaches.",
+   anatomy:{B:"misses the at-rest starting condition: a stationary source shifts nothing.",C:"gets the boundary but runs the approach sign backwards.",D:"forgets the shift depends on the changing speed at all."}},
+
+  {tag:"two balls that meet",
+   stem:"A ball is dropped from rest from a height of 20&nbsp;m. At the same instant, a second ball is thrown vertically upwards from the ground directly below it at \\(20\\ \\text{m s}^{-1}\\). Ignoring air resistance and taking \\(g = 10\\ \\text{m s}^{-2}\\), at what height above the ground do they meet?",
+   opts:{A:"5 m",B:"10 m",C:"15 m",D:"20 m"}, key:"C",
+   keynote:"Both accelerate downwards equally, so the gap closes at a steady \\(20\\ \\text{m s}^{-1}\\) and they meet after 1.0&nbsp;s. The thrown ball is then at \\(20(1.0) - \\tfrac12(10)(1.0)^2 = 15\\ \\text{m}\\), and the dropped ball has fallen 5 m from 20 m, which agrees.",
+   anatomy:{A:"computes how far the dropped ball fell, 5 m, and reports that instead of subtracting it from 20 m.",
+            B:"assumes they meet in the middle. That would need them to be moving at the same speed, and only one of them started moving.",
+            D:"uses \\(20 \\times 1.0\\) and forgets that gravity pulled the thrown ball 5 m short of that in the same second."}},
+
+  {tag:"reaching terminal velocity",
+   stem:"A skydiver falls from rest and eventually reaches terminal velocity. Which statement describes the instant at which she reaches it?",
+   opts:{A:"Her weight becomes zero",B:"The drag force on her becomes equal in magnitude to her weight",
+         C:"Her acceleration is at its maximum",D:"The drag force becomes greater than her weight, so she slows down"}, key:"B",
+   keynote:"Terminal velocity is the boundary where the resultant force reaches zero: drag has grown until it exactly balances the weight, and the acceleration is zero from then on.",
+   anatomy:{A:"confuses zero acceleration with zero force. Both forces are still very much there; they cancel.",
+            C:"describes the boundary at the <em>other</em> end of the story, \\(t = 0\\), where the drag is zero and the acceleration is \\(g\\).",
+            D:"would make her decelerate; she would then fall more slowly, the drag would drop, and she would speed up again. Terminal velocity is where that argument settles, not where it overshoots."}}]},
 
 {id:"nearlytrue", name:"Nearly True, Taken as True", count:2,
  feel:"A statement you have used a hundred times as an approximation is offered as exact, and it reads as an old friend. Example: a lightly damped pendulum keeping “the same” period.",
  hunt:"Light damping, small-angle habits, ideal-component assumptions.",
  defence:"When an option asserts an <b>equality, hear an alarm</b>: is this a true equality, or an approximation you have stopped noticing?",
- q:{stem:"A pendulum oscillates with light damping. Which statement is correct?",
-    opts:{A:"The amplitude falls to zero within one time period",B:"The period is equal to that of the same pendulum undamped",C:"Energy is removed from the system as quickly as possible",D:"The period is greater than that of the same pendulum undamped"}, key:"D",
-    keynote:"Damping lowers the frequency (\\(\\omega_d < \\omega_0\\)), so the period is longer; the difference is tiny, but it is real.",
-    anatomy:{A:"describes critical or heavy damping.",B:"the approximation taken as exact: the trap in its purest form.",C:"the definition of critical damping, wearing a plausible costume."}}},
+ qs:[
+  {tag:"a lightly damped pendulum",
+   stem:"A pendulum oscillates with light damping. Which statement is correct?",
+   opts:{A:"The amplitude falls to zero within one time period",B:"The period is equal to that of the same pendulum undamped",C:"Energy is removed from the system as quickly as possible",D:"The period is greater than that of the same pendulum undamped"}, key:"D",
+   keynote:"Damping lowers the frequency, so the period is longer; the difference is tiny, but it is real.",
+   anatomy:{A:"describes critical or heavy damping.",B:"the approximation taken as exact: the trap in its purest form.",C:"the definition of critical damping, wearing a plausible costume."}},
+
+  {tag:"the ideal gas equation",
+   stem:"A gas is described by \\(pV = nRT\\). Which statement is correct?",
+   opts:{A:"It describes all gases exactly, at any pressure and temperature",
+         B:"It is exact for an ideal gas and a good approximation for a real gas at low pressure and high temperature",
+         C:"It is exact for a real gas provided the temperature is measured in degrees Celsius",
+         D:"Real gases obey it exactly, but only when they are close to condensing"}, key:"B",
+   keynote:"The equation is a definition for an ideal gas. Real gases follow it closely when the molecules are far apart and moving fast, which means low pressure and high temperature.",
+   anatomy:{A:"the approximation promoted to a law of nature. Real gases depart from it as soon as their molecules are close enough to attract one another.",
+            C:"a unit error dressed up as a condition. The equation requires kelvin, and no temperature scale makes it exact for a real gas.",
+            D:"exactly backwards. Near condensation is where a real gas departs most, because that is where intermolecular forces matter most."}},
+
+  {tag:"do all objects fall alike?",
+   stem:"A student writes: “All objects fall at the same rate, whatever their mass.” Which comment on this statement is correct?",
+   opts:{A:"Correct in all circumstances",
+         B:"Correct only in the absence of air resistance; with air resistance, a heavier object of the same size and shape reaches a greater terminal velocity",
+         C:"Incorrect; heavier objects always fall faster because gravity pulls on them harder",
+         D:"Correct only for objects of mass greater than 1 kg"}, key:"B",
+   keynote:"In free fall the acceleration is \\(g\\) for every mass. Introduce drag and mass matters again, because the drag depends on size and shape while the weight depends on mass.",
+   anatomy:{A:"the classroom approximation taken as unconditional. Drop a feather and a coin in this room and watch it fail.",
+            C:"the pre-Galilean belief. The greater weight is matched exactly by the greater inertia, which is why the vacuum result holds at all.",
+            D:"invents a threshold the physics does not have."}}]},
 
 {id:"flatfield", name:"The Flat-Earth Field", count:2,
  feel:"Near the surface \\(g\\) is constant, and the habit follows you into space, where the field falls as \\(1/r^2\\). Example: using \\(9.8\\ \\text{m s}^{-2}\\) at one Earth-radius altitude.",
  hunt:"Anything leaving a planet's surface: dropped objects at altitude, satellites, escape problems.",
  defence:"Ask <b>where the field is being evaluated</b>. “\\(g\\) is \\(g\\) everywhere” is a ground-floor habit; above the surface, count your \\(r^2\\).",
- q:{stem:"The gravitational field strength at the surface of a planet of radius \\(R\\) is \\(g\\). A ball is released from rest at a height \\(R\\) <em>above the surface</em> (a distance \\(2R\\) from the planet's centre). What is the magnitude of the ball's initial acceleration?",
-    opts:{A:"\\(\\dfrac{g}{4}\\)",B:"\\(\\dfrac{g}{2}\\)",C:"\\(g\\)",D:"zero"}, key:"A",
-    keynote:"\\(g \\propto 1/r^2\\) and the distance from the centre has doubled: \\(g/4\\).",
-    anatomy:{B:"scales as \\(1/r\\) instead of \\(1/r^2\\).",C:"the uniform-field habit itself: \\(g\\) is \\(g\\), anywhere.",D:"the “no gravity in space” belief, hiding in a calculation."}}}
+ qs:[
+  {tag:"a ball dropped from high above",
+   stem:"The gravitational field strength at the surface of a planet of radius \\(R\\) is \\(g\\). A ball is released from rest at a height \\(R\\) <em>above the surface</em> (a distance \\(2R\\) from the planet's centre). What is the magnitude of the ball's initial acceleration?",
+   opts:{A:"\\(\\dfrac{g}{4}\\)",B:"\\(\\dfrac{g}{2}\\)",C:"\\(g\\)",D:"zero"}, key:"A",
+   keynote:"\\(g \\propto 1/r^2\\) and the distance from the centre has doubled: \\(g/4\\).",
+   anatomy:{B:"scales as \\(1/r\\) instead of \\(1/r^2\\).",C:"the uniform-field habit itself: \\(g\\) is \\(g\\), anywhere.",D:"the “no gravity in space” belief, hiding in a calculation."}},
+
+  {tag:"away from a point charge",
+   stem:"The electric field strength at a distance \\(r\\) from an isolated point charge is \\(E\\). What is the field strength at a distance \\(3r\\) from the same charge?",
+   opts:{A:"\\(\\dfrac{E}{9}\\)",B:"\\(\\dfrac{E}{3}\\)",C:"\\(E\\)",D:"\\(3E\\)"}, key:"A",
+   keynote:"\\(E = \\dfrac{kq}{r^2}\\): three times the distance divides the field by \\(3^2 = 9\\).",
+   anatomy:{B:"scales as \\(1/r\\), halfway to the inverse square and no further.",
+            C:"imports the parallel-plate picture, where the field genuinely is the same everywhere. A point charge does not make a uniform field.",
+            D:"runs the direction backwards: further away, stronger."}},
+
+  {tag:"floating in a space station",
+   stem:"An astronaut floats inside a space station in orbit 400&nbsp;km above the Earth's surface. The radius of the Earth is 6400&nbsp;km. Which statement is correct?",
+   opts:{A:"There is no gravitational field at that altitude, so she is weightless",
+         B:"The field strength there is about 89% of its surface value; she floats because she and the station are in free fall together",
+         C:"The field strength there is zero because the station's speed cancels gravity",
+         D:"The field strength there is about half its surface value, and the station's rotation cancels the rest"}, key:"B",
+   keynote:"\\(g \\propto 1/r^2\\), and \\(r\\) grew only from 6400 to 6800 km: \\((6400/6800)^2 = 0.89\\). Gravity is almost undiminished, and it is what holds the station in orbit.",
+   anatomy:{A:"the flat-earth field's twin: \\(g\\) treated as zero the moment you leave the ground, when in fact 400 km has barely dented it.",
+            C:"invents a cancellation. Speed does not cancel a field; the orbital speed is a consequence of the field, not an antidote to it.",
+            D:"halving the field would take you \\(\\sqrt2 R\\) from the centre, about 2650 km up, and the rotation is then asked to do work that no force is available for."}}]}
 ];
 
-const main = document.getElementById('main');
+const main  = document.getElementById('main');
 const index = document.getElementById('index');
+const pos   = document.getElementById('pos');
 const maxCount = TRAPS[0].count;
+const sections = [];
+const chips = [];
 
 TRAPS.forEach((t, i) => {
   const sec = document.createElement('section');
   sec.className = 'trap'; sec.id = t.id;
-  const stmts = t.q.stmts ? `<ul class="stmts">${t.q.stmts.map(s=>`<li>${s}</li>`).join('')}</ul><p class="stem">${t.q.tail}</p>` : '';
-  const opts = Object.entries(t.q.opts).map(([L,txt]) =>
-    `<button class="opt" data-l="${L}"><b>${L}</b><span>${txt}</span></button>`).join('');
-  const anatomy = Object.entries(t.q.anatomy).map(([L,txt]) =>
-    `<li><b>${L}</b> — ${txt}</li>`).join('');
+
+  // One unfoldable panel per question. The first opens by default so that
+  // landing on a trap gives you something to attempt, not three closed bars.
+  const panels = t.qs.map((q, j) => {
+    const stmts = q.stmts
+      ? `<ul class="stmts">${q.stmts.map(s=>`<li>${s}</li>`).join('')}</ul><p class="stem">${q.tail}</p>`
+      : '';
+    const opts = Object.entries(q.opts).map(([L,txt]) =>
+      `<button class="opt" data-l="${L}"><b>${L}</b><span>${txt}</span></button>`).join('');
+    const anatomy = Object.entries(q.anatomy).map(([L,txt]) =>
+      `<li><b>${L}</b> — ${txt}</li>`).join('');
+    return `
+      <details class="qd"${j===0?' open':''} data-key="${q.key}">
+        <summary><span class="qn">Q${j+1}</span><span class="qt">${q.tag}</span></summary>
+        <div class="qbody">
+          <p class="stem">${q.stem}</p>
+          ${q.svg || ''}${stmts}
+          <div class="opts">${opts}</div>
+          <button class="reveal">Reveal answer &amp; anatomy</button>
+          <div class="anatomy">
+            <p class="key">Answer: ${q.key}. ${q.keynote}</p>
+            <ul>${anatomy}</ul>
+          </div>
+        </div>
+      </details>`;
+  }).join('');
+
+  const n = t.qs.length;
   sec.innerHTML = `
     <div class="traphead"><span class="rank">#${i+1}</span><h2>${t.name}</h2></div>
     <div class="bar"><i style="width:${Math.max(3, t.count/maxCount*100)}%"></i></div>
     <div class="count">${t.count} tagged uses across the 2025 papers</div>
     <p class="feel">${t.feel}</p>
-    <div class="q">
-      <p class="stem">${t.q.stem}</p>
-      ${t.q.svg || ''}${stmts}
-      <div class="opts">${opts}</div>
-      <button class="reveal">Reveal answer &amp; anatomy</button>
-      <div class="anatomy">
-        <p class="key">Answer: ${t.q.key}. ${t.q.keynote}</p>
-        <ul>${anatomy}</ul>
-      </div>
-    </div>
     <p class="defence"><b>The defence:</b> ${t.defence}</p>
+    <p class="qlabel">${n === 1 ? 'Practice question' : `Practice: ${n} questions, ${n} different themes`}</p>
+    ${panels}
     <p class="hunt">${t.hunt}</p>`;
   main.appendChild(sec);
+  sections.push(sec);
 
   const li = document.createElement('li');
   li.innerHTML = `<a href="#${t.id}"><span>${t.name}</span><span class="n">${t.count}</span></a>`;
   index.appendChild(li);
+  chips.push(li.firstElementChild);
 
-  const anat = sec.querySelector('.anatomy');
-  const buttons = sec.querySelectorAll('.opt');
-  const finish = chosen => {
-    buttons.forEach(b => {
-      b.disabled = true;
-      if (b.dataset.l === t.q.key) b.classList.add('right');
-      else if (b === chosen) b.classList.add('wrong');
-    });
-    anat.classList.add('open');
-    sec.querySelector('.reveal').style.display = 'none';
-  };
-  buttons.forEach(b => b.addEventListener('click', () => finish(b)));
-  sec.querySelector('.reveal').addEventListener('click', () => finish(null));
+  // Answer checking, per question panel.
+  sec.querySelectorAll('details.qd').forEach(d => {
+    const key = d.dataset.key;
+    const anat = d.querySelector('.anatomy');
+    const buttons = d.querySelectorAll('.opt');
+    const finish = chosen => {
+      buttons.forEach(b => {
+        b.disabled = true;
+        if (b.dataset.l === key) b.classList.add('right');
+        else if (b === chosen) b.classList.add('wrong');
+      });
+      anat.classList.add('open');
+      d.querySelector('.reveal').style.display = 'none';
+    };
+    buttons.forEach(b => b.addEventListener('click', () => finish(b)));
+    d.querySelector('.reveal').addEventListener('click', () => finish(null));
+  });
 });
+
+// ---- one trap on screen at a time -----------------------------------
+let current = 0;
+function show(i, scroll) {
+  current = Math.max(0, Math.min(TRAPS.length - 1, i));
+  sections.forEach((s, k) => s.classList.toggle('on', k === current));
+  chips.forEach((c, k) => c.classList.toggle('on', k === current));
+  pos.textContent = `Trap ${current + 1} of ${TRAPS.length}`;
+  document.getElementById('prev').disabled = current === 0;
+  document.getElementById('next').disabled = current === TRAPS.length - 1;
+  if (scroll) main.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function fromHash() {
+  const i = TRAPS.findIndex(t => t.id === location.hash.slice(1));
+  show(i < 0 ? 0 : i, i >= 0);
+}
+addEventListener('hashchange', fromHash);
+document.getElementById('prev').addEventListener('click', () => { location.hash = TRAPS[current-1].id; });
+document.getElementById('next').addEventListener('click', () => { location.hash = TRAPS[current+1].id; });
+fromHash();
+
+// Printing wants the whole guide, every question open.
+addEventListener('beforeprint', () => {
+  sections.forEach(s => s.classList.add('on'));
+  document.querySelectorAll('details.qd').forEach(d => d.open = true);
+});
+addEventListener('afterprint', () => show(current, false));
 </script>
 </body>
 </html>

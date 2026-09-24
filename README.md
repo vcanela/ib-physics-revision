@@ -9,7 +9,7 @@ Student-facing revision aids for IB Diploma Physics, published as a GitHub Pages
 - **`index.html`** — the landing page students open first; links to everything below.
 - **`worksheets/`** — 33 sheets as PDFs with worked answers attached, plus a themed index: 24 topic warm-ups (one per syllabus topic) and 9 for Paper 1B (three full data-analysis questions and six skill drills).
 - **`simulations/`** — 15 single-concept interactive simulations across Themes A to E, with their own themed index.
-- **`guides/`** — Exam Craft, the Trap Field Guide and the Concept Cards.
+- **`guides/`** — Exam Craft, the Trap Field Guide (20 traps, 3 practice questions each) and the Concept Cards.
 - **`reading/`** — wider reading, currently *Women Who Changed Physics*.
 
 The Pace Trainer is linked from the Tools section but lives in its own repo and deploy: https://vcanela.github.io/pace-trainer/
