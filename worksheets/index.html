@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topic Warm-up Worksheets</title>
+<title>Worksheets</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   :root{
@@ -11,6 +11,7 @@
     --text:#e6edf3; --muted:#98a5b3; --bright:#ffffff; --accent:#E69F00;
     /* Okabe-Ito, one colour per theme */
     --thA:#56B4E9; --thB:#E69F00; --thC:#009E73; --thD:#0072B2; --thE:#CC79A7;
+    --th1B:#D55E00;
   }
   body{font-family:'IBM Plex Sans','Inter',system-ui,-apple-system,sans-serif;
        background:var(--bg);color:var(--text);padding:30px 14px 52px;min-height:100vh}
@@ -50,8 +51,8 @@
 <body>
 <div class="container">
   <a class="back" href="../index.html">&larr; back to IB Physics Revision</a>
-  <h1>Topic Warm-up Worksheets</h1>
-  <p class="subtitle">One sheet per syllabus topic. Each is enough written work to reactivate a whole topic in about 30 to 40 minutes, climbing from definitions through substitution to explanation. Every sheet has the worked answers attached at the end.</p>
+  <h1>Worksheets</h1>
+  <p class="subtitle">Two sets. The <strong>topic warm-ups</strong> are one sheet per syllabus topic, about 30 to 40 minutes of written work each. The <strong>Paper 1B</strong> sheets practise the experimental paper: full data-analysis questions, plus short drills on the skills that leak marks. Every sheet has the worked answers attached at the end.</p>
 
   <div class="note">
     <strong>Use them in this order:</strong> attempt the whole sheet first, then check.
@@ -108,7 +109,20 @@
     <a class="card" href="E5-fusion-and-stars.pdf"><span class="name">E.5 Fusion and stars<span class="tag">26 marks</span></span><span class="desc">Parallax, brightness against luminosity, the HR diagram, and the Sun's core.</span></a>
   </section>
 
-  <div class="foot">24 sheets, one per syllabus topic, answers included. HL-only topics are tagged; inside mixed topics, HL-only parts are flagged <strong>[HL]</strong> so SL students can skip them.</div>
+  <section class="p1b" style="--c:var(--th1B)">
+    <div class="theme-h">Paper 1B &middot; data analysis and experiment</div>
+    <a class="card" href="P1B-1-planck-from-leds.pdf"><span class="name">Planck's constant from LEDs<span class="tag">20 marks</span></span><span class="desc">Full question: linearise, plot with error bars, max and min gradient, then <em>h</em> with its uncertainty.</span></a>
+    <a class="card" href="P1B-2-specific-heat-capacity.pdf"><span class="name">The block that came out too hot<span class="tag">21 marks</span></span><span class="desc">Full question, no graph: an uncertainty budget, and whether heat loss pushes the answer up or down.</span></a>
+    <a class="card" href="P1B-3-which-drag-law.pdf"><span class="name">Which drag law?<span class="tag">20 marks</span></span><span class="desc">Full question: a log-log plot that decides between two models, with an anomalous reading to spot.</span></a>
+    <a class="card" href="P1B-U1-uncertainty-drill.pdf"><span class="name">Drill: uncertainties, set 1<span class="tag">24 marks</span></span><span class="desc">Seventeen short items on the three rules: sums, products and powers.</span></a>
+    <a class="card" href="P1B-U6-uncertainty-drill-2.pdf"><span class="name">Drill: uncertainties, set 2<span class="tag">26 marks</span></span><span class="desc">The rules combined, plus gradient uncertainty, and judging whether two results agree.</span></a>
+    <a class="card" href="P1B-U2-linearisation-drill.pdf"><span class="name">Drill: linearisation<span class="tag">25 marks</span></span><span class="desc">Fifteen items of &ldquo;what do I plot against what?&rdquo;, the question that unlocks most graph parts.</span></a>
+    <a class="card" href="P1B-U3-units-and-figures-drill.pdf"><span class="name">Drill: units, precision and figures<span class="tag">24 marks</span></span><span class="desc">The unit of a gradient, what really limits a stopwatch, and significant figures.</span></a>
+    <a class="card" href="P1B-U4-reading-graphs-drill.pdf"><span class="name">Drill: reading graphs<span class="tag">22 marks</span></span><span class="desc">Three graphs to take values off: a gradient, an extrapolation, and a curve.</span></a>
+    <a class="card" href="P1B-U5-error-type-and-direction-drill.pdf"><span class="name">Drill: which error, and which way?<span class="tag">26 marks</span></span><span class="desc">Systematic or random, and then the harder half: does it push the result too high or too low?</span></a>
+  </section>
+
+  <div class="foot">33 sheets, answers included: 24 topic warm-ups and 9 for Paper 1B. HL-only topics are tagged; inside mixed topics, HL-only parts are flagged <strong>[HL]</strong> so SL students can skip them. Paper 1B is the same for SL and HL, so those sheets carry no flags.</div>
 </div>
 </body>
 </html>

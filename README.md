@@ -7,7 +7,7 @@ Student-facing revision aids for IB Diploma Physics, published as a GitHub Pages
 ## What's here
 
 - **`index.html`** — the landing page students open first; links to everything below.
-- **`worksheets/`** — 24 topic warm-up sheets as PDFs, one per syllabus topic, with worked answers attached, plus a themed index.
+- **`worksheets/`** — 33 sheets as PDFs with worked answers attached, plus a themed index: 24 topic warm-ups (one per syllabus topic) and 9 for Paper 1B (three full data-analysis questions and six skill drills).
 - **`simulations/`** — 15 single-concept interactive simulations across Themes A to E, with their own themed index.
 - **`guides/`** — Exam Craft, the Trap Field Guide and the Concept Cards.
 - **`reading/`** — wider reading, currently *Women Who Changed Physics*.
